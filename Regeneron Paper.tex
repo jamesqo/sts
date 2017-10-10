@@ -73,7 +73,7 @@
 	
 	\begin{algorithm}\begin{algorithmic}
 			\LineComment{Adds \textit{item} to dynamic array \textit{dynamic}}
-			\State $add(dynamic, item)$
+			\State $add_{dyn}(dynamic, item)$
 			\\
 			\LineComment{Allocates and returns an array of length \textit{len}}
 			\State $array(len)$
@@ -141,7 +141,7 @@
 					\State \Return
 				\EndIf
 			
-				\State $add(tail(\ell), head(\ell))$
+				\State $add_{dyn}(tail(\ell), head(\ell))$
 				\State $newcap \gets g(hcap(\ell))$
 				\State $h(\ell) \gets array(newcap)$
 				\State $hsize(\ell) \gets 0$
