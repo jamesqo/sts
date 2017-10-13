@@ -14,6 +14,9 @@
 \newcommand{\spacenewfn}{\spacefn'}
 \newcommand{\nwritesnewfn}{\nwritesfn'}
 
+\newcommand{\timeratio}{r_\timefn}
+\newcommand{\spaceratio}{r_\spacefn}
+
 \newcommand{\bigo}{O}
 \newcommand{\biggo}{P}
 \newcommand{\varnitems}{n}
@@ -78,7 +81,7 @@
 	\scomplexcmp
 	
 	\begin{align*}
-	\frac {\biggo(2^{\lceil \log_2 \varnitems \rceil})} {\biggo(2^{\lceil \log_2 \varnitems \rceil + 1})} = \frac{1}{2}
+	\spaceratio = \frac {\biggo(2^{\lceil \log_2 \varnitems \rceil})} {\biggo(2^{\lceil \log_2 \varnitems \rceil + 1})} = \frac{1}{2}
 	\end{align*}
 	
 	\subsection{Indexing}
