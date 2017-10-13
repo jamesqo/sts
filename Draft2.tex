@@ -1,0 +1,89 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\newcommand{\tcomplex}{\textbf{Time complexity}}
+\newcommand{\scomplex}{\textbf{Space complexity}}
+
+\newcommand{\timefn}{T}
+\newcommand{\spacefn}{S}
+\newcommand{\nwritesfn}{W}
+
+\newcommand{\bigo}{O}
+\newcommand{\biggo}{P}
+\newcommand{\varnitems}{n}
+
+\setlength{\parskip}{1em}
+
+\begin{document}
+	\begin{abstract}
+	\end{abstract}
+
+	\section{Introduction}
+
+	\section{Definitions}
+
+	\section{Predefined Functions}
+	
+	\section{Fields and Properties}
+	
+	In this section, I define \textbf{fields} and \textbf{properties} on dynamic arrays and resize lists. These will be used later to implement operations on them in pseudocode.
+	
+	\section{Common Resize List Operations}
+	
+	In this section, I implement common operations for dynamic arrays, then resize lists, in pseudocode. Then, I analyze and compare the time complexities of the implementations. If the operation allocates memory, I also compare their space complexities.
+	
+	\subsection{Adding}
+	
+	Adding is the most common operation done on a dynamic array\footnote{}. Resize lists improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying.
+	
+	% <dynamic array implementation>
+	
+	\tcomplex
+	
+	\begin{align*}
+	\nwritesfn(\varnitems) = \biggo(2\varnitems)
+	\end{align*}
+	
+	\scomplex
+	
+	\begin{align*}
+	\spacefn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil + 1}) = \bigo(\varnitems)
+	\end{align*}
+	
+	% <resize list implementation>
+	
+	\tcomplex
+	
+	\begin{align*}
+	\nwritesfn(\varnitems) = \biggo(\varnitems)
+	\end{align*}
+	
+	\scomplex
+	
+	\begin{align*}
+	\spacefn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil}) = \bigo(\varnitems)
+	\end{align*}
+	
+	\subsection{Indexing}
+	
+	\subsection{Iterating}
+	
+	\subsection{Copying to an array}
+	
+	\section{Other Resize List Operations}
+	
+	\subsection{Inserting}
+	
+	\subsection{Deleting}
+	
+	\subsection{Searching}
+	
+	\subsection{In-place sorting}
+	
+	\section{Implementations}
+	
+	\section{Benchmarks}
+	
+	\section{Closing Remarks}
+
+\end{document}
