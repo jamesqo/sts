@@ -211,14 +211,17 @@
 			\Function{\textit{G}}{$cap$}
 			\Require
 			\Statex $cap \geq 4 \land \log_2{cap} \in \mathbb{N}$
-			\State \Return $\begin{cases}
-			4 & cap = 4\\
-			2 * cap & cap \neq 4
-			\end{cases}$
+			\If{$cap = 4$}
+				\State \Return $4$
+			\State \Return $2 \cdot cap$
 			\EndFunction
 		\end{algorithmic}\end{algorithm}
 	
 	\subsubsection{Time Analysis}
+	
+	$$
+	W(n) = n + (times resize called(n) - 1)
+	$$
 	
 	\subsubsection{Space Analysis}
 	
