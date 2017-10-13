@@ -110,8 +110,9 @@
 
 	\subsection{Runtime-Provided Functions}
 	
-	I assume the following functions are provided by the runtime environment, so that I may use them without defining them beforehand.\par
+	I assume the following functions are provided by the runtime environment, so that I may use them without defining them beforehand.
 	
+	% TODO: Why is this appearing in the wrong place?
 	\begin{algorithm}\begin{algorithmic}
 			\LineComment{Adds \textit{item} to dynamic array \textit{d}}
 			\State $Add\ dyn_{d}(item)$
@@ -125,12 +126,6 @@
 			\LineComment{Returns the length of array \textit{a}}
 			\State $Len_a$
 		\end{algorithmic}\end{algorithm}
-	
-	\subsection{Mathematical Notation}
-	
-	\begin{description}
-		\item[$T_m(n)$] Time it takes to allocate memory for an array of size $n$
-	\end{description}
 	
 	\section{Fragmented List Structure}
 	\label{Fragmented List Structure}
@@ -172,7 +167,7 @@
 	
 	\subsection{Adding an Element}
 	
-	I begin with the implementation for \textit{Add} since it is the most common list operation\footnote{}. Its algorithm is very similar to that of a dynamic array: it resizes the list if it's full, then stores the item and increments the size. The head's size is also incremented since an item is added to it.
+	I begin with the implementation for \addfn since it is the most common list operation\footnote{}. Its algorithm is very similar to that of a dynamic array: it resizes the list if it's full, then stores the item and increments the size. The head's size is also incremented since an item is added to it.
 	
 	\begin{algorithm}\begin{algorithmic}[1]
 			\Procedure{$Add_L$}{$item$}
@@ -213,17 +208,33 @@
 			\Statex $cap \geq 4 \land \log_2{cap} \in \mathbb{N}$
 			\If{$cap = 4$}
 				\State \Return $4$
+			\EndIf
 			\State \Return $2 \cdot cap$
 			\EndFunction
 		\end{algorithmic}\end{algorithm}
 	
 	\subsubsection{Time Analysis}
 	
-	$$
-	W(n) = n + (times resize called(n) - 1)
-	$$
+	\begin{align*}
+	W(n) &= n + R(n) - 1\right)\\
+	R(n) &= \begin{cases}
+	0 & n = 0\\
+	1 & 1 \leq n \leq 4\\
+	\lfloor \log_2{(n - 1)} \rfloor & n > 4
+	\end{cases}\\
+	W(n) &= O(n)
+	\end{align*}
+	
+	\begin{align*}
+	T_n &= P_W \left(T_W W(n) \right)
+	\end{align*}
 	
 	\subsubsection{Space Analysis}
+	
+	\begin{align*}
+	S(n) = O(2^{\lceil \log_2 n \rceil})
+	% For dynamic arrays, it's this O(2^{\lceil \log_2 n \rceil}).
+	\end{align*}
 	
 	\subsection{Indexing}
 	
