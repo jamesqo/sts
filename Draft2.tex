@@ -41,6 +41,14 @@
 	
 	In this section, I implement common operations for dynamic arrays, then resize lists, in pseudocode. Then, I analyze and compare the time complexities of the implementations. If the operation allocates memory, I also compare their space complexities.
 	
+	The following mathematical definitions will be used while analyzing time and space complexity:
+	
+	\begin{description}
+		\item[$\biggo(f(n))$] This is an alternative to big-O notation for time complexity; I will call it \textbf{big-P notation}.
+			\subitem The main purpose of big-P notation is to preserve the constant coefficient of the fastest-growing term in $f(n)$, while still maintaining many properties of big-O. For example, $\bigo(2n) = \bigo(n)$, but $\biggo(2n) \neq \biggo(n)$. This makes it possible to compare time complexities whose ratio converges to a constant as $n$ becomes larger.
+			\subitem More formally, $\biggo(f(n)) = \biggo(g(n))$ iff $$\lim_{n \to \infty} {\frac{f(n)}{g(n)}} = 1$$.
+	\end{description}
+	
 	\subsection{Adding}
 	
 	Adding is the most common operation done on a dynamic array\footnote{}. Resize lists improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying.
