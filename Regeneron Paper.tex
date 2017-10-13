@@ -5,22 +5,59 @@
 \usepackage{amsmath}
 \usepackage{blindtext}
 \usepackage{enumitem}
-\usepackage{hyperref}
 
 \algnewcommand{\LineComment}[1]{
-	\State \(\triangleright\) #1
+	\Statex \(\triangleright\) #1
 }
 
-\algrenewcommand
-\textproc{}
-
-\hypersetup{
-	colorlinks=true,
-	linkcolor=blue
+\newcommand{\head}{
+	\ensuremath{Head_L}
+}
+\newcommand{\tail}{
+	\ensuremath{Tail_L}
+}
+\newcommand{\size}{
+	\ensuremath{Size_L}
+}
+\newcommand{\capacity}{
+	\ensuremath{Cap_L}
 }
 
-\setlist{nolistsep}
+\newcommand{\headsize}{
+	\ensuremath{Hsize_L}
+}
+\newcommand{\headcapacity}{
+	\ensuremath{Hcap_L}
+}
+\newcommand{\isempty}{
+	\ensuremath{Empty?_L}
+}
+\newcommand{\isfull}{
+	\ensuremath{Full?_L}
+}
+
+\newcommand{\addfn}{
+	\ensuremath{Add_L}
+}
+\newcommand{\resizefn}{
+	\ensuremath{Resize_L}
+}
+
+\newcommand{\timeof}[1]{
+	\ensuremath{T\big[#1\big]}
+}
+\newcommand{\spaceof}[1]{
+\ensuremath{S\big[#1\big]}
+}
+\newcommand{\capacities}{
+	\ensuremath{Caps_L}
+}
+
+\algrenewcommand{\textproc}{
+}
+
 \setlength{\parskip}{1em}
+\setlist{nolistsep}
 
 \begin{document}
 	\begin{abstract}
@@ -31,9 +68,9 @@
 	\label{Introduction}
 	
 	% TODO: This isn't being indented
-	Often, node-based structures receive the most attention in a course on data structures. Although it is simpler to implement everything with arrays\footnote{}, node-based structures are favored because they have better time complexity for operations such as insertion and deletion.\par
+	Often, node-based structures receive the most attention in a course on data structures. Although it is simpler to implement everything with arrays\footnote{}, node-based structures are favored because they have better time complexity for operations such as insertion and deletion.
 
-	However, arrays have their own performance advantages over such structures, including:\par
+	However, arrays have their own performance advantages over such structures, including:
 	
 	\begin{itemize}
 		\item Better locality when iterating: elements of an array live next to each other in memory.
@@ -41,73 +78,92 @@
 		\item Fast random access: since arrays are just pointers, indexing them takes a few instructions and runs in $O(1)$ time.
 	\end{itemize}
 
-	When an abstract data type (which I will refer to as \textit{data type}) can be implemented easily with arrays, they are often used. One such data type is the \textit{list}\footnote{}, which is usually implemented with a dynamic array.\par
+	When an abstract data type (which I will refer to as \textit{data type}) can be implemented easily with arrays, they are often used. One such data type is the \textit{list}\footnote{}, which is usually implemented with a dynamic array.
 
-	Dynamic arrays perform reasonably well with respect to their most common operations. Adding an item runs in amortized $O(1)$ time, indexing them runs in $O(1)$ time, and they can be iterated in $O(n)$ time.\par
+	Dynamic arrays perform reasonably well with respect to their most common operations. Adding an item runs in amortized $O(1)$ time, indexing them runs in $O(1)$ time, and they can be iterated in $O(n)$ time.
 	
-	However, when a dynamic array is \textit{full} (that is, its size equals its capacity) and an item is added, it must resize its buffer to fit the new item. Its behavior here is less than optimal: it allocates a new buffer larger than the current one, copies over the items, and discards the current buffer.\par
+	However, when a dynamic array is \textit{full} (that is, its size equals its capacity) and an item is added, it must resize its buffer to fit the new item. Its behavior here is less than optimal: it allocates a new buffer larger than the current one, copies over the items, and discards the current buffer.
 	
-	Instead of throwing away buffers once they're filled up, \textit{fragmented lists} store references to them in a two-dimensional array. During a resize, a new buffer is still allocated; however, for a sufficiently large number of items, it is always half the size of the buffer that a dynamic array would allocate.\par
+	Instead of throwing away buffers once they're filled up, \textit{fragmented lists} store references to them in a two-dimensional array. During a resize, a new buffer is still allocated; however, for a sufficiently large number of items, it is always half the size of the buffer that a dynamic array would allocate.
 	
-	In addition, no items are copied to the front of the new buffer. This is because no buffer represents the entire content of the list; each buffer holds just a \textit{fragment} of the items. To get back the items that were added to the fragmented list, one needs to traverse each of the buffers and copy their share of the items.\par
+	In addition, no items are copied to the front of the new buffer. This is because no buffer represents the entire content of the list; each buffer holds just a \textit{fragment} of the items. To get back the items that were added to the fragmented list, one needs to traverse each of the buffers and copy their share of the items.
 	
 	% TODO: ToC or not?
 
-	\section{Terminology}
-	\label{Terminology}
+	\section{Definitions}
+	\label{Definitions}
+	
+	\subsection{Terminology}
 	
 	\begin{description}
-		\item[buffer] % TODO
-		\item[capacity] % TODO
-		\item[full/filled] % TODO
-		\item[growth factor]
-		\item[list] % TODO
-		\item[resize]
-		\item[threshold sizes] The set of sizes for which adding one more item will cause the list to resize. This is the same as the set of all capacities the list takes on. [prove]
+		\item[buffer] An array that holds a portion of the items in a fragmented list.
+		\item[capacity] The maximum amount of items a list can hold without resizing.
+		\item[full, filled] A list is full iff its size equals its capacity, meaning it must resize if another item is added.
+		\item[growth factor] The factor by which the capacity grows when the list is resized, if the current capacity is nonzero.
+		\item[list] The list data type. This term does not refer to a particular implementation of the data type, only the "interface."
+		\item[resize] To increase a list's capacity once it is full.
+		\item[threshold sizes] The set of sizes for which the list is full.
 	\end{description}
 
-	\section{Predefined Functions}
-	\label{Predefined Functions}
+	% TODO: Prove that the set of threshold sizes equals the set of capacities. Superset/subset argument.
+
+	\subsection{Runtime-Provided Functions}
 	
 	I assume the following functions are provided by the runtime environment, so that I may use them without defining them beforehand.\par
 	
 	\begin{algorithm}\begin{algorithmic}
-			\LineComment{Adds \textit{item} to dynamic array \textit{dynamic}}
-			\State $add_{dyn}(dynamic, item)$
+			\LineComment{Adds \textit{item} to dynamic array \textit{d}}
+			\State $Add\ dyn_{d}(item)$
 			\\
 			\LineComment{Allocates and returns an array of length \textit{len}}
-			\State $array(len)$
+			\State $Array(len)$
 			\\
-			\LineComment{Returns the length of array \textit{array}}
-			\State $len(array)$
+			\LineComment{Allocates and returns an empty dynamic array}
+			\State $Dynamic()$
+			\\
+			\LineComment{Returns the length of array \textit{a}}
+			\State $Len_a$
 		\end{algorithmic}\end{algorithm}
+	
+	\subsection{Mathematical Notation}
+	
+	\begin{description}
+		\item[$T_m(n)$] Time it takes to allocate memory for an array of size $n$
+	\end{description}
 	
 	\section{Fragmented List Structure}
 	\label{Fragmented List Structure}
 
-	Each fragmented list, denoted by $\ell$, is given four \textit{fields}: $h(\ell)$, $t(\ell)$, $size(\ell)$, and $hsize(\ell)$. These fields may be read from and assigned to.\par
+	Each fragmented list, denoted by $L$, is given four \textit{fields}: \head, \tail, \size, and \capacity. These fields may be read from and assigned to.
 	
 	\begin{itemize}
-		\item $h$ stands for the \textit{head} of the fragmented list. It returns the buffer we are currently adding items to.
-		\item $t$ stands for the \textit{tail} of the list. It returns a list of buffers that have already been filled.
-		\item $size$ returns the number of items in $\ell$.
-		\item $hsize$ stands for \textit{head size}. It returns the number of items in $h(\ell)$. This is \textit{not} the same as $len(h(\ell))$; that is the head's capacity.
+		\item \head is the \textit{head} of the fragmented list. It returns the buffer we are currently adding items to.
+		\item \tail is the \textit{tail} of the list. It returns a list of buffers that have already been filled.
+		\item \size is the list's \textit{size}. It returns the number of items in $L$.
+		\item \capacity is the list's \textit{capacity}. It returns the maximum number of items $L$ can hold without resizing.
 	\end{itemize}
 	
-	Below, I also define some auxiliary functions on $\ell$ (which cannot be assigned to). $:=$ denotes a definition, as opposed to $=$ which checks equivalence. Functions that return boolean values are suffixed with ?.
+	Below, I also define some auxiliary functions on $L$ (which may not be assigned to). $:=$ denotes a definition, as opposed to $=$ which checks equivalence. Functions that return boolean values are suffixed with ?.
 	
 	\begin{algorithm}\begin{algorithmic}
-			\LineComment{Returns the capacity of $\ell$}
-			\State $cap(\ell) := size(\ell) + \left(hcap(\ell) - hsize(\ell)\right)$
+			\LineComment{Returns whether $L$ is empty}
+			\State $\isempty := \size = 0$
 			\\
-			\LineComment{Returns whether $\ell$ is empty}
-			\State $empty?(\ell) := size(\ell) = 0$
+			\LineComment{Returns whether $L$ is full}
+			\State $\isfull := \size = \capacity$
 			\\
-			\LineComment{Returns whether $\ell$ is full}
-			\State $full?(\ell) := size(\ell) = cap(\ell)$
+			\LineComment{Returns the capacity of \head}
+			\State $\headcapacity := Len_{\head}$
 			\\
-			\LineComment{Returns the capacity of $h(\ell)$}
-			\State $hcap(\ell) := len(h(\ell))$
+			\LineComment{Returns the size of \head}
+			\State $\headsize := \size - \left(\capacity - \headcapacity\right)$
+		\end{algorithmic}\end{algorithm}
+
+	Before we call any functions with $L$, we need to make sure that it is properly initialized. (In an object-oriented language, this code would go in the constructor.)
+	
+	\begin{algorithm}\begin{algorithmic}
+			\State $\head \gets Array(0)$
+			\State $\tail \gets Dynamic()$
 		\end{algorithmic}\end{algorithm}
 	
 	\section{Fragmented List Operations}
@@ -115,44 +171,43 @@
 	
 	\subsection{Adding an Element}
 	
-	I begin with the implementation for \textit{add} since it is the most common list operation [cite]. Its algorithm is very similar to that of a dynamic array: it resizes the list if it's full, then stores the item and increments the size. The head's size is also incremented since an item is added to it.
+	I begin with the implementation for \textit{Add} since it is the most common list operation\footnote{}. Its algorithm is very similar to that of a dynamic array: it resizes the list if it's full, then stores the item and increments the size. The head's size is also incremented since an item is added to it.
 	
 	\begin{algorithm}\begin{algorithmic}[1]
-			\Procedure{\textit{add}}{$\ell, item$}
-				\If{$full?(\ell)$}
-					\State $resize(\ell)$
+			\Procedure{$Add_L$}{$item$}
+				\If{$\isfull$}
+					\State $Resize_L()$
 				\EndIf
-				
-				\State $h(\ell)[hsize(\ell)] \gets item$
-				\State $size(\ell) \gets size(\ell) + 1$
-				\State $hsize(\ell) \gets hsize(\ell) + 1$
+
+				\State $\head[\headsize] \gets item$
+				\State $\size \gets \size + 1$
 			\EndProcedure
 		\end{algorithmic}\end{algorithm}
 	
 	A fragmented list is resized quite a bit differently from a dynamic array, however. % TODO
 	
 	\begin{algorithm}\begin{algorithmic}[1]
-			\Procedure{\textit{resize}}{$\ell$}
+			\Procedure{$Resize_L$}{}
 				\Require
-					\Statex $full?(\ell)$
-				\If{$empty?(\ell)$}
-					\State $h(\ell) \gets array(4)$
-					\State $cap(\ell) \gets 4$
+					\Statex $\isfull$
+				\If{$\isempty$}
+					\State $\head \gets Array(4)$
+					\State $\capacity \gets 4$
 					\State \Return
 				\EndIf
 			
-				\State $add_{dyn}(tail(\ell), head(\ell))$
-				\State $newcap \gets g(hcap(\ell))$
-				\State $h(\ell) \gets array(newcap)$
-				\State $hsize(\ell) \gets 0$
-				\State $cap(\ell) \gets cap(\ell) + newcap$
+				\State $Add\ dyn_{\tail}(\head)$
+				\State $new\ cap \gets G(\headcapacity)$
+				\State $\head \gets Array(new\ cap)$
+				\State $\headsize \gets 0$
+				\State $\capacity \gets \capacity + new\ cap$
 			\EndProcedure
 		\end{algorithmic}\end{algorithm}
 	
 	\begin{algorithm}\begin{algorithmic}[1]
-			\LineComment{\textit{g} is the \textit{growth function}.}
+			\LineComment{\textit{G} is the \textit{growth function}.}
 			\LineComment{It decides the capacity of the next buffer based on the current buffer's capacity.}
-			\Function{\textit{g}}{$cap$}
+			\Function{\textit{G}}{$cap$}
 			\Require
 			\Statex $cap \geq 4 \land \log_2{cap} \in \mathbb{N}$
 			\State \Return $\begin{cases}
@@ -164,31 +219,82 @@
 	
 	\subsubsection{Time Analysis}
 	
+	In each "Time Analysis" section, I derive not just the time complexity of the operation, but a complete formula that approximates the actual (amortized) amount of time it takes. In order to do this in a clean fashion, I use the following notation:
+	
+	\begin{description}
+		\item[$\timeof{F}$] The amortized amount of time it takes for function $F$ to run.
+		\item[$T_A$] The amortized amount of time it takes for the code at line to run.
+		\item[$T_{A,B}$] The amortized amount of time it takes for code between lines $A$ and $B$ to run, inclusive.
+		\item[$T(k)$] The amount of time it takes for $T$ to run, where $T$ is any time expression, when $\size = k$.
+		% TODO: T_m should go here?
+	\end{description}
+
+	Since the first three definitions represent \textit{amortized} time, which is the average amount of time it takes for an operation to run, I can expand them to
+	
+	\begin{align*}
+	\timeof{F} &= \frac {\sum_{i = 0}^{n - 1} F(i)} n\\
+	T_A &= \frac {\sum_{i = 0}^{n - 1} T_A(i)} n\\
+	T_{A,B} &= \frac {\sum_{i = 0}^{n - 1} T_{A,B}(i)} n
+	\end{align*}
+	
+	% TODO: Where n is an arbitrarily large integer? Since that's true, we may ignore 0 in the below sigmas.
+	
+	These definitions will be used frequently when a piece of code takes longer to run for some sizes than others.
+	
+	Now, I begin analyzing the amortized amount of time for \addfn. The expression we want to find is \timeof{\addfn}. In order to do this, I will need a few lemmas:
+	
+	Lemma. Let \capacities be the set of all values assigned to \capacity as \size increases indefinitely. Let $\capacities(n)$ be the subset of \capacities less than $n$. I show that $capacities(n)$ is the set
+	
+	\begin{align*}
+	\capacities(n) = \{0\} \cup \{2^i | 1 < i \leq lgc(n) \}
+	\end{align*}
+	
+	where $lgc(n) = \lfloor \log_2{(n - 1)} \rfloor$, the base 2 \textit{logarithm of the greatest capacity} less than $n$.
+	
+	% TODO: Proof
+	
+	We define $\overline{\capacities(n)}$ as $\{0, 1, ... n - 1\} \char`\\ \capacities(n)$.
+	
+	\begin{align*}
+	\timeof{\addfn} &= T_{2,6} = T_2 + T_3 + T_{4,6}\\
+	&= T_3 + C\\
+	&= \frac {\sum_{i = 0}^n T_3(i)} n + C\\
+	&= \frac {\sum_{i \in \capacities(n)} T_3(i) + \sum_{i \in \overline{\capacities(n)}} T_3(i)} n + C
+	\end{align*}
+	
+	Since $|\capacities(n)| = lgc(n) - 1$ and $|\overline{\capacities(n)}| = n - |\capacities(n)| = n + 1 - lgc(n)$, this resolves to
+	
+	\begin{align*}
+	\frac {(lgc(n) - 1)\timeof{\resizefn}} n + C
+	\end{align*}
+	
+	Now we have to determine the complexity of \resizefn.
+	
+	\begin{align*}
+	\timeof{\resizefn} &= T_{2, 10} = T{6,10}
+	\end{align*}
+	
+	When $L$ is not full:
+	
 	$$
-	T[add] = T_{2,6} = T_{2,3} + T_{4, 6}
+	T_{2,3} + T_{4,6} = \timeof{full?} + T_{4,6} = C
 	$$
 	
-	When $\ell$ is not full:
+	When $L$ is full:
 	
 	$$
-	T_{2,3} + T_{4,6} = T_{4,6} = C
-	$$
-	
-	When $\ell$ is full:
-	
-	$$
-	T_{2,3} + T_{4,6} = T_[full?] + T_[resize] + T_{4,6} = T[resize] + C
+	T_{2,3} + T_{4,6} = \timeof{full?} + T_[resize] + T_{4,6} = T[resize] + C
 	$$
 	
 	Now we must analyze $resize$.
 	
-	When $\ell$ is empty:
+	When $L$ is empty:
 	
 	$$
 	T[resize] = T_{2,5} = T[empty?] + T_alloc(4) + T_5 = T_alloc(4) + C
 	$$
 	
-	When $\ell$ is non-empty:
+	When $L$ is non-empty:
 	
 	$$
 	T[resize] = T[empty?] + 
@@ -199,18 +305,18 @@
 	\subsection{Indexing}
 	
 	\begin{algorithm}\begin{algorithmic}[1]
-			\Function{\textit{item at index}}{$\ell, index$}
+			\Function{\textit{item at index}}{$L, index$}
 	 			\Require
-	 				\Statex $0 \leq index < size(\ell)$
+	 				\Statex $0 \leq index < \size$
 	 			\State $i \gets index$
-	 			\ForAll{$buf \in t(\ell)$}
-	 				\If{$i < len(buf)$}
+	 			\ForAll{$buf \in \tail$}
+	 				\If{$i < Len_{buf}$}
 	 					\State \Return $buf[i]$
 	 				\EndIf
-	 				\State $i \gets i - len(buf)$
+	 				\State $i \gets i - Len_{buf}$
 	 			\EndFor
 	 			
-	 			\Return $h(\ell)[i]$
+	 			\Return $\head[i]$
  			\EndFunction
 		\end{algorithmic}\end{algorithm}
 
