@@ -10,6 +10,10 @@
 \newcommand{\spacefn}{S}
 \newcommand{\nwritesfn}{W}
 
+\newcommand{\timenewfn}{\timefn'}
+\newcommand{\spacenewfn}{\spacefn'}
+\newcommand{\nwritesnewfn}{\nwritesfn'}
+
 \newcommand{\bigo}{O}
 \newcommand{\biggo}{P}
 \newcommand{\varnitems}{n}
@@ -57,13 +61,13 @@
 	\tcomplex
 	
 	\begin{align*}
-	\nwritesfn(\varnitems) = \biggo(\varnitems)
+	\nwritesnewfn(\varnitems) = \biggo(\varnitems)
 	\end{align*}
 	
 	\scomplex
 	
 	\begin{align*}
-	\spacefn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil}) = \bigo(\varnitems)
+	\spacenewfn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil}) = \bigo(\varnitems)
 	\end{align*}
 	
 	\tcomplexcmp
@@ -89,7 +93,7 @@
 	
 	\tcomplex
 	
-	$\timefn(\varnitems) = \bigo(1)$
+	$\timenewfn(\varnitems) = \bigo(1)$
 	
 	\tcomplexcmp
 	
@@ -105,7 +109,7 @@
 	
 	\tcomplex
 	
-	$\timefn(\varnitems) = \bigo(\varnitems)$
+	$\timenewfn(\varnitems) = \bigo(\varnitems)$
 	
 	\tcomplexcmp
 	
