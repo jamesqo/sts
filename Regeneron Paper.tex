@@ -102,6 +102,7 @@
 		\item[growth factor] The factor by which the capacity grows when the list is resized, if the current capacity is nonzero.
 		\item[list] The list data type. This term does not refer to a particular implementation of the data type, only the "interface."
 		\item[resize] To increase a list's capacity once it is full.
+		\item[time proportion] The average ratio of the time spent on particular part(s) of a method, to the time spent on the method.
 		\item[threshold sizes] The set of sizes for which the list is full.
 	\end{description}
 
@@ -218,87 +219,6 @@
 		\end{algorithmic}\end{algorithm}
 	
 	\subsubsection{Time Analysis}
-	
-	In each "Time Analysis" section, I derive not just the time complexity of the operation, but a complete formula that approximates the actual (amortized) amount of time it takes. In order to do this in a clean fashion, I use the following notation:
-	
-	\begin{description}
-		\item[$\timeof{F}$] The amortized amount of time it takes for function $F$ to run.
-		\item[$T_A$] The amortized amount of time it takes for the code at line to run.
-		\item[$T_{A,B}$] The amortized amount of time it takes for code between lines $A$ and $B$ to run, inclusive.
-		\item[$T(k)$] The amount of time it takes for $T$ to run, where $T$ is any time expression, when $\size = k$.
-		% TODO: T_m should go here?
-	\end{description}
-
-	Since the first three definitions represent \textit{amortized} time, which is the average amount of time it takes for an operation to run, I can expand them to
-	
-	\begin{align*}
-	\timeof{F} &= \frac {\sum_{i = 0}^{n - 1} F(i)} n\\
-	T_A &= \frac {\sum_{i = 0}^{n - 1} T_A(i)} n\\
-	T_{A,B} &= \frac {\sum_{i = 0}^{n - 1} T_{A,B}(i)} n
-	\end{align*}
-	
-	% TODO: Where n is an arbitrarily large integer? Since that's true, we may ignore 0 in the below sigmas.
-	
-	These definitions will be used frequently when a piece of code takes longer to run for some sizes than others.
-	
-	Now, I begin analyzing the amortized amount of time for \addfn. The expression we want to find is \timeof{\addfn}. In order to do this, I will need a few lemmas:
-	
-	Lemma. Let \capacities be the set of all values assigned to \capacity as \size increases indefinitely. Let $\capacities(n)$ be the subset of \capacities less than $n$. I show that $capacities(n)$ is the set
-	
-	\begin{align*}
-	\capacities(n) = \{0\} \cup \{2^i | 1 < i \leq lgc(n) \}
-	\end{align*}
-	
-	where $lgc(n) = \lfloor \log_2{(n - 1)} \rfloor$, the base 2 \textit{logarithm of the greatest capacity} less than $n$.
-	
-	% TODO: Proof
-	
-	We define $\overline{\capacities(n)}$ as $\{0, 1, ... n - 1\} \char`\\ \capacities(n)$.
-	
-	\begin{align*}
-	\timeof{\addfn} &= T_{2,6} = T_2 + T_3 + T_{4,6}\\
-	&= T_3 + C\\
-	&= \frac {\sum_{i = 0}^n T_3(i)} n + C\\
-	&= \frac {\sum_{i \in \capacities(n)} T_3(i) + \sum_{i \in \overline{\capacities(n)}} T_3(i)} n + C
-	\end{align*}
-	
-	Since $|\capacities(n)| = lgc(n) - 1$ and $|\overline{\capacities(n)}| = n - |\capacities(n)| = n + 1 - lgc(n)$, this resolves to
-	
-	\begin{align*}
-	\frac {(lgc(n) - 1)\timeof{\resizefn}} n + C
-	\end{align*}
-	
-	Now we have to determine the complexity of \resizefn.
-	
-	\begin{align*}
-	\timeof{\resizefn} &= T_{2, 10} = T{6,10}
-	\end{align*}
-	
-	When $L$ is not full:
-	
-	$$
-	T_{2,3} + T_{4,6} = \timeof{full?} + T_{4,6} = C
-	$$
-	
-	When $L$ is full:
-	
-	$$
-	T_{2,3} + T_{4,6} = \timeof{full?} + T_[resize] + T_{4,6} = T[resize] + C
-	$$
-	
-	Now we must analyze $resize$.
-	
-	When $L$ is empty:
-	
-	$$
-	T[resize] = T_{2,5} = T[empty?] + T_alloc(4) + T_5 = T_alloc(4) + C
-	$$
-	
-	When $L$ is non-empty:
-	
-	$$
-	T[resize] = T[empty?] + 
-	$$
 	
 	\subsubsection{Space Analysis}
 	
