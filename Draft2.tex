@@ -35,11 +35,11 @@
 	
 	\section{Fields and Properties}
 	
-	In this section, I define \textbf{fields} and \textbf{properties} on dynamic arrays and resize lists. These will be used later to implement operations on them in pseudocode.
+	In this section, I define \textbf{fields} and \textbf{properties} on dynamic and funnel arrays. These will be used later to implement operations on them in pseudocode.
 	
-	\section{Common Resize List Operations}
+	\section{Common Funnel Array Operations}
 	
-	In this section, I implement common operations for dynamic arrays, then resize lists, in pseudocode. Then, I analyze and compare the time complexities of the implementations. If the operation allocates memory, I also compare their space complexities.
+	In this section, I implement common operations for dynamic arrays, then funnel arrays, in pseudocode. Then, I analyze and compare the time complexities of the implementations. If the operation allocates memory, I also compare their space complexities.
 	
 	The following mathematical definitions will be used while analyzing time and space complexity:
 	
@@ -51,7 +51,7 @@
 	
 	\subsection{Adding}
 	
-	Adding is the most common operation done on a dynamic array\footnote{}. Resize lists improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying.
+	Adding is the most common operation done on a dynamic array\footnote{}. Funnel arrays improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying.
 	
 	% <dynamic array implementation>
 	
@@ -67,7 +67,7 @@
 	\spacefn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil + 1}) = \bigo(\varnitems)
 	\end{align*}
 	
-	% <resize list implementation>
+	% <funnel array implementation>
 	
 	\tcomplex
 	
@@ -100,7 +100,7 @@
 	
 	$\timefn(\varnitems) = \bigo(1)$
 	
-	% <resize list implementation>
+	% <funnel array implementation>
 	
 	\tcomplex
 	
@@ -116,7 +116,7 @@
 	
 	$\timefn(\varnitems) = \bigo(\varnitems)$
 	
-	% <resize list implementation>
+	% <funnel array implementation>
 	
 	\tcomplex
 	
@@ -126,7 +126,7 @@
 	
 	\subsection{Copying to an array}
 	
-	\section{Other Resize List Operations}
+	\section{Other Funnel Array Operations}
 	
 	\subsection{Inserting}
 	
