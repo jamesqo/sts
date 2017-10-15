@@ -17,6 +17,8 @@
 \newcommand{\spacenewfn}{\spacefn'}
 \newcommand{\nwritesnewfn}{\nwritesfn'}
 
+\newcommand{\nwritesresizefn}{W_R}
+
 \newcommand{\timeratio}{r_\timefn}
 \newcommand{\spaceratio}{r_\spacefn}
 
@@ -30,6 +32,9 @@
 \newcommand{\initcapacity}{C_f}
 \newcommand{\growthfactor}{G}
 \newcommand{\capacityfn}{C}
+
+\newcommand{\initcapacitynew}{\initcapacity'}
+\newcommand{\growthfactornew}{\growthfactor'}
 
 \setlength{\parskip}{1em}
 
@@ -70,6 +75,8 @@
 	
 	% impl.
 	
+	\tcomplex
+	
 	Before I analyze the time complexity of [add], I consider a different method for measuring its cost. Suppose I start with an empty list and $\varnitems$ elements are added. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $\varnitems$ adds, and denote it $\nwritesfn(n)$.
 	
 	In the above code, one write is performed after the conditional, so it is apparent that $\nwritesfn(\varnitems) \geq \varnitems$ after $n$ adds. However, [resize] also does some writing, so in order to find a precise formula for $\nwritesfn(\varnitems)$ I need to analyze when [resize] is called. Consider the following lemma:
@@ -90,6 +97,7 @@
 	
 	Then the final term in the sequence is $\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$, completing the proof.
 	
+	[make lemma]
 	Now, consider that to grow by $\growthfactor$ we have to call [resize]. So $\growthfactor^k\initcapacity$ being present in $S_C$ means we once called [resize] at size $\growthfactor^{k - 1}\initcapacity$ for $k \geq 1$. Then we must have called [resize] at the sizes $$S_R = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity$$
 	
 	Each time [resize] is called, we copy $i$ items where $i$ is the current size of the dynamic array. Then the total number of items copied for $\varnitems$ adds is
@@ -123,6 +131,30 @@
 	\funarrayimpl
 	
 	\tcomplex
+	
+	I again start off by finding the write cost when $\varnitems$ are added. I give the write cost function a slightly different name, $\nwritesnewfn(\varnitems)$, so we can compare it to $\nwritesfn(\varnitems)$ later. I also use $\growthfactornew$ and $\initcapacitynew$ instead of $\growthfactor$ and $\initcapacity$ for the growth factor and initial capacity, respectively.
+	
+	[That lemma] still holds, since all of the assumptions made there are also true for funnel arrays. In particular, although funnel arrays resize slightly differently than dynamic arrays, the following claim is still true:
+	
+	[lemma]
+	The capacity of a funnel array grows by a constant factor $\growthfactornew$ after the first time it is called.
+	
+	[proof]
+	I prove that the algorithm ensures this using induction.
+	
+	For the base case, consider the second time [resize] is called: the current capacity is $\initcapacitynew$, and the next (total) capacity should be $\growthfactornew\initcapacitynew$. Then a buffer of size $(\growthfactornew - 1)\initcapacitynew$ should be added, and that is what the algorithm does.
+	
+	For $i \geq 2$, given the algorithm behaves correctly the $i$th time it is called, I wish to show it behaves correctly the $(i + 1)$th time. From the inductive hypothesis, when the algorithm is called the $(i + 1)$th time, the current capacity is $\growthfactornew^i\initcapacitynew$ and the head capacity is $(\growthfactornew^i - \growthfactornew^{i - 1})\initcapacitynew$. The next (total) capacity should be $\growthfactornew^{i + 1}\initcapacitynew$, and the next head capacity should be $(\growthfactornew^{i + 1} - \growthfactornew^i)\initcapacitynew$, which is $\growthfactornew$ times the current head capacity. The algorithm determines the capacity of the next buffer in this manner, proving the inductive step and completing the induction.
+	
+	Now I wish to find the number of writes [resize] performs. From [make lemma], I know that [resize] is called at the sizes $$S_R = 0,\ \initcapacitynew,\ \growthfactornew\initcapacitynew,\ \growthfactornew^2\initcapacitynew,\ \ldots\ \growthfactornew^{\lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil - 1}\initcapacitynew$$
+	
+	Unlike dynamic arrays, however, the number of writes performed does not equal $i$ if the current size is $i$. It is a function of $i$, however, so I will denote it $\nwritesresizefn(i)$. A formula for $\nwritesnewfn(\varnitems)$ can be expressed in terms of $\nwritesresizefn(i)$:
+	
+	$$
+	\nwritesnewfn(\varnitems) = n + \sum_{i \in S_R} \nwritesresizefn(i)
+	$$
+	
+	so the goal is now to find a formula for $\nwritesresizefn(i)$. First note that all of the writing in [resize] comes from the call to [add] on a dynamic array. Let the initial capacity of the dynamic array be $\initcapacity$ and its growth factor be $\growthfactor$. We showed before that
 	
 	\begin{align*}
 	\nwritesnewfn(\varnitems) = \biggo(\varnitems)
