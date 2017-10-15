@@ -38,12 +38,12 @@
 	\section{Definitions}
 	
 	\begin{description}
+		\item[decrement, increment] Decreasing or increasing (respectively) the value of an integer variable by one.
 		\item[field] A variable associated with an object that may be read from or written to.\\
 			It is assumed that fields can be read from and written to in constant time.
-		\item[get indexer] A method that gets an item at a specified index in a list.
+		\item[get indexer, set indexer] A method that gets or sets (respectively) an item at a specified index in a list.
 		\item[indexer] Refers to a get indexer or set indexer.
 		\item[property] A function of an object that returns a value, runs in constant time, and does not mutate any state (i.e. by assigning new values to fields).
-		\item[set indexer] A method that sets an item at a specified index in a list.
 		\item[trivial member] A field or property of an object.
 	\end{description}
 
@@ -152,15 +152,51 @@
 	
 	\subsection{Copying to an array}
 	
+	\descriptn
+	
+	Users often want to take list structures, such as dynamic arrays, and convert them into plain arrays. There are multiple reasons why someone would want to do this after they are done adding to the list:
+	
+	\begin{itemize}
+		\item Plain arrays hold on to exactly the amount of memory needed to hold their elements. However, dynamic and funnel arrays allocate more space than necessary to optimize adding new items.
+		\item The user wants to call a function in third-party code that takes a plain array as an argument.
+		\item
+		\item Plain arrays are contiguous, while funnel arrays are fragmented and have worse locality.
+		\item The indexer of funnel arrays is several times slower than that of plain arrays, whether the $\bigo(1)$ or $\bigo(\log \varnitems)$ implementation is chosen.
+	\end{itemize}
+	
+	\dynarrayimpl
+	
+	\tcomplex
+	
+	\funarrayimpl
+	
+	\tcomplex
+	
 	\section{Other Funnel Array Operations}
 	
 	\subsection{Inserting}
 	
+	\descriptn
+	
+	\textbf{Inserting} an element places it at a specified index within the list, and increments the list's count. If the index equals the size of the list, the effect is the same as adding the element. Otherwise, the elements at indices greater than or equal to the specified index are moved to the next index, then the element is placed at the specified index.
+	
 	\subsection{Deleting}
+	
+	\descriptn
+	
+	\textbf{Deleting} the element at a specified index moves the elements at indices greater than the specified index to the previous index. The count of the list is decremented.
 	
 	\subsection{Searching}
 	
+	\descriptn
+	
+	\textbf{Searching} for an element returns the first or last index within the list where the item can be found. If the user knows the items of the lists are sorted, \textbf{binary search} can be used.
+	
 	\subsection{In-place sorting}
+	
+	\descriptn
+	
+	Given a strict ordering $<$, we say a list $\listname$ is \textbf{sorted} by $<$ iff $\left(a, b \in \listname \land a < b\right) \leftrightarrow I_M(a) < I_m(b)$. $I_M(a)$ is the last (maximum) index of $a$ in $L$, and $I_m(b)$ is the first (minimum) index of $b$ in $L$. Note that the use of $<$ on the right-hand side compares integers and not elements of $L$, so this is not a recursive definition.
 	
 	\section{Implementations}
 	
