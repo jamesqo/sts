@@ -101,11 +101,17 @@
 	Finally, adding the writes made for every item in [add], I finally find an explicit formula for $\nwritesfn(\varnitems)$.
 	
 	$$
-	\nwritesfn(\varnitems) = n + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
+	\nwritesfn(\varnitems) = \varnitems + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
 	$$
-		
+	
+	To make this expression easier to work with, I will write it in big-P notation to approximate it for large $\varnitems$. First I note that $\log_{\growthfactor} k \leq \lceil \log_{\growthfactor} k \rceil < \left( \log_{\growthfactor} k \right) + 1$ for any $k > 0$, so $k \leq \growthfactor^{\lceil \log_{\growthfactor} k \rceil} < \growthfactor{k}$ and $\exists r \in {[1, \growthfactor)} : rk = \growthfactor^{\lceil \log_{\growthfactor} k \rceil}$. Then
+	
 	\begin{align*}
-	\nwritesfn(\varnitems) = \biggo(2\varnitems)
+	\nwritesfn(\varnitems) &= \varnitems + \left( \frac{\growthfactor^{\big\lceil \log_{\growthfactor} \left( \frac {\varnitems} {\initcapacity} \right) \big\rceil} - 1}{\growthfactor - 1} \right) \initcapacity\\
+	\varnitems + \left( \frac{\frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \leq \nwritesfn(\varnitems) &< \varnitems + \left( \frac{\growthfactor\frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity\\
+	\varnitems + \left( \frac{\varnitems - \initcapacity}{\growthfactor - 1} \right) \leq \nwritesfn(\varnitems) &< \varnitems + \left( \frac{\growthfactor\varnitems - \initcapacity}{\growthfactor - 1} \right)\\
+	\biggo\left( \varnitems + \left( \frac{\varnitems - \initcapacity}{\growthfactor - 1} \right) \right) \leq \biggo\left( \nwritesfn(\varnitems) \right) &< \biggo\left( \varnitems + \left( \frac{\growthfactor\varnitems - \initcapacity}{\growthfactor - 1} \right) \right)\\
+	\biggo\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq \biggo(\left( \nwritesfn(\varnitems) \right) &< \biggo\left( \left( \frac{2\growthfactor - 1}{\growthfactor - 1} \right) \varnitems \right)
 	\end{align*}
 	
 	\scomplex
