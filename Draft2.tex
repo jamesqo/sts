@@ -147,15 +147,27 @@
 	
 	For $i \geq 2$, given the algorithm behaves correctly the $i$th time it is called, I wish to show it behaves correctly the $(i + 1)$th time. From the inductive hypothesis, when the algorithm is called the $(i + 1)$th time, the current capacity is $\growthfactornew^i\initcapacitynew$ and the head capacity is $(\growthfactornew^i - \growthfactornew^{i - 1})\initcapacitynew$. The next (total) capacity should be $\growthfactornew^{i + 1}\initcapacitynew$, and the next head capacity should be $(\growthfactornew^{i + 1} - \growthfactornew^i)\initcapacitynew$, which is $\growthfactornew$ times the current head capacity. The algorithm determines the capacity of the next buffer in this manner, proving the inductive step and completing the induction.
 	
-	Now I wish to find the number of writes [resize] performs. From [make lemma], I know that [resize] is called at the sizes $$S_R = 0,\ \initcapacitynew,\ \growthfactornew\initcapacitynew,\ \growthfactornew^2\initcapacitynew,\ \ldots\ \growthfactornew^{\lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil - 1}\initcapacitynew$$
+	Now I take a look at [resize]. Unlike dynamic arrays, the number of writes performed does not equal $i$ if the current size is $i$. No items are being copied; the only source of writes is adding a buffer to the tail. The goal is to find the number of writes that causes.
 	
-	Unlike dynamic arrays, however, the number of writes performed does not equal $i$ if the current size is $i$. It is a function of $i$, however, so I will denote it $\nwritesresizefn(i)$. A formula for $\nwritesnewfn(\varnitems)$ can be expressed in terms of $\nwritesresizefn(i)$:
+	Let $\nwritesresizefn(n)$ denote the total number of writes made by [resize]. From [make lemma], I know that [resize] is called at the sizes
 	
 	$$
-	\nwritesnewfn(\varnitems) = n + \sum_{i \in S_R} \nwritesresizefn(i)
+	S_R = 0,\ \initcapacitynew,\ \growthfactornew\initcapacitynew,\ \growthfactornew^2\initcapacitynew,\ \ldots\ \growthfactornew^{\lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil - 1}\initcapacitynew
 	$$
 	
-	so the goal is now to find a formula for $\nwritesresizefn(i)$. First note that all of the writing in [resize] comes from the call to [add] on a dynamic array. Let the initial capacity of the dynamic array be $\initcapacity$, its growth factor be $\growthfactor$, and its write cost function be $\nwritesfn(k)$. In [ref1] we derived a formula for $\nwritesfn(k)$, 
+	Let $k$ be the number of times the tail is added to. Since the tail is a dynamic array, the number of writes it makes is $\nwritesfn(k)$. Since we call [resize] $|S_R|$ times and it adds to the tail each time except for the first, $k = |S_R| - 1 = |S_R| - 1 = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Then the formula for $\nwritesresizefn(n)$ is
+	
+	$$
+	\nwritesresizefn(n) = k + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} k - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
+	$$
+	
+	where $\initcapacity$ $\growthfactor$ are the capacity of the \textit{tail} (not the funnel array). I finally conclude that
+	
+	$$
+	\nwritesnewfn(n) = n + k + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} k - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
+	$$
+	
+	Now I wish to find the number of writes [resize] performs. 
 	
 	\begin{align*}
 	\nwritesnewfn(\varnitems) = \biggo(\varnitems)
