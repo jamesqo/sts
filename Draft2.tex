@@ -155,7 +155,7 @@
 	S_R = 0,\ \initcapacitynew,\ \growthfactornew\initcapacitynew,\ \growthfactornew^2\initcapacitynew,\ \ldots\ \growthfactornew^{\lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil - 1}\initcapacitynew
 	$$
 	
-	Let $k$ be the number of times the tail is added to. Since the tail is a dynamic array, the number of writes it makes is $\nwritesfn(k)$. Since we call [resize] $|S_R|$ times and it adds to the tail each time except for the first, $k = |S_R| - 1 = |S_R| - 1 = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Then the formula for $\nwritesresizefn(n)$ is
+	Let $k$ be the number of times the tail is added to. Since the tail is a dynamic array, the number of writes it makes is $\nwritesfn(k)$. Since we call [resize] $|S_R|$ times and it adds to the tail each time except for the first, $k = |S_R| - 1 = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Then the formula for $\nwritesresizefn(n)$ is
 	
 	$$
 	\nwritesresizefn(n) = k + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} k - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
@@ -167,10 +167,20 @@
 	\nwritesnewfn(n) = n + k + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} k - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
 	$$
 	
-	Now I wish to find the number of writes [resize] performs. 
+	I now approximate this expression with big-P notation. First, I establish an approximation for $k$ using big-O:
 	
 	\begin{align*}
-	\nwritesnewfn(\varnitems) = \biggo(\varnitems)
+	k &= \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil\\
+	\bigo(k) &= \bigo(\log \varnitems)
+	\end{align*}
+	
+	Then, it is shown that the $k$-term disappears when analyzing the big-P complexity of $\nwritesnewfn(\varnitems)$, leaving just $\biggo(\varnitems)$:
+	
+	\begin{align*}
+	\biggo(\nwritesnewfn(\varnitems)) &= \biggo(\varnitems + \nwritesfn(k))\\
+	&= \biggo(\varnitems) + \biggo(\nwritesfn(k))\\
+	&= \biggo(\varnitems) + \bigo(\log \varnitems)\\
+	&= \biggo(\varnitems)
 	\end{align*}
 	
 	\scomplex
@@ -180,9 +190,6 @@
 	\end{align*}
 	
 	\tcomplexcmp
-	
-	\begin{align*}
-	\end{align*}
 	
 	\scomplexcmp
 	
