@@ -27,6 +27,10 @@
 
 \newcommand{\listname}{L}
 
+\newcommand{\initcapacity}{C_f}
+\newcommand{\growthfactor}{G}
+\newcommand{\capacityfn}{C}
+
 \setlength{\parskip}{1em}
 
 \begin{document}
@@ -34,47 +38,72 @@
 	\end{abstract}
 
 	\section{Introduction}
-
-	\section{Definitions}
 	
-	\begin{description}
-		\item[decrement, increment] Decreasing or increasing (respectively) the value of an integer variable by one.
-		\item[field] A variable associated with an object that may be read from or written to.\\
-			It is assumed that fields can be read from and written to in constant time.
-		\item[get indexer, set indexer] A method that gets or sets (respectively) an item at a specified index in a list.
-		\item[indexer] Refers to a get indexer or set indexer.
-		\item[property] A function of an object that returns a value, runs in constant time, and does not mutate any state (i.e. by assigning new values to fields).
-		\item[trivial member] A field or property of an object.
-	\end{description}
-
-	\section{Runtime-Defined Functions}
+	\section{Fields and Properties}
 	
-	\section{Trivial Members of Dynamic and Funnel Arrays}
+	I define some \textbf{fields} and \textbf{properties} (constant time methods that do not change state) for both types of arrays, so I may use them later to implement non-trivial methods.
 	
-	In this section, I define \textbf{fields} and \textbf{properties} on dynamic and funnel arrays. These will be used later to implement operations on them in pseudocode.
+	\section{Common Operations}
 	
-	\section{Common Funnel Array Operations}
-	
-	In this section, I implement common operations for dynamic and funnel arrays in pseudocode. Then, I analyze and compare the time complexities of the implementations. If the operation allocates memory, I also compare their space complexities.
+	In this section, I implement and analyze common operations for dynamic and funnel arrays. I compare both implementations' time complexities, and space complexities if the operation allocates memory.
 	
 	The following mathematical definitions will be used while analyzing time and space complexity:
 	
 	\begin{description}
-		\item[$\biggo(f(n))$] This is an alternative to big-O notation for time complexity; I will call it \textbf{big-P notation}.
-			\subitem The main purpose of big-P notation is to preserve the constant coefficient of the fastest-growing term in $f(n)$, while still maintaining many properties of big-O. For example, $\bigo(2n) = \bigo(n)$, but $\biggo(2n) \neq \biggo(n)$. This makes it possible to compare time complexities whose ratio converges to a constant as $n$ becomes larger.
-			\subitem More formally, $\biggo(f(n)) = \biggo(g(n))$ iff $$\lim_{n \to \infty} {\frac{f(n)}{g(n)}} = 1$$.
+		\item[$\biggo(f(n))$] This is an alternative to big-O notation that I will name "big-P notation". It is similar to big-O, but it preserves the coefficient of the fastest-growing term in $f(n)$. For example, $\bigo(2n) = \bigo(n)$, but $\biggo(2n) \neq \biggo(n)$. This makes it possible to compare two time complexities, if their ratio tends to a constant for large $n$.\\
+		More formally, $\biggo(f(n)) = \biggo(g(n))$ iff $$\lim_{n \to \infty} {\frac{f(n)}{g(n)}} = 1$$.
 	\end{description}
 	
 	\subsection{Adding}
 	
 	\descriptn
 	
-	Adding is the most common operation done on a dynamic array\footnote{}. Funnel arrays improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying.
+	Adding is the most common operation done on dynamic arrays\footnote{}. Funnel arrays improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying. We begin with the implementation for dynamic arrays.
 	
-	\dynarrayimpl
+	I will first implement and analyze adding for dynamic arrays. Let $\listname$ be a dynamic array. The following definitions are used in the code:
 	
-	\tcomplex
+	\begin{description}
+		\item[initial capacity] The capacity of a dynamic a array when one item is added to it. I denote this $\initcapacity$.\\
+		(The capacity of any dynamic array with size zero should be zero.)
+		\item[growth factor] The factor by which the current capacity is multiplied to get the new capacity when $\listname$ is resized. I denote this with $\growthfactor$.
+	\end{description}
 	
+	% impl.
+	
+	Before I analyze the time complexity of [add], I consider a different method for measuring its cost. Suppose I start with an empty list and $\varnitems$ elements are added. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $\varnitems$ adds, and denote it $\nwritesfn(n)$.
+	
+	In the above code, one write is performed after the conditional, so it is apparent that $\nwritesfn(\varnitems) \geq \varnitems$ after $n$ adds. However, [resize] also does some writing, so in order to find a precise formula for $\nwritesfn(\varnitems)$ I need to analyze when [resize] is called. Consider the following lemma:
+	
+	[lemma]
+	Let $\listname$ by a dynamic array. As $\varnitems$ are added, the sequence of capacities $\listname$ takes on is $$S_C = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$$.
+	
+	[proof]
+	The capacity starts out at zero and becomes $\initcapacity$ once one element is added. From then on, it can only grow by a factor of $\growthfactor$ via [resize], so if $\growthfactor^i\initcapacity$ is the current capacity then $\growthfactor^{i + 1}\initcapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \growthfactor^i\initcapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $\varnitems$, $k$ is the smallest integer for which $\growthfactor^k\initcapacity \geq \varnitems$. Using this property, we now derive $k$.
+	
+	\begin{align*}
+	\growthfactor^k\initcapacity &\geq \varnitems\\
+	\growthfactor^k &\geq \frac{\varnitems}{\initcapacity}\\
+	k &\geq \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity\\
+	k &\geq \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity > k - 1\\
+	k &= \big\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \big\rceil
+	\end{align*}
+	
+	Then the final term in the sequence is $\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$, completing the proof.
+	
+	Now, consider that to grow by $\growthfactor$ we have to call [resize]. So $\growthfactor^k\initcapacity$ being present in $S_C$ means we once called [resize] at size $\growthfactor^{k - 1}\initcapacity$ for $k \geq 1$. Then we must have called [resize] at the sizes $$S_R = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity$$
+	
+	Each time [resize] is called, we copy $i$ items where $i$ is the current size of the dynamic array. Then the total number of items copied for $\varnitems$ adds is
+	
+	\begin{align*}
+	0 + \initcapacity + \growthfactor\initcapacity + \ldots + \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity &= \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
+	\end{align*}
+	
+	Finally, adding the writes made for every item in [add], I finally find an explicit formula for $\nwritesfn(\varnitems)$.
+	
+	$$
+	\nwritesfn(\varnitems) = n + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
+	$$
+		
 	\begin{align*}
 	\nwritesfn(\varnitems) = \biggo(2\varnitems)
 	\end{align*}
@@ -114,7 +143,7 @@
 	
 	\descriptn
 	
-	Indexing is another very common operation on a list. An \textbf{indexer} gets or sets an item at a specified index in a list.
+	Indexing is another very common operation on a list. I will call methods that get or set an item at a specified index \textbf{get indexer} and \textit{set indexers}, respectively.
 	
 	\dynarrayimpl
 	
@@ -172,7 +201,7 @@
 	
 	\tcomplex
 	
-	\section{Other Funnel Array Operations}
+	\section{Other Operations}
 	
 	\subsection{Inserting}
 	
