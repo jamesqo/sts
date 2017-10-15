@@ -1,6 +1,11 @@
 \documentclass{article}
 \usepackage{amsmath}
 
+\newcommand{\descriptn}{\textbf{Description}}
+\newcommand{\dynarrayimpl}{\textbf{Dynamic array implementation}}
+\newcommand{\funarrayimpl}{\textbf{Funnel array implementation}}
+\newcommand{\commimpltext}{Common implementation}
+\newcommand{\commimpl}{\textbf{\commimpltext}}
 \newcommand{\tcomplex}{\textbf{Time complexity}}
 \newcommand{\scomplex}{\textbf{Space complexity}}
 \newcommand{\tcomplexcmp}{\textbf{Time complexity comparison}}
@@ -20,6 +25,9 @@
 \newcommand{\bigo}{O}
 \newcommand{\biggo}{P}
 \newcommand{\varnitems}{n}
+\newcommand{\indexertime}{I}
+
+\newcommand{\listname}{L}
 
 \setlength{\parskip}{1em}
 
@@ -30,16 +38,26 @@
 	\section{Introduction}
 
 	\section{Definitions}
+	
+	\begin{description}
+		\item[field] A variable associated with an object that may be read from or written to.\\
+			It is assumed that fields can be read from and written to in constant time.
+		\item[get indexer] A method that gets an item at a specified index in a list.
+		\item[indexer] Refers to a get indexer or set indexer.
+		\item[property] A function of an object that returns a value, runs in constant time, and does not mutate any state (i.e. by assigning new values to fields).
+		\item[set indexer] A method that sets an item at a specified index in a list.
+		\item[trivial member] A field or property of an object.
+	\end{description}
 
 	\section{Predefined Functions}
 	
-	\section{Fields and Properties}
+	\section{Trivial Members}
 	
 	In this section, I define \textbf{fields} and \textbf{properties} on dynamic and funnel arrays. These will be used later to implement operations on them in pseudocode.
 	
 	\section{Common Funnel Array Operations}
 	
-	In this section, I implement common operations for dynamic arrays, then funnel arrays, in pseudocode. Then, I analyze and compare the time complexities of the implementations. If the operation allocates memory, I also compare their space complexities.
+	In this section, I implement common operations for dynamic and funnel arrays in pseudocode. Then, I analyze and compare the time complexities of the implementations. If the operation allocates memory, I also compare their space complexities.
 	
 	The following mathematical definitions will be used while analyzing time and space complexity:
 	
@@ -51,9 +69,11 @@
 	
 	\subsection{Adding}
 	
+	\descriptn
+	
 	Adding is the most common operation done on a dynamic array\footnote{}. Funnel arrays improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying.
 	
-	% <dynamic array implementation>
+	\dynarrayimpl
 	
 	\tcomplex
 	
@@ -67,7 +87,7 @@
 	\spacefn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil + 1}) = \bigo(\varnitems)
 	\end{align*}
 	
-	% <funnel array implementation>
+	\funarrayimpl
 	
 	\tcomplex
 	
@@ -94,7 +114,11 @@
 	
 	\subsection{Indexing}
 	
-	% <dynamic array implementation>
+	\descriptn
+	
+	Indexing is another very common operation on a list. An \textbf{indexer} gets or sets an item at a specified index in a list.
+	
+	\dynarrayimpl
 	
 	\tcomplex
 	
@@ -106,17 +130,33 @@
 	
 	$\timenewfn(\varnitems) = \bigo(1)$
 	
+	For the rest of this paper, I will not assume the indexer's time complexity is $\bigo(1)$ nor $\bigo(\log \varnitems)$. Instead, I will denote it by the function $\indexertime(\varnitems)$, where $\indexertime(\varnitems)$ is either $1$ or $\log \varnitems$.
+	
+	Since many list operations I detail can be implemented using the indexer in a loop, I make the following useful claim:
+	
+	Let $\listname$ be a list. Suppose $LC$ is a loop construct that runs $N$ times, where $N$ is a fixed number. If the body of the loop contains only the indexer of $\listname$ and statements that run in constant time, and the loop does not contain nested loops, then the time complexity of the loop is $\bigo(N \cdot \indexertime(\varnitems))$.
+	
+	To see this, note that the time complexity of the body of the loop is $\bigo(\indexertime(\varnitems)) + \bigo(1) = \bigo(\indexertime(\varnitems))$. Since the body is run $N$ times, the total time complexity is $N \cdot \bigo(\indexertime(\varnitems)) = \bigo(N \cdot \indexertime(\varnitems))$.
+	
 	\tcomplexcmp
 	
 	\subsection{Iterating}
 	
-	% <dynamic array implementation>
+	\descriptn
+	
+	\textbf{Iteration} of a list is the process of performing some action on each of its elements. The standard implementation of iteration for dynamic arrays is also applicable to funnel arrays. When this happens in this and subsequent sections, the second heading will be titled "\commimpltext".
+	
+	\commimpl
 	
 	\tcomplex
 	
-	$\timefn(\varnitems) = \bigo(\varnitems)$
+	By , the time complexity of this operation is $\bigo(\varnitems)$ for dynamic arrays.
 	
-	% <funnel array implementation>
+	By , the time complexity of this operation is $\bigo(\varnitems \cdot \indexertime(\varnitems))$ for funnel arrays. However, I demonstrate an alternative implementation for funnel arrays below that is $\bigo(\varnitems)$ independent of $\indexertime(\varnitems)$:
+	
+	\funarrayimpl
+	
+	
 	
 	\tcomplex
 	
