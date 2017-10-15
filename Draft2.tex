@@ -108,6 +108,7 @@
 	
 	Finally, adding the writes made for every item in [add], I finally find an explicit formula for $\nwritesfn(\varnitems)$.
 	
+	[ref1]
 	$$
 	\nwritesfn(\varnitems) = \varnitems + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
 	$$
@@ -154,7 +155,7 @@
 	\nwritesnewfn(\varnitems) = n + \sum_{i \in S_R} \nwritesresizefn(i)
 	$$
 	
-	so the goal is now to find a formula for $\nwritesresizefn(i)$. First note that all of the writing in [resize] comes from the call to [add] on a dynamic array. Let the initial capacity of the dynamic array be $\initcapacity$ and its growth factor be $\growthfactor$. We showed before that
+	so the goal is now to find a formula for $\nwritesresizefn(i)$. First note that all of the writing in [resize] comes from the call to [add] on a dynamic array. Let the initial capacity of the dynamic array be $\initcapacity$, its growth factor be $\growthfactor$, and its write cost function be $\nwritesfn(k)$. In [ref1] we derived a formula for $\nwritesfn(k)$, 
 	
 	\begin{align*}
 	\nwritesnewfn(\varnitems) = \biggo(\varnitems)
