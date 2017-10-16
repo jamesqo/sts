@@ -1,0 +1,8 @@
+In this section, I implement and analyze common operations for dynamic and funnel arrays. I compare both implementations' time complexities, and space complexities if the operation allocates memory.
+
+The following mathematical definitions will be used while analyzing time and space complexity:
+
+\begin{description}
+	\item[$\biggo(f(n))$] This is an alternative to big-O notation that I will name "big-P notation". It is similar to big-O, but it preserves the coefficient of the fastest-growing term in $f(n)$. For example, $\bigo(2n) = \bigo(n)$, but $\biggo(2n) \neq \biggo(n)$. This makes it possible to compare two time complexities, if their ratio tends to a constant for large $n$.\\
+	More formally, $\biggo(f(n)) = \biggo(g(n))$ iff $$\lim_{n \to \infty} {\frac{f(n)}{g(n)}} = 1$$.
+\end{description}
