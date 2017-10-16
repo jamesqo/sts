@@ -63,7 +63,7 @@
 	
 	\descriptn
 	
-	Adding is the most common operation done on dynamic arrays\footnote{}. Funnel arrays improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying. We begin with the implementation for dynamic arrays.
+	Adding is the most common operation done on dynamic arrays\footnote{}. Funnel arrays improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying. I begin with the implementation of adding for dynamic arrays.
 	
 	I will first implement and analyze adding for dynamic arrays. Let $\listname$ be a dynamic array. The following definitions are used in the code:
 	
@@ -85,7 +85,7 @@
 	Let $\listname$ by a dynamic array. As $\varnitems$ are added, the sequence of capacities $\listname$ takes on is $$S_C = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$$.
 	
 	[proof]
-	The capacity starts out at zero and becomes $\initcapacity$ once one element is added. From then on, it can only grow by a factor of $\growthfactor$ via [resize], so if $\growthfactor^i\initcapacity$ is the current capacity then $\growthfactor^{i + 1}\initcapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \growthfactor^i\initcapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $\varnitems$, $k$ is the smallest integer for which $\growthfactor^k\initcapacity \geq \varnitems$. Using this property, we now derive $k$.
+	The capacity starts out at zero and becomes $\initcapacity$ once one element is added. From then on, it can only grow by a factor of $\growthfactor$ via [resize], so if $\growthfactor^i\initcapacity$ is the current capacity then $\growthfactor^{i + 1}\initcapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \growthfactor^i\initcapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $\varnitems$, $k$ is the smallest integer for which $\growthfactor^k\initcapacity \geq \varnitems$. Using this property, I now derive $k$.
 	
 	\begin{align*}
 	\growthfactor^k\initcapacity &\geq \varnitems\\
@@ -98,9 +98,9 @@
 	Then the final term in the sequence is $\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$, completing the proof.
 	
 	[make lemma]
-	Now, consider that to grow by $\growthfactor$ we have to call [resize]. So $\growthfactor^k\initcapacity$ being present in $S_C$ means we once called [resize] at size $\growthfactor^{k - 1}\initcapacity$ for $k \geq 1$. Then we must have called [resize] at the sizes $$S_R = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity$$
+	Now, consider that to grow by $\growthfactor$ [resize] must be called. So $\growthfactor^k\initcapacity$ being present in $S_C$ means [resize] was called at size $\growthfactor^{k - 1}\initcapacity$ for $k \geq 1$. Then [resize] was called at the sizes $$S_R = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity$$
 	
-	Each time [resize] is called, we copy $i$ items where $i$ is the current size of the dynamic array. Then the total number of items copied for $\varnitems$ adds is
+	Each time [resize] is called, $i$ items are copied where $i$ is the current size of the dynamic array. Then the total number of items copied for $\varnitems$ adds is
 	
 	\begin{align*}
 	0 + \initcapacity + \growthfactor\initcapacity + \ldots + \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity &= \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
@@ -113,31 +113,46 @@
 	\nwritesfn(\varnitems) = \varnitems + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
 	$$
 	
-	To make this expression easier to work with, I will write it in big-P notation to approximate it for large $\varnitems$. First I note that $\log_{\growthfactor} k \leq \lceil \log_{\growthfactor} k \rceil < \left( \log_{\growthfactor} k \right) + 1$ for any $k > 0$, so $k \leq \growthfactor^{\lceil \log_{\growthfactor} k \rceil} < \growthfactor{k}$ and $\exists r \in {[1, \growthfactor)} : rk = \growthfactor^{\lceil \log_{\growthfactor} k \rceil}$. Then
+	[ref2]
+	To make this expression easier to work with, I will write it in big-P notation to approximate it for large $\varnitems$. First I note that $\log_{\growthfactor} k \leq \lceil \log_{\growthfactor} k \rceil < \left( \log_{\growthfactor} k \right) + 1$ for any $k > 0$, so $k \leq \growthfactor^{\lceil \log_{\growthfactor} k \rceil} < \growthfactor{k}$. Then
 	
 	\begin{align*}
 	\nwritesfn(\varnitems) &= \varnitems + \left( \frac{\growthfactor^{\big\lceil \log_{\growthfactor} \left( \frac {\varnitems} {\initcapacity} \right) \big\rceil} - 1}{\growthfactor - 1} \right) \initcapacity\\
 	\varnitems + \left( \frac{\frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \leq \nwritesfn(\varnitems) &< \varnitems + \left( \frac{\growthfactor\frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity\\
 	\varnitems + \left( \frac{\varnitems - \initcapacity}{\growthfactor - 1} \right) \leq \nwritesfn(\varnitems) &< \varnitems + \left( \frac{\growthfactor\varnitems - \initcapacity}{\growthfactor - 1} \right)\\
 	\biggo\left( \varnitems + \left( \frac{\varnitems - \initcapacity}{\growthfactor - 1} \right) \right) \leq \biggo\left( \nwritesfn(\varnitems) \right) &< \biggo\left( \varnitems + \left( \frac{\growthfactor\varnitems - \initcapacity}{\growthfactor - 1} \right) \right)\\
-	\biggo\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq \biggo(\left( \nwritesfn(\varnitems) \right) &< \biggo\left( \left( \frac{2\growthfactor - 1}{\growthfactor - 1} \right) \varnitems \right)
+	\biggo\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq \biggo\left( \nwritesfn(\varnitems) \right) &< \biggo\left( \left( \frac{2\growthfactor - 1}{\growthfactor - 1} \right) \varnitems \right)
 	\end{align*}
 	
 	\scomplex
 	
+	I wish to find the space allocated while adding $\varnitems$ items to a dynamic array. I denote this quantity $\spacefn(\varnitems)$, and define it as the total length of all arrays allocated during $\varnitems$ [add] calls. I now derive a formula for $\spacefn(\varnitems)$.
+	
+	From [lemma] I know the exact capacities $\listname$ takes on as $\varnitems$ items are added. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
+	
 	\begin{align*}
-	\spacefn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil + 1}) = \bigo(\varnitems)
+	\spacefn(\varnitems) &= \sum_{i \in S_C} i\\
+	&= 0 + \initcapacity + \growthfactor\initcapacity + \growthfactor^2\initcapacity + \ldots + \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity\\
+	&= \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil + 1} - 1}{\growthfactor - 1} \right) \initcapacity
+	\end{align*}
+	
+	Using the identity in [ref2] again, I bound its big-P complexity:
+	
+	\begin{align*}
+	\left( \frac{\growthfactor \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \leq \spacefn(\varnitems) &< \left( \frac{\growthfactor^2 \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity\\
+	\biggo\left( \left( \frac{\growthfactor \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \right) \leq \biggo\left( \spacefn(\varnitems) \right) &< \biggo\left( \left( \frac{\growthfactor^2 \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \right)\\
+	\biggo\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq \biggo\left( \spacefn(\varnitems) \right) &< \biggo\left( \left( \frac{\growthfactor^2}{\growthfactor - 1} \right) \varnitems \right)
 	\end{align*}
 	
 	\funarrayimpl
 	
 	\tcomplex
 	
-	I again start off by finding the write cost when $\varnitems$ are added. I give the write cost function a slightly different name, $\nwritesnewfn(\varnitems)$, so we can compare it to $\nwritesfn(\varnitems)$ later. I also use $\growthfactornew$ and $\initcapacitynew$ instead of $\growthfactor$ and $\initcapacity$ for the growth factor and initial capacity, respectively.
+	I again start off by finding the write cost when $\varnitems$ are added. I give the write cost function a slightly different name, $\nwritesnewfn(\varnitems)$, so I can compare it to $\nwritesfn(\varnitems)$ later. I also use $\growthfactornew$ and $\initcapacitynew$ instead of $\growthfactor$ and $\initcapacity$ for the growth factor and initial capacity, respectively.
 	
 	[That lemma] still holds, since all of the assumptions made there are also true for funnel arrays. In particular, although funnel arrays resize slightly differently than dynamic arrays, the following claim is still true:
 	
-	[lemma]
+	[other lemma]
 	The capacity of a funnel array grows by a constant factor $\growthfactornew$ after the first time it is called.
 	
 	[proof]
@@ -155,7 +170,7 @@
 	S_R = 0,\ \initcapacitynew,\ \growthfactornew\initcapacitynew,\ \growthfactornew^2\initcapacitynew,\ \ldots\ \growthfactornew^{\lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil - 1}\initcapacitynew
 	$$
 	
-	Let $k$ be the number of times the tail is added to. Since the tail is a dynamic array, the number of writes it makes is $\nwritesfn(k)$. Since we call [resize] $|S_R|$ times and it adds to the tail each time except for the first, $k = |S_R| - 1 = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Then the formula for $\nwritesresizefn(n)$ is
+	Let $k$ be the number of times the tail is added to. Since the tail is a dynamic array, the number of writes it makes is $\nwritesfn(k)$. Since [resize] is called $|S_R|$ times and it adds to the tail each time except for the first, $k = |S_R| - 1 = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Then the formula for $\nwritesresizefn(n)$ is
 	
 	$$
 	\nwritesresizefn(n) = k + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} k - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
@@ -185,6 +200,11 @@
 	
 	\scomplex
 	
+	% Should this be C(n) instead of C?
+	The space function for $\varnitems$ [add] calls on a funnel array is denoted $\spacenewfn(\varnitems)$. Since funnel arrays never throw away item buffers, if the current capacity is $C$ then the total length of item buffers is also $C$. $\spacenewfn(\varnitems)$ is usually greater than $C$, however; this is because funnel arrays not only allocate item buffers, but stores references to them in the tail. Thus the space the tail allocates must also be determined.
+	
+	I determined in [...] that if $\varnitems$ are added then the tail is added to $k$ times, where $k = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Since the tail is a dynamic array, it allocates $\spacefn(k)$ space, where $\spacefn$ is the space function of the tail. Through a similar method to [...] it can be shown $\bigo(\spacefn(k)) = \bigo(k) = \bigo(\log \varnitems)$. Then % TODO: P-analysis should come after the explicit formula.
+	
 	\begin{align*}
 	\spacenewfn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil}) = \bigo(\varnitems)
 	\end{align*}
@@ -201,7 +221,7 @@
 	
 	\descriptn
 	
-	Indexing is another very common operation on a list. I will call methods that get or set an item at a specified index \textbf{get indexer} and \textit{set indexers}, respectively.
+	Indexing is another very common operation on a list. I will call methods that get or set an item at a specified index \textbf{get} and \textbf{set indexers}, respectively.
 	
 	\dynarrayimpl
 	
@@ -283,7 +303,7 @@
 	
 	\descriptn
 	
-	Given a strict ordering $<$, we say a list $\listname$ is \textbf{sorted} by $<$ iff $\left(a, b \in \listname \land a < b\right) \leftrightarrow I_M(a) < I_m(b)$. $I_M(a)$ is the last (maximum) index of $a$ in $L$, and $I_m(b)$ is the first (minimum) index of $b$ in $L$. Note that the use of $<$ on the right-hand side compares integers and not elements of $L$, so this is not a recursive definition.
+	Given a strict ordering $<$, I say a list $\listname$ is \textbf{sorted} by $<$ iff $\left(a, b \in \listname \land a < b\right) \leftrightarrow I_M(a) < I_m(b)$. $I_M(a)$ is the last (maximum) index of $a$ in $L$, and $I_m(b)$ is the first (minimum) index of $b$ in $L$. Note that the use of $<$ on the right-hand side compares integers and not elements of $L$, so this is not a recursive definition.
 	
 	\section{Implementations}
 	
