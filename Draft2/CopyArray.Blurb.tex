@@ -1,11 +1,11 @@
 \descriptn
 
-Users often want to take list structures, such as dynamic arrays, and convert them into plain arrays. There are multiple reasons why someone would want to do this after they are done adding to the list:
+Users often want to take list structures, such as dynamic arrays, and convert them into plain arrays. There are multiple reasons why someone would want to do this after they are done appending to the list:
 
 \begin{itemize}
-	\item Plain arrays hold on to exactly the amount of memory needed to hold their elements. However, dynamic and funnel arrays allocate more space than necessary to optimize adding new items.
+	\item Plain arrays hold on to exactly the amount of memory needed to hold their elements. However, dynamic and growth arrays allocate more space than necessary to optimize appending new items.
 	\item The user wants to call a function in third-party code that takes a plain array as an argument.
 	\item
-	\item Plain arrays are contiguous, while funnel arrays are fragmented and have worse locality.
-	\item The indexer of funnel arrays is several times slower than that of plain arrays, whether the $\bigo(1)$ or $\bigo(\log \varnitems)$ implementation is chosen.
+	\item Plain arrays are contiguous, while growth arrays are fragmented and have worse locality.
+	\item The indexer of growth arrays is several times slower than that of plain arrays, whether the $\bigo(1)$ or $\bigo(\log \varnitems)$ implementation is chosen.
 \end{itemize}

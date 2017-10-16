@@ -1,9 +1,9 @@
 \dynarrayimpl
 
-I will first implement adding for dynamic arrays. Let $\listname$ be a dynamic array. The following definitions are used in the code:
+I will first implement appending for dynamic arrays. Let $\listname$ be a dynamic array. The following definitions are used in the code:
 
 \begin{description}
-	\item[initial capacity] The capacity of a dynamic a array when one item is added to it. I denote this $\initcapacity$.\\
+	\item[initial capacity] The capacity of a dynamic a array when one item is appended to it. I denote this $\initcapacity$.\\
 	(The capacity of any dynamic array with size zero should be zero.)
 	\item[growth factor] The factor by which the current capacity is multiplied to get the new capacity when $\listname$ is resized. I denote this with $\growthfactor$.
 \end{description}
@@ -12,15 +12,15 @@ I will first implement adding for dynamic arrays. Let $\listname$ be a dynamic a
 
 \tcomplex
 
-Before I analyze the time complexity of [add], I consider a different method for measuring its cost. Suppose I start with an empty list and $\varnitems$ elements are added. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $\varnitems$ adds, and denote it $\nwritesfn(n)$.
+Before I analyze the time complexity of [append], I consider a different method for measuring its cost. Suppose I start with an empty list and $\varnitems$ elements are appended. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $\varnitems$ appends, and denote it $\nwritesfn(n)$.
 
-In the above code, one write is performed after the conditional, so it is apparent that $\nwritesfn(\varnitems) \geq \varnitems$ after $n$ adds. However, [resize] also does some writing, so in order to find a precise formula for $\nwritesfn(\varnitems)$ I need to analyze when [resize] is called. Consider the following lemma:
+In the above code, one write is performed after the conditional, so it is apparent that $\nwritesfn(\varnitems) \geq \varnitems$ after $n$ appends. However, [resize] also does some writing, so in order to find a precise formula for $\nwritesfn(\varnitems)$ I need to analyze when [resize] is called. Consider the following lemma:
 
 [lemma]
-Let $\listname$ by a dynamic array. As $\varnitems$ are added, the sequence of capacities $\listname$ takes on is $$S_C = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$$.
+Let $\listname$ by a dynamic array. As $\varnitems$ are appended, the sequence of capacities $\listname$ takes on is $$S_C = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$$.
 
 [proof]
-The capacity starts out at zero and becomes $\initcapacity$ once one element is added. From then on, it can only grow by a factor of $\growthfactor$ via [resize], so if $\growthfactor^i\initcapacity$ is the current capacity then $\growthfactor^{i + 1}\initcapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \growthfactor^i\initcapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $\varnitems$, $k$ is the smallest integer for which $\growthfactor^k\initcapacity \geq \varnitems$. Using this property, I now derive $k$.
+The capacity starts out at zero and becomes $\initcapacity$ once one element is appended. From then on, it can only grow by a factor of $\growthfactor$ via [resize], so if $\growthfactor^i\initcapacity$ is the current capacity then $\growthfactor^{i + 1}\initcapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \growthfactor^i\initcapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $\varnitems$, $k$ is the smallest integer for which $\growthfactor^k\initcapacity \geq \varnitems$. Using this property, I now derive $k$.
 
 \begin{align*}
 \growthfactor^k\initcapacity &\geq \varnitems\\
@@ -35,13 +35,13 @@ Then the final term in the sequence is $\growthfactor^{\lceil \log_{\growthfacto
 [make lemma]
 Now, consider that to grow by $\growthfactor$ [resize] must be called. So $\growthfactor^k\initcapacity$ being present in $S_C$ means [resize] was called at size $\growthfactor^{k - 1}\initcapacity$ for $k \geq 1$. Then [resize] was called at the sizes $$S_R = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity$$
 
-Each time [resize] is called, $i$ items are copied where $i$ is the current size of the dynamic array. Then the total number of items copied for $\varnitems$ adds is
+Each time [resize] is called, $i$ items are copied where $i$ is the current size of the dynamic array. Then the total number of items copied for $\varnitems$ appends is
 
 \begin{align*}
 0 + \initcapacity + \growthfactor\initcapacity + \ldots + \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity &= \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
 \end{align*}
 
-Finally, adding the writes made for every item in [add], I finally find an explicit formula for $\nwritesfn(\varnitems)$.
+Finally, appending the writes made for every item in [append], I finally find an explicit formula for $\nwritesfn(\varnitems)$.
 
 [ref1]
 $$
@@ -61,9 +61,9 @@ To make this expression easier to work with, I will write it in big-P notation t
 
 \scomplex
 
-I wish to find the space allocated while adding $\varnitems$ items to a dynamic array. I denote this quantity $\spacefn(\varnitems)$, and define it as the total length of all arrays allocated during $\varnitems$ [add] calls. I now derive a formula for $\spacefn(\varnitems)$.
+I wish to find the space allocated while appending $\varnitems$ items to a dynamic array. I denote this quantity $\spacefn(\varnitems)$, and define it as the total length of all arrays allocated during $\varnitems$ [append] calls. I now derive a formula for $\spacefn(\varnitems)$.
 
-From [lemma] I know the exact capacities $\listname$ takes on as $\varnitems$ items are added. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
+From [lemma] I know the exact capacities $\listname$ takes on as $\varnitems$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
 
 \begin{align*}
 \spacefn(\varnitems) &= \sum_{i \in S_C} i\\
