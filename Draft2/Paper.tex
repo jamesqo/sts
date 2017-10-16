@@ -1,0 +1,170 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\newcommand{\descriptn}{\textbf{Description}}
+\newcommand{\dynarrayimpl}{\textbf{Dynamic array implementation}}
+\newcommand{\funarrayimpl}{\textbf{Funnel array implementation}}
+\newcommand{\tcomplex}{\textbf{Time complexity}}
+\newcommand{\scomplex}{\textbf{Space complexity}}
+\newcommand{\tcomplexcmp}{\textbf{Time complexity comparison}}
+\newcommand{\scomplexcmp}{\textbf{Space complexity comparison}}
+
+\newcommand{\timefn}{T}
+\newcommand{\spacefn}{S}
+\newcommand{\nwritesfn}{W}
+
+\newcommand{\timenewfn}{\timefn'}
+\newcommand{\spacenewfn}{\spacefn'}
+\newcommand{\nwritesnewfn}{\nwritesfn'}
+
+\newcommand{\nwritesresizefn}{W_R}
+
+\newcommand{\timeratio}{r_\timefn}
+\newcommand{\spaceratio}{r_\spacefn}
+
+\newcommand{\bigo}{O}
+\newcommand{\biggo}{P}
+\newcommand{\varnitems}{n}
+\newcommand{\indexertime}{I}
+
+\newcommand{\listname}{L}
+
+\newcommand{\initcapacity}{C_f}
+\newcommand{\growthfactor}{G}
+\newcommand{\capacityfn}{C}
+
+\newcommand{\initcapacitynew}{\initcapacity'}
+\newcommand{\growthfactornew}{\growthfactor'}
+
+\setlength{\parskip}{1em}
+
+\begin{document}
+	\begin{abstract}
+	\end{abstract}
+
+	\section{Introduction}
+
+	\input{Intro}
+	
+	\section{Fields and Properties}
+	
+	I define some \textbf{fields} and \textbf{properties} (constant time methods that do not change state) for both types of arrays, so I may use them later to implement non-trivial methods.
+	
+	\section{Common Operations}
+	
+	In this section, I implement and analyze common operations for dynamic and funnel arrays. I compare both implementations' time complexities, and space complexities if the operation allocates memory.
+	
+	The following mathematical definitions will be used while analyzing time and space complexity:
+	
+	\begin{description}
+		\item[$\biggo(f(n))$] This is an alternative to big-O notation that I will name "big-P notation". It is similar to big-O, but it preserves the coefficient of the fastest-growing term in $f(n)$. For example, $\bigo(2n) = \bigo(n)$, but $\biggo(2n) \neq \biggo(n)$. This makes it possible to compare two time complexities, if their ratio tends to a constant for large $n$.\\
+		More formally, $\biggo(f(n)) = \biggo(g(n))$ iff $$\lim_{n \to \infty} {\frac{f(n)}{g(n)}} = 1$$.
+	\end{description}
+	
+	\subsection{Adding}
+	
+	\descriptn
+	
+	Adding is the most common operation done on dynamic arrays\footnote{}. Funnel arrays improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying.
+	
+	\input{Appending.Dynamic}
+	
+	\input{Appending.Growth}
+	
+	\input{Appending.Compare}
+	
+	\subsection{Indexing}
+	
+	\descriptn
+	
+	Indexing is another very common operation on a list. I will call methods that get or set an item at a specified index \textbf{get} and \textbf{set indexers}, respectively.
+	
+	\dynarrayimpl
+	
+	\tcomplex
+	
+	$\timefn(\varnitems) = \bigo(1)$
+	
+	% <funnel array implementation>
+	
+	\tcomplex
+	
+	$\timenewfn(\varnitems) = \bigo(1)$
+	
+	\tcomplexcmp
+	
+	\subsection{Iterating}
+	
+	\descriptn
+	
+	\textbf{Iteration} of a list is the process of performing some action on each of its elements.
+	
+	\dynarrayimpl
+	
+	\tcomplex
+	
+	Ignoring the arbitrary code run after getting each element, the time complexity of this method is $\bigo(\varnitems)$.
+	
+	\funarrayimpl
+	
+	\tcomplex
+	
+	$\timenewfn(\varnitems) = \bigo(\varnitems)$
+	
+	\tcomplexcmp
+	
+	\subsection{Copying to an array}
+	
+	\descriptn
+	
+	Users often want to take list structures, such as dynamic arrays, and convert them into plain arrays. There are multiple reasons why someone would want to do this after they are done adding to the list:
+	
+	\begin{itemize}
+		\item Plain arrays hold on to exactly the amount of memory needed to hold their elements. However, dynamic and funnel arrays allocate more space than necessary to optimize adding new items.
+		\item The user wants to call a function in third-party code that takes a plain array as an argument.
+		\item
+		\item Plain arrays are contiguous, while funnel arrays are fragmented and have worse locality.
+		\item The indexer of funnel arrays is several times slower than that of plain arrays, whether the $\bigo(1)$ or $\bigo(\log \varnitems)$ implementation is chosen.
+	\end{itemize}
+	
+	\dynarrayimpl
+	
+	\tcomplex
+	
+	\funarrayimpl
+	
+	\tcomplex
+	
+	\section{Other Operations}
+	
+	\subsection{Inserting}
+	
+	\descriptn
+	
+	\textbf{Inserting} an element places it at a specified index within the list, and increments the list's count. If the index equals the size of the list, the effect is the same as adding the element. Otherwise, the elements at indices greater than or equal to the specified index are moved to the next index, then the element is placed at the specified index.
+	
+	\subsection{Deleting}
+	
+	\descriptn
+	
+	\textbf{Deleting} the element at a specified index moves the elements at indices greater than the specified index to the previous index. The count of the list is decremented.
+	
+	\subsection{Searching}
+	
+	\descriptn
+	
+	\textbf{Searching} for an element returns the first or last index within the list where the item can be found. If the user knows the items of the lists are sorted, \textbf{binary search} can be used.
+	
+	\subsection{In-place sorting}
+	
+	\descriptn
+	
+	Given a strict ordering $<$, I say a list $\listname$ is \textbf{sorted} by $<$ iff $\left(a, b \in \listname \land a < b\right) \leftrightarrow I_M(a) < I_m(b)$. $I_M(a)$ is the last (maximum) index of $a$ in $L$, and $I_m(b)$ is the first (minimum) index of $b$ in $L$. Note that the use of $<$ on the right-hand side compares integers and not elements of $L$, so this is not a recursive definition.
+	
+	\section{Implementations}
+	
+	\section{Benchmarks}
+	
+	\section{Closing Remarks}
+
+\end{document}

@@ -1,0 +1,64 @@
+\funarrayimpl
+
+\tcomplex
+
+I again start off by finding the write cost when $\varnitems$ are added. I give the write cost function a slightly different name, $\nwritesnewfn(\varnitems)$, so I can compare it to $\nwritesfn(\varnitems)$ later. I also use $\growthfactornew$ and $\initcapacitynew$ instead of $\growthfactor$ and $\initcapacity$ for the growth factor and initial capacity, respectively.
+
+[That lemma] still holds, since all of the assumptions made there are also true for funnel arrays. In particular, although funnel arrays resize slightly differently than dynamic arrays, the following claim is still true:
+
+[other lemma]
+The capacity of a funnel array grows by a constant factor $\growthfactornew$ after the first time it is called.
+
+[proof]
+I prove that the algorithm ensures this using induction.
+
+For the base case, consider the second time [resize] is called: the current capacity is $\initcapacitynew$, and the next (total) capacity should be $\growthfactornew\initcapacitynew$. Then a buffer of size $(\growthfactornew - 1)\initcapacitynew$ should be added, and that is what the algorithm does.
+
+For $i \geq 2$, given the algorithm behaves correctly the $i$th time it is called, I wish to show it behaves correctly the $(i + 1)$th time. From the inductive hypothesis, when the algorithm is called the $(i + 1)$th time, the current capacity is $\growthfactornew^i\initcapacitynew$ and the head capacity is $(\growthfactornew^i - \growthfactornew^{i - 1})\initcapacitynew$. The next (total) capacity should be $\growthfactornew^{i + 1}\initcapacitynew$, and the next head capacity should be $(\growthfactornew^{i + 1} - \growthfactornew^i)\initcapacitynew$, which is $\growthfactornew$ times the current head capacity. The algorithm determines the capacity of the next buffer in this manner, proving the inductive step and completing the induction.
+
+Now I take a look at [resize]. Unlike dynamic arrays, the number of writes performed does not equal $i$ if the current size is $i$. No items are being copied; the only source of writes is adding a buffer to the tail. The goal is to find the number of writes that causes.
+
+Let $\nwritesresizefn(n)$ denote the total number of writes made by [resize]. From [make lemma], I know that [resize] is called at the sizes
+
+$$
+S_R = 0,\ \initcapacitynew,\ \growthfactornew\initcapacitynew,\ \growthfactornew^2\initcapacitynew,\ \ldots\ \growthfactornew^{\lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil - 1}\initcapacitynew
+$$
+
+Let $k$ be the number of times the tail is added to. Since the tail is a dynamic array, the number of writes it makes is $\nwritesfn(k)$. Since [resize] is called $|S_R|$ times and it adds to the tail each time except for the first, $k = |S_R| - 1 = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Then the formula for $\nwritesresizefn(n)$ is
+
+$$
+\nwritesresizefn(n) = k + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} k - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
+$$
+
+where $\initcapacity$ $\growthfactor$ are the capacity of the \textit{tail} (not the funnel array). I finally conclude that
+
+$$
+\nwritesnewfn(n) = n + k + \left( \frac{\growthfactor^{\lceil \log_{\growthfactor} k - \log_{\growthfactor} \initcapacity \rceil} - 1}{\growthfactor - 1} \right) \initcapacity
+$$
+
+I now approximate this expression with big-P notation. First, I establish an approximation for $k$ using big-O:
+
+\begin{align*}
+k &= \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil\\
+\bigo(k) &= \bigo(\log \varnitems)
+\end{align*}
+
+Then, it is shown that the $k$-term disappears when analyzing the big-P complexity of $\nwritesnewfn(\varnitems)$, leaving just $\biggo(\varnitems)$:
+
+\begin{align*}
+\biggo(\nwritesnewfn(\varnitems)) &= \biggo(\varnitems + \nwritesfn(k))\\
+&= \biggo(\varnitems) + \biggo(\nwritesfn(k))\\
+&= \biggo(\varnitems) + \bigo(\log \varnitems)\\
+&= \biggo(\varnitems)
+\end{align*}
+
+\scomplex
+
+% Should this be C(n) instead of C?
+The space function for $\varnitems$ [add] calls on a funnel array is denoted $\spacenewfn(\varnitems)$. Since funnel arrays never throw away item buffers, if the current capacity is $C$ then the total length of item buffers is also $C$. $\spacenewfn(\varnitems)$ is usually greater than $C$, however; this is because funnel arrays not only allocate item buffers, but stores references to them in the tail. Thus the space the tail allocates must also be determined.
+
+I determined in [...] that if $\varnitems$ are added then the tail is added to $k$ times, where $k = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Since the tail is a dynamic array, it allocates $\spacefn(k)$ space, where $\spacefn$ is the space function of the tail. Through a similar method to [...] it can be shown $\bigo(\spacefn(k)) = \bigo(k) = \bigo(\log \varnitems)$. Then % TODO: P-analysis should come after the explicit formula.
+
+\begin{align*}
+\spacenewfn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil}) = \bigo(\varnitems)
+\end{align*}
