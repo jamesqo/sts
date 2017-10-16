@@ -52,13 +52,11 @@
 	
 	\section{Common Operations}
 	
-	\input{CommonOperationsBlurb}
+	\input{CommonOperations.Blurb}
 	
 	\subsection{Adding}
 	
-	\descriptn
-	
-	Adding is the most common operation done on dynamic arrays\footnote{}. Funnel arrays improve the performance of adding in two ways: by allocating less memory, and reducing the amount of copying.
+	\input{Appending.Blurb}
 	
 	\input{Appending.Dynamic}
 	
@@ -68,9 +66,7 @@
 	
 	\subsection{Indexing}
 	
-	\descriptn
-	
-	Indexing is another very common operation on a list. I will call methods that get or set an item at a specified index \textbf{get} and \textbf{set indexers}, respectively.
+	\input{Indexing.Blurb}
 	
 	\input{Indexing.Dynamic}
 	
@@ -80,9 +76,7 @@
 	
 	\subsection{Iterating}
 	
-	\descriptn
-	
-	\textbf{Iteration} of a list is the process of performing some action on each of its elements.
+	\input{Iterating.Blurb}
 	
 	\input{Iterating.Dynamic}
 	
@@ -92,17 +86,7 @@
 	
 	\subsection{Copying to an array}
 	
-	\descriptn
-	
-	Users often want to take list structures, such as dynamic arrays, and convert them into plain arrays. There are multiple reasons why someone would want to do this after they are done adding to the list:
-	
-	\begin{itemize}
-		\item Plain arrays hold on to exactly the amount of memory needed to hold their elements. However, dynamic and funnel arrays allocate more space than necessary to optimize adding new items.
-		\item The user wants to call a function in third-party code that takes a plain array as an argument.
-		\item
-		\item Plain arrays are contiguous, while funnel arrays are fragmented and have worse locality.
-		\item The indexer of funnel arrays is several times slower than that of plain arrays, whether the $\bigo(1)$ or $\bigo(\log \varnitems)$ implementation is chosen.
-	\end{itemize}
+	\input{CopyArray.Blurb}
 
 	\input{CopyArray.Dynamic}
 	
