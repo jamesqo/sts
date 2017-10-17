@@ -1,9 +1,14 @@
 \documentclass{article}
-\usepackage{amsmath}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+\usepackage{amsmath}
+\usepackage{amsthm}
 
 \algnewcommand{\LineComment}[1]{\Statex \(\triangleright\) #1}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
 
 \newcommand{\descriptn}{\textbf{Description}}
 \newcommand{\dynarrayimpl}{\textbf{Dynamic array implementation}}
