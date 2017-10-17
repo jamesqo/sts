@@ -64,10 +64,3 @@ Now \ref{ScrubsLowerOrderTerms} can be proved as follows:
 	
 	Then $f(n) + g(n) \in \biggo(f(n))$. Since it is also true that $f(n) + g(n) \in \biggo(f(n) + g(n))$, it follows from \ref{UniqueClassOfFunctions} that $\biggo(f(n)) = \biggo(f(n) + g(n))$.
 \end{proof}
-
-The following mathematical definitions will be used while analyzing time and space complexity:
-
-\begin{itemize}
-	\item $\biggo(f(n))$ - This is an alternative to big-O notation that I will name "big-P notation". It is similar to big-O, but it preserves the coefficient of the fastest-growing term in $f(n)$. For example, $\bigo(2n) = \bigo(n)$, but $\biggo(2n) \neq \biggo(n)$. This makes it possible to compare two time complexities, if their ratio tends to a constant for large $n$.\\
-	More formally, $\biggo(f(n)) = \biggo(g(n))$ iff $$\lim_{n \to \infty} {\frac{f(n)}{g(n)}} = 1$$.
-\end{itemize}
