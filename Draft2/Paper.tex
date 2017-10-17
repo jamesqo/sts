@@ -1,5 +1,9 @@
 \documentclass{article}
 \usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\algnewcommand{\LineComment}[1]{\Statex \(\triangleright\) #1}
 
 \newcommand{\descriptn}{\textbf{Description}}
 \newcommand{\dynarrayimpl}{\textbf{Dynamic array implementation}}
@@ -35,6 +39,17 @@
 
 \newcommand{\initcapacitynew}{\initcapacity'}
 \newcommand{\growthfactornew}{\growthfactor'}
+
+\newcommand{\FieldBuffer}{Buf}
+\newcommand{\FieldCapacity}{Cap}
+\newcommand{\FieldEmpty}{Empty?}
+\newcommand{\FieldFull}{Full?}
+\newcommand{\FieldHead}{Head}
+\newcommand{\FieldHeadCapacity}{Hcap}
+\newcommand{\FieldHeadSize}{Hsize}
+\newcommand{\FieldLength}{Len}
+\newcommand{\FieldSize}{Size}
+\newcommand{\FieldTail}{Tail}
 
 \setlength{\parskip}{1em}
 

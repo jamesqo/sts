@@ -1,1 +1,50 @@
-I define some \textbf{fields} and \textbf{properties} (constant time methods that do not change state) for both types of arrays, so I may use them later to implement non-trivial methods.
+In subsequent sections, I will implement algorithms for both dynamic and growth arrays. In this section, I define the \textbf{fields} and \textbf{properties} these data structures are assumed to have for those algorithms. \textbf{Fields} are variables associated with an object that may be read from or written to. \textbf{Properties} are trivial, constant-time methods that do not change state.
+
+If $\listname$ is a dynamic array, then it is assumed to have the following fields:
+
+\begin{itemize}
+	\item $\listname.\FieldBuffer$ - The \textbf{buffer}, or raw array, that $\listname$ stores its items in.
+	\item $\listname.\FieldSize$ - The number of items in $\listname$.
+\end{itemize}
+
+As a dynamic array, $\listname$ is also given the following properties. $:=$ denotes a definition, as opposed to $=$ which checks equivalence. Functions that return boolean values are suffixed with ?.
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\LineComment{Returns the capacity of $\listname$}
+		\State $\listname.\FieldCapacity := \listname.\FieldBuffer.\FieldLength$
+		\State
+		\LineComment{Returns whether $\listname$ is full}
+		\State $\listname.\FieldFull := \listname.\FieldSize = \listname.\FieldCapacity$
+	\end{algorithmic}
+\end{algorithm}
+
+If $\listname$ is a growth array, then it is assumed to have the following fields:
+
+\begin{itemize}
+	\item $\listname.\FieldHead$ - The \textbf{head} of $\listname$. It returns the buffer we are currently adding items to.
+	\item $\listname.\FieldTail$ - The \textbf{tail} of $\listname$. It returns a dynamic array of buffers that have already been filled. This can be thought of as a two-dimensional array.
+	\item $\listname.\FieldSize$ - The number of items in $\listname$.
+	\item $\listname.\FieldCapacity$ - The \textbf{capacity} of $\listname$. It returns the maximum number of items $\listname$ can hold without resizing.
+\end{itemize}
+
+As a growth array, $\listname$ is also given the following properties:
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\LineComment{Returns whether $\listname$ is empty}
+		\State $\listname.\FieldEmpty := \listname.\FieldSize = 0$
+		\State
+		\LineComment{Returns whether $\listname$ is full}
+		\State $\listname.\FieldFull := \listname.\FieldSize = \listname.\FieldCapacity$
+		\State
+		\LineComment{Returns the capacity of $\FieldHead$}
+		\State $\listname.\FieldHeadCapacity := \listname.\FieldHead.\FieldLength$
+		\State
+		\LineComment{Returns the size of $\FieldHead$}
+		\LineComment{\textbf{Rationale:} $\FieldCapacity - \FieldHeadCapacity$ is the total capacity of the buffers in $\FieldTail$.}
+		\LineComment{Then, $\FieldSize - \left( \FieldCapacity - \FieldHeadCapacity \right)$ is the number of items that were added}
+		\LineComment{after depleting the buffers in $\FieldTail$.}
+		\State $\listname.\FieldHeadSize := \listname.\FieldSize - \left(\listname.\FieldCapacity - \listname.\FieldHeadCapacity\right)$
+	\end{algorithmic}
+\end{algorithm}

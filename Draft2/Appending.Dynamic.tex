@@ -14,7 +14,7 @@ I will first implement appending for dynamic arrays. Let $\listname$ be a dynami
 
 Before I analyze the time complexity of [append], I consider a different method for measuring its cost. Suppose I start with an empty list and $\varnitems$ elements are appended. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $\varnitems$ appends, and denote it $\nwritesfn(n)$.
 
-In the above code, one write is performed after the conditional, so it is apparent that $\nwritesfn(\varnitems) \geq \varnitems$ after $n$ appends. However, [resize] also does some writing, so in order to find a precise formula for $\nwritesfn(\varnitems)$ I need to analyze when [resize] is called. Consider the following lemma:
+In the above code, one write is performed after the conditional, so it is apparent that $\nwritesfn(\varnitems) \geq \varnitems$ after $n$ appends. However, [resize] also does some writing, so in order to find a precise formula for $\nwritesfn(\varnitems)$, I need to analyze when [resize] is called. Consider the following lemma:
 
 [lemma]
 Let $\listname$ by a dynamic array. As $\varnitems$ are appended, the sequence of capacities $\listname$ takes on is $$S_C = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$$.
