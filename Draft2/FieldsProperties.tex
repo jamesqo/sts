@@ -1,21 +1,21 @@
 In subsequent sections, I will implement algorithms for both dynamic and growth arrays. In this section, I define fields and properties for these data structures which the algorithms will use. \textbf{Fields} are variables associated with an object that may be read from or written to. \textbf{Properties} are trivial, constant-time methods that do not change state.
 
-If $\listname$ is a dynamic array, then it is assumed to have the following fields:
+If $\ListName$ is a dynamic array, then it is assumed to have the following fields:
 
 \begin{itemize}
-	\item $\listname.\FieldBuffer$ - The \textbf{buffer}, or raw array, that $\listname$ stores its items in.
-	\item $\listname.\FieldSize$ - The number of items in $\listname$.
+	\item $\ListName.\FieldBuffer$ - The \textbf{buffer}, or raw array, that $\ListName$ stores its items in.
+	\item $\ListName.\FieldSize$ - The number of items in $\ListName$.
 \end{itemize}
 
-As a dynamic array, $\listname$ is also given the following properties. $:=$ denotes a definition, as opposed to $=$ which checks equivalence. Functions that return boolean values are suffixed with ?.
+As a dynamic array, $\ListName$ is also given the following properties. $:=$ denotes a definition, as opposed to $=$ which checks equivalence. Functions that return boolean values are suffixed with ?.
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\LineComment{Returns the capacity of $\listname$}
-		\State $\listname.\FieldCapacity := \listname.\FieldBuffer.\FieldLength$
+		\LineComment{Returns the capacity of $\ListName$}
+		\State $\ListName.\FieldCapacity := \ListName.\FieldBuffer.\FieldLength$
 		\State
-		\LineComment{Returns whether $\listname$ is full}
-		\State $\listname.\FieldFull := \listname.\FieldSize = \listname.\FieldCapacity$
+		\LineComment{Returns whether $\ListName$ is full}
+		\State $\ListName.\FieldFull := \ListName.\FieldSize = \ListName.\FieldCapacity$
 	\end{algorithmic}
 \end{algorithm}
 
@@ -23,38 +23,38 @@ When a dynamic array is instantiated, the following code should run:
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\State $\listname.\FieldBuffer \gets \FuncNewArray(0)$
-		\State $\listname.\FieldSize \gets 0$
+		\State $\ListName.\FieldBuffer \gets \FuncNewArray(0)$
+		\State $\ListName.\FieldSize \gets 0$
 	\end{algorithmic}
 \end{algorithm}
 
-If $\listname$ is a growth array, then it is assumed to have the following fields:
+If $\ListName$ is a growth array, then it is assumed to have the following fields:
 
 \begin{itemize}
-	\item $\listname.\FieldHead$ - The \textbf{head} of $\listname$. It returns the buffer we are currently adding items to.
-	\item $\listname.\FieldTail$ - The \textbf{tail} of $\listname$. It returns a dynamic array of buffers that have already been filled. This can be thought of as a two-dimensional array.
-	\item $\listname.\FieldSize$ - The number of items in $\listname$.
-	\item $\listname.\FieldCapacity$ - The \textbf{capacity} of $\listname$. It returns the maximum number of items $\listname$ can hold without resizing.
+	\item $\ListName.\FieldHead$ - The \textbf{head} of $\ListName$. It returns the buffer we are currently adding items to.
+	\item $\ListName.\FieldTail$ - The \textbf{tail} of $\ListName$. It returns a dynamic array of buffers that have already been filled. This can be thought of as a two-dimensional array.
+	\item $\ListName.\FieldSize$ - The number of items in $\ListName$.
+	\item $\ListName.\FieldCapacity$ - The \textbf{capacity} of $\ListName$. It returns the maximum number of items $\ListName$ can hold without resizing.
 \end{itemize}
 
-As a growth array, $\listname$ is also given the following properties:
+As a growth array, $\ListName$ is also given the following properties:
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\LineComment{Returns whether $\listname$ is empty}
-		\State $\listname.\FieldEmpty := \listname.\FieldSize = 0$
+		\LineComment{Returns whether $\ListName$ is empty}
+		\State $\ListName.\FieldEmpty := \ListName.\FieldSize = 0$
 		\State
-		\LineComment{Returns whether $\listname$ is full}
-		\State $\listname.\FieldFull := \listname.\FieldSize = \listname.\FieldCapacity$
+		\LineComment{Returns whether $\ListName$ is full}
+		\State $\ListName.\FieldFull := \ListName.\FieldSize = \ListName.\FieldCapacity$
 		\State
 		\LineComment{Returns the capacity of $\FieldHead$}
-		\State $\listname.\FieldHeadCapacity := \listname.\FieldHead.\FieldLength$
+		\State $\ListName.\FieldHeadCapacity := \ListName.\FieldHead.\FieldLength$
 		\State
 		\LineComment{Returns the size of $\FieldHead$}
 		\LineComment{\textbf{Rationale:} $\FieldCapacity - \FieldHeadCapacity$ is the total capacity of the buffers in $\FieldTail$.}
 		\LineComment{Then, $\FieldSize - \left( \FieldCapacity - \FieldHeadCapacity \right)$ is the number of items that were added}
 		\LineComment{after depleting the buffers in $\FieldTail$.}
-		\State $\listname.\FieldHeadSize := \listname.\FieldSize - \left(\listname.\FieldCapacity - \listname.\FieldHeadCapacity\right)$
+		\State $\ListName.\FieldHeadSize := \ListName.\FieldSize - \left(\ListName.\FieldCapacity - \ListName.\FieldHeadCapacity\right)$
 	\end{algorithmic}
 \end{algorithm}
 
@@ -62,9 +62,9 @@ When a growth array is instantiated, the following code should run:
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\State $\listname.\FieldHead \gets \FuncNewArray(0)$
-		\State $\listname.\FieldTail \gets \FuncNewDynamicArray()$
-		\State $\listname.\FieldSize \gets 0$
-		\State $\listname.\FieldCapacity \gets 0$
+		\State $\ListName.\FieldHead \gets \FuncNewArray(0)$
+		\State $\ListName.\FieldTail \gets \FuncNewDynamicArray()$
+		\State $\ListName.\FieldSize \gets 0$
+		\State $\ListName.\FieldCapacity \gets 0$
 	\end{algorithmic}
 \end{algorithm}
