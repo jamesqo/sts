@@ -42,16 +42,16 @@ I now approximate this expression with big-P notation. First, I establish an app
 
 \begin{align*}
 k &= \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil\\
-\bigo(k) &= \bigo(\log \varnitems)
+O(k) &= O(\log \varnitems)
 \end{align*}
 
-Then, it is shown that the $k$-term disappears when analyzing the big-P complexity of $\nwritesnewfn(\varnitems)$, leaving just $\biggo(\varnitems)$:
+Then, it is shown that the $k$-term disappears when analyzing the big-P complexity of $\nwritesnewfn(\varnitems)$, leaving just $P(\varnitems)$:
 
 \begin{align*}
-\biggo(\nwritesnewfn(\varnitems)) &= \biggo(\varnitems + \nwritesfn(k))\\
-&= \biggo(\varnitems) + \biggo(\nwritesfn(k))\\
-&= \biggo(\varnitems) + \bigo(\log \varnitems)\\
-&= \biggo(\varnitems)
+P(\nwritesnewfn(\varnitems)) &= P(\varnitems + \nwritesfn(k))\\
+&= P(\varnitems) + P(\nwritesfn(k))\\
+&= P(\varnitems) + O(\log \varnitems)\\
+&= P(\varnitems)
 \end{align*}
 
 \HdrSpaceComplex
@@ -59,8 +59,8 @@ Then, it is shown that the $k$-term disappears when analyzing the big-P complexi
 % Should this be C(n) instead of C?
 The space function for $\varnitems$ $\FuncAppend$ calls on a growth array is denoted $\spacenewfn(\varnitems)$. Since growth arrays never throw away item buffers, if the current capacity is $C$ then the total length of item buffers is also $C$. $\spacenewfn(\varnitems)$ is usually greater than $C$, however; this is because growth arrays not only allocate item buffers, but stores references to them in the tail. Thus the space the tail allocates must also be determined.
 
-I determined in [...] that if $\varnitems$ are appended then the tail is appended to $k$ times, where $k = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Since the tail is a dynamic array, it allocates $\spacefn(k)$ space, where $\spacefn$ is the space function of the tail. Through a similar method to [...] it can be shown $\bigo(\spacefn(k)) = \bigo(k) = \bigo(\log \varnitems)$. Then % TODO: P-analysis should come after the explicit formula.
+I determined in [...] that if $\varnitems$ are appended then the tail is appended to $k$ times, where $k = \lceil \log_{\growthfactornew} \varnitems - \log_{\growthfactornew} \initcapacitynew \rceil$. Since the tail is a dynamic array, it allocates $\spacefn(k)$ space, where $\spacefn$ is the space function of the tail. Through a similar method to [...] it can be shown $O(\spacefn(k)) = O(k) = O(\log \varnitems)$. Then % TODO: P-analysis should come after the explicit formula.
 
 \begin{align*}
-\spacenewfn(\varnitems) = \biggo(2^{\lceil \log_2 \varnitems \rceil}) = \bigo(\varnitems)
+\spacenewfn(\varnitems) = P(2^{\lceil \log_2 \varnitems \rceil}) = O(\varnitems)
 \end{align*}

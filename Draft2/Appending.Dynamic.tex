@@ -79,8 +79,8 @@ To make this expression easier to work with, I will write it in big-P notation t
 \nwritesfn(\varnitems) &= \varnitems + \left( \frac{\growthfactor^{\big\lceil \log_{\growthfactor} \left( \frac {\varnitems} {\initcapacity} \right) \big\rceil} - 1}{\growthfactor - 1} \right) \initcapacity\\
 \varnitems + \left( \frac{\frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \leq \nwritesfn(\varnitems) &< \varnitems + \left( \frac{\growthfactor\frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity\\
 \varnitems + \left( \frac{\varnitems - \initcapacity}{\growthfactor - 1} \right) \leq \nwritesfn(\varnitems) &< \varnitems + \left( \frac{\growthfactor\varnitems - \initcapacity}{\growthfactor - 1} \right)\\
-\biggo\left( \varnitems + \left( \frac{\varnitems - \initcapacity}{\growthfactor - 1} \right) \right) \leq \biggo\left( \nwritesfn(\varnitems) \right) &< \biggo\left( \varnitems + \left( \frac{\growthfactor\varnitems - \initcapacity}{\growthfactor - 1} \right) \right)\\
-\biggo\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq \biggo\left( \nwritesfn(\varnitems) \right) &< \biggo\left( \left( \frac{2\growthfactor - 1}{\growthfactor - 1} \right) \varnitems \right)
+P\left( \varnitems + \left( \frac{\varnitems - \initcapacity}{\growthfactor - 1} \right) \right) \leq P\left( \nwritesfn(\varnitems) \right) &< P\left( \varnitems + \left( \frac{\growthfactor\varnitems - \initcapacity}{\growthfactor - 1} \right) \right)\\
+P\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq P\left( \nwritesfn(\varnitems) \right) &< P\left( \left( \frac{2\growthfactor - 1}{\growthfactor - 1} \right) \varnitems \right)
 \end{align*}
 
 \HdrSpaceComplex
@@ -99,6 +99,6 @@ Using the identity in [ref2] again, I bound its big-P complexity:
 
 \begin{align*}
 \left( \frac{\growthfactor \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \leq \spacefn(\varnitems) &< \left( \frac{\growthfactor^2 \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity\\
-\biggo\left( \left( \frac{\growthfactor \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \right) \leq \biggo\left( \spacefn(\varnitems) \right) &< \biggo\left( \left( \frac{\growthfactor^2 \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \right)\\
-\biggo\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq \biggo\left( \spacefn(\varnitems) \right) &< \biggo\left( \left( \frac{\growthfactor^2}{\growthfactor - 1} \right) \varnitems \right)
+P\left( \left( \frac{\growthfactor \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \right) \leq P\left( \spacefn(\varnitems) \right) &< P\left( \left( \frac{\growthfactor^2 \frac{\varnitems}{\initcapacity} - 1}{\growthfactor - 1} \right) \initcapacity \right)\\
+P\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq P\left( \spacefn(\varnitems) \right) &< P\left( \left( \frac{\growthfactor^2}{\growthfactor - 1} \right) \varnitems \right)
 \end{align*}

@@ -7,19 +7,19 @@
 \label{MergingOverArithmetic}
 
 \begin{theorem}
-	$\biggo$ merges over addition and subtraction. That is,
+	$P$ merges over addition and subtraction. That is,
 	\begin{align*}
-	\biggo(f(n)) + \biggo(g(n)) &= \biggo(f(n) + g(n))\\
-	\biggo(f(n)) - \biggo(g(n)) &= \biggo(f(n) - g(n))
+	P(f(n)) + P(g(n)) &= P(f(n) + g(n))\\
+	P(f(n)) - P(g(n)) &= P(f(n) - g(n))
 	\end{align*}
 \end{theorem}
 
 \begin{proof}
 	We will consider the statement about addition first. Recall from the note at \ref{BigPProperties} that this statement is equivalent to:
 	
-	\textit{Let $f' \in \biggo(f(n))$ and $g' \in \biggo(g(n))$. Then $f' + g' \in \biggo(f(n) + g(n))$.}
+	\textit{Let $f' \in P(f(n))$ and $g' \in P(g(n))$. Then $f' + g' \in P(f(n) + g(n))$.}
 	
-	We can show this by using the limit definition of $\biggo$. For brevity, we will omit the parameter $n$ to each function. Since
+	We can show this by using the limit definition of $P$. For brevity, we will omit the parameter $n$ to each function. Since
 	
 	\begin{align*}
 	\lim_{n \to \infty} \left( \frac{f' + g'}{f + g} \right) &= \lim_{n \to \infty} \left( \frac{f'}{f + g} \right) + \lim_{n \to \infty} \left( \frac{g'}{f + g} \right)\\
@@ -30,21 +30,21 @@
 	&= 1
 	\end{align*}
 	
-	it follows that $f' + g' \in \biggo(f(n) + g(n))$. The statement about subtraction can be proved in a similar fashion.
+	it follows that $f' + g' \in P(f(n) + g(n))$. The statement about subtraction can be proved in a similar fashion.
 \end{proof}
 
 \begin{theorem}
-	$\biggo$ merges over multiplication and division. That is,
+	$P$ merges over multiplication and division. That is,
 	\begin{align*}
-	\biggo(f(n))\biggo(g(n)) &= \biggo(f(n)g(n))\\
-	\frac {\biggo(f(n))} {\biggo(g(n))} &= \biggo\left(\frac{f(n)} {g(n)}\right)
+	P(f(n))P(g(n)) &= P(f(n)g(n))\\
+	\frac {P(f(n))} {P(g(n))} &= P\left(\frac{f(n)} {g(n)}\right)
 	\end{align*}
 \end{theorem}
 
 \begin{proof}
 	We will consider the statement about multiplication first. Recall from the note at \ref{BigPProperties} that this statement is equivalent to:
 	
-	\textit{Let $f' \in \biggo(f(n))$ and $g' \in \biggo(g(n))$. Then $f'g' \in \biggo(f(n)g(n))$.}
+	\textit{Let $f' \in P(f(n))$ and $g' \in P(g(n))$. Then $f'g' \in P(f(n)g(n))$.}
 	
 	We can show this easily by multiplying the limits corresponding to $f'$ and $g'$:
 	
@@ -55,20 +55,20 @@
 	\lim_{n \to \infty} \frac{f'(n)g'(n)}{f(n)g(n)} &= 1
 	\end{align*}
 	
-	it follows that $f'g' \in \biggo(f(n)g(n))$. The statement about division can be proved by flipping the fraction for $g'$ before multiplying, resulting in
+	it follows that $f'g' \in P(f(n)g(n))$. The statement about division can be proved by flipping the fraction for $g'$ before multiplying, resulting in
 	
 	\begin{align*}
 	\lim_{n \to \infty} \frac{f'(n) / g'(n)}{f(n) / g(n)} = 1
 	\end{align*}
 	
-	This implies $f' / g' \in \biggo(f(n) / g(n))$.
+	This implies $f' / g' \in P(f(n) / g(n))$.
 \end{proof}
 
 \subsection{Unique Class Lemma}
 \label{UniqueClassOfFunctions}
 
 \begin{lemma}
-	Each function $f(n)$ has a unique class of functions under $\biggo$. That is, suppose $f \in \biggo(g(n))$ and $f \in \biggo(h(n))$. Then $\biggo(g(n)) = \biggo(h(n))$.
+	Each function $f(n)$ has a unique class of functions under $P$. That is, suppose $f \in P(g(n))$ and $f \in P(h(n))$. Then $P(g(n)) = P(h(n))$.
 \end{lemma}
 
 \begin{proof}
@@ -77,10 +77,10 @@
 	\begin{align*}
 	\left( \lim_{n \to \infty} \frac {g(n)} {f(n)} \right) \left( \lim_{n \to \infty} \frac {f(n)} {h(n)} \right) &= 1\\
 	\lim_{n \to \infty} \frac {g(n)} {h(n)} &= 1\\
-	g &\in \biggo(h(n))
+	g &\in P(h(n))
 	\end{align*}
 	
-	Now, consider any $g' \in \biggo(g(n))$. Since
+	Now, consider any $g' \in P(g(n))$. Since
 	
 	\begin{align*}
 	\lim_{n \to \infty} \frac {g'(n)} {g(n)} &= 1\\
@@ -88,14 +88,14 @@
 	\lim_{n \to \infty} \frac{g'(n)}{h(n)} &= 1
 	\end{align*}
 	
-	it follows that $g' \in \biggo(h(n))$, and thus $\biggo(g(n)) \subseteq \biggo(h(n))$. By a similar argument, it can be shown $\biggo(h(n)) \subseteq \biggo(g(n))$. Thus it must be true that $\biggo(g(n)) = \biggo(h(n))$.
+	it follows that $g' \in P(h(n))$, and thus $P(g(n)) \subseteq P(h(n))$. By a similar argument, it can be shown $P(h(n)) \subseteq P(g(n))$. Thus it must be true that $P(g(n)) = P(h(n))$.
 \end{proof}
 
 \subsection{Removal of Lower-Order Terms}
 \label{ScrubsLowerOrderTerms}
 
 \begin{theorem}
-	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $\biggo(f(n) + g(n)) = \biggo(f(n))$.
+	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $P(f(n) + g(n)) = P(f(n))$.
 \end{theorem}
 
 \begin{proof}
@@ -105,5 +105,5 @@
 	&= 1
 	\end{align*}
 	
-	Then $f(n) + g(n) \in \biggo(f(n))$. Since it is also true that $f(n) + g(n) \in \biggo(f(n) + g(n))$, it follows from \ref{UniqueClassOfFunctions} that $\biggo(f(n)) = \biggo(f(n) + g(n))$.
+	Then $f(n) + g(n) \in P(f(n))$. Since it is also true that $f(n) + g(n) \in P(f(n) + g(n))$, it follows from \ref{UniqueClassOfFunctions} that $P(f(n)) = P(f(n) + g(n))$.
 \end{proof}

@@ -1,44 +1,44 @@
 \subsection{Motivation}
 
-In order to highlight the benefit of growth arrays, I will define a new notation for time complexity. The reason for this is, for certain operations, growth arrays are only better than dynamic arrays by a constant factor. For example, dynamic arrays might allocate roughly $2\varnitems$ memory for appending $\varnitems$ items, while growth arrays would allocate roughly $\varnitems$ memory. Even though growth arrays are clearly better in this regard, the big-O space complexity for both data structures would be the same, $\bigo(\varnitems)$.
+In order to highlight the benefit of growth arrays, I will define a new notation for time complexity. The reason for this is, for certain operations, growth arrays are only better than dynamic arrays by a constant factor. For example, dynamic arrays might allocate roughly $2\varnitems$ memory for appending $\varnitems$ items, while growth arrays would allocate roughly $\varnitems$ memory. Even though growth arrays are clearly better in this regard, the big-O space complexity for both data structures would be the same, $O(\varnitems)$.
 
 My goal is to be able to compare the coefficients of the highest-order terms in both expressions. For example, I would like to take the ratio $\frac{2\varnitems}{\varnitems}$, see that it is $2$, and conclude that dynamic arrays allocate roughly twice as much as growth arrays for large $\varnitems$. However, big-O notation does not support this.
 
 \subsection{Definition}
 
-I define an alternative to big-O notation, which I will call \textbf{big-P notation}. I define $\biggo(f(n))$ to be the class of functions $g$ such that $g(n) \to f(n)$ for large $n$. Formally,
+I define an alternative to big-O notation, which I will call \textbf{big-P notation}. I define $P(f(n))$ to be the class of functions $g$ such that $g(n) \to f(n)$ for large $n$. Formally,
 
 $$
-g \in \biggo(f(n)) \leftrightarrow \lim_{n \to \infty} \frac{g(n)}{f(n)} = 1
+g \in P(f(n)) \leftrightarrow \lim_{n \to \infty} \frac{g(n)}{f(n)} = 1
 $$
 
-Notice that while $\bigo(2\varnitems) = \bigo(\varnitems)$, $\biggo(2\varnitems) \neq \biggo(\varnitems)$. Thus, $\biggo$ makes it possible to distinguish between a function that uses $\varnitems$ space and one that uses $2\varnitems$ space. \textbf{Note:} A consequence of this is that bases for logarithms must be specified in big-P notation.
+Notice that while $O(2\varnitems) = O(\varnitems)$, $P(2\varnitems) \neq P(\varnitems)$. Thus, $P$ makes it possible to distinguish between a function that uses $\varnitems$ space and one that uses $2\varnitems$ space. \textbf{Note:} A consequence of this is that bases for logarithms must be specified in big-P notation.
 
 \subsection{Properties}
 \label{BigPProperties}
 
-\textbf{Note:} Throughout this paper, when $\biggo(f(n))$ or $\bigo(f(n))$ is used in an arithmetic expression, I am referring to a function in the set and not the set itself. For example, the verbal equivalent of $\frac{\biggo(2n)}{\biggo(n)} = \biggo(2)$ states "the quotient of a function in $\biggo(2n)$ and a function in $\biggo(n)$ is equal to a function in $\biggo(2)$."
+\textbf{Note:} Throughout this paper, when $P(f(n))$ or $O(f(n))$ is used in an arithmetic expression, I am referring to a function in the set and not the set itself. For example, the verbal equivalent of $\frac{P(2n)}{P(n)} = P(2)$ states "the quotient of a function in $P(2n)$ and a function in $P(n)$ is equal to a function in $P(2)$."
 
-A useful property $\biggo$ shares with $\bigo$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{MergingOverArithmetic}.
+A useful property $P$ shares with $O$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{MergingOverArithmetic}.
 
 \begin{theorem}
-	$\biggo$ merges over addition and subtraction. That is,
+	$P$ merges over addition and subtraction. That is,
 	\begin{align*}
-	\biggo(f(n)) + \biggo(g(n)) &= \biggo(f(n) + g(n))\\
-	\biggo(f(n)) - \biggo(g(n)) &= \biggo(f(n) - g(n))
+	P(f(n)) + P(g(n)) &= P(f(n) + g(n))\\
+	P(f(n)) - P(g(n)) &= P(f(n) - g(n))
 	\end{align*}
 \end{theorem}
 
 \begin{theorem}
-	$\biggo$ merges over multiplication and division. That is,
+	$P$ merges over multiplication and division. That is,
 	\begin{align*}
-	\biggo(f(n))\biggo(g(n)) &= \biggo(f(n)g(n))\\
-	\frac {\biggo(f(n))} {\biggo(g(n))} &= \biggo\left(\frac{f(n)} {g(n)}\right)
+	P(f(n))P(g(n)) &= P(f(n)g(n))\\
+	\frac {P(f(n))} {P(g(n))} &= P\left(\frac{f(n)} {g(n)}\right)
 	\end{align*}
 \end{theorem}
 
-Another nice property $\biggo$ and $\bigo$ have in common is that lower-order terms are removed from consideration. For example, $\biggo(n) = \biggo(n + \log_2 n)$. This is stated by the below theorem, which is proved in \ref{ScrubsLowerOrderTerms}.
+Another nice property $P$ and $O$ have in common is that lower-order terms are removed from consideration. For example, $P(n) = P(n + \log_2 n)$. This is stated by the below theorem, which is proved in \ref{ScrubsLowerOrderTerms}.
 
 \begin{theorem}
-	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $\biggo(f(n) + g(n)) = \biggo(f(n))$.
+	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $P(f(n) + g(n)) = P(f(n))$.
 \end{theorem}
