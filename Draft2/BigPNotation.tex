@@ -15,6 +15,7 @@ $$
 Notice that while $\bigo(2\varnitems) = \bigo(\varnitems)$, $\biggo(2\varnitems) \neq \biggo(\varnitems)$. Thus, $\biggo$ makes it possible to distinguish between a function that uses $\varnitems$ space and one that uses $2\varnitems$ space. \textbf{Note:} A consequence of this is that bases for logarithms must be specified in big-P notation.
 
 \subsection{Properties}
+\label{BigPProperties}
 
 \textbf{Note:} Throughout this paper, when $\biggo(f(n))$ or $\bigo(f(n))$ is used in an arithmetic expression, I am referring to a function in the set and not the set itself. For example, the verbal equivalent of $\frac{\biggo(2n)}{\biggo(n)} = \biggo(2)$ states "the quotient of a function in $\biggo(2n)$ and a function in $\biggo(n)$ is equal to a function in $\biggo(2)$."
 
@@ -31,7 +32,7 @@ A useful property $\biggo$ shares with $\bigo$ is that it merges over arithmetic
 \begin{theorem}
 	$\biggo$ merges over multiplication and division. That is,
 	\begin{align*}
-	\biggo(f(n)) \cdot \biggo(g(n)) &= \biggo(f(n) \cdot g(n))\\
+	\biggo(f(n))\biggo(g(n)) &= \biggo(f(n)g(n))\\
 	\frac {\biggo(f(n))} {\biggo(g(n))} &= \biggo\left(\frac{f(n)} {g(n)}\right)
 	\end{align*}
 \end{theorem}
