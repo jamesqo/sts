@@ -4,17 +4,19 @@
 
 I again start off by finding the write cost when $\varnitems$ are appended. I give the write cost function a slightly different name, $\nwritesnewfn(\varnitems)$, so I can compare it to $\nwritesfn(\varnitems)$ later. I also use $\growthfactornew$ and $\initcapacitynew$ instead of $\growthfactor$ and $\initcapacity$ for the growth factor and initial capacity, respectively.
 
-[That lemma] still holds, since all of the assumptions made there are also true for growth arrays. In particular, although growth arrays grow differently than dynamic arrays, the following claim is still true:
+\ref{CapacitySequence} still holds, since all of the assumptions made there are also true for growth arrays. In particular, although growth arrays grow differently than dynamic arrays, the following claim is still true:
 
-[other lemma]
-The capacity of a growth array grows by a constant factor $\growthfactornew$ after the first time it is called.
+\begin{lemma}
+	The capacity of a growth array grows by a constant factor $\growthfactornew$ after the first time it is called.
+\end{lemma}
 
-[proof]
-I prove that the algorithm ensures this using induction.
-
-For the base case, consider the second time $\FuncGrow$ is called: the current capacity is $\initcapacitynew$, and the next (total) capacity should be $\growthfactornew\initcapacitynew$. Then a buffer of size $(\growthfactornew - 1)\initcapacitynew$ should be appended, and that is what the algorithm does.
-
-For $i \geq 2$, given the algorithm behaves correctly the $i$th time it is called, I wish to show it behaves correctly the $(i + 1)$th time. From the inductive hypothesis, when the algorithm is called the $(i + 1)$th time, the current capacity is $\growthfactornew^i\initcapacitynew$ and the head capacity is $(\growthfactornew^i - \growthfactornew^{i - 1})\initcapacitynew$. The next (total) capacity should be $\growthfactornew^{i + 1}\initcapacitynew$, and the next head capacity should be $(\growthfactornew^{i + 1} - \growthfactornew^i)\initcapacitynew$, which is $\growthfactornew$ times the current head capacity. The algorithm determines the capacity of the next buffer in this manner, proving the inductive step and completing the induction.
+\begin{proof}
+	I prove that the algorithm ensures this using induction.
+	
+	For the base case, consider the second time $\FuncGrow$ is called: the current capacity is $\initcapacitynew$, and the next (total) capacity should be $\growthfactornew\initcapacitynew$. Then a buffer of size $(\growthfactornew - 1)\initcapacitynew$ should be appended, and that is what the algorithm does.
+	
+	For $i \geq 2$, given the algorithm behaves correctly the $i$th time it is called, I wish to show it behaves correctly the $(i + 1)$th time. From the inductive hypothesis, when the algorithm is called the $(i + 1)$th time, the current capacity is $\growthfactornew^i\initcapacitynew$ and the head capacity is $(\growthfactornew^i - \growthfactornew^{i - 1})\initcapacitynew$. The next (total) capacity should be $\growthfactornew^{i + 1}\initcapacitynew$, and the next head capacity should be $(\growthfactornew^{i + 1} - \growthfactornew^i)\initcapacitynew$, which is $\growthfactornew$ times the current head capacity. The algorithm determines the capacity of the next buffer in this manner, proving the inductive step and completing the induction.
+\end{proof}
 
 Now I take a look at $\FuncGrow$. Unlike dynamic arrays, the number of writes performed does not equal $i$ if the current size is $i$. No items are being copied; the only source of writes is appending a buffer to the tail. The goal is to find the number of writes that causes.
 

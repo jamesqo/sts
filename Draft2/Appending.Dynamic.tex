@@ -37,21 +37,24 @@ Before I analyze the time complexity of $\FuncAppend$, I consider a different me
 
 In the above code, one write is performed after the conditional, so it is apparent that $\nwritesfn(\varnitems) \geq \varnitems$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\nwritesfn(\varnitems)$, I need to analyze when $\FuncGrow$ is called. Consider the following lemma:
 
-[lemma]
-Let $\listname$ by a dynamic array. As $\varnitems$ are appended, the sequence of capacities $\listname$ takes on is $$S_C = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$$.
+\begin{lemma}
+\label{CapacitySequence}
+	Let $\listname$ by a dynamic array. As $\varnitems$ items are appended, the sequence of capacities $\listname$ takes on is $$S_C = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$$.
+\end{lemma}
 
-[proof]
-The capacity starts out at zero and becomes $\initcapacity$ once one element is appended. From then on, it can only grow by a factor of $\growthfactor$ via $\FuncGrow$, so if $\growthfactor^i\initcapacity$ is the current capacity then $\growthfactor^{i + 1}\initcapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \growthfactor^i\initcapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $\varnitems$, $k$ is the smallest integer for which $\growthfactor^k\initcapacity \geq \varnitems$. Using this property, I now derive $k$.
-
-\begin{align*}
-\growthfactor^k\initcapacity &\geq \varnitems\\
-\growthfactor^k &\geq \frac{\varnitems}{\initcapacity}\\
-k &\geq \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity\\
-k &\geq \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity > k - 1\\
-k &= \big\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \big\rceil
-\end{align*}
-
-Then the final term in the sequence is $\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$, completing the proof.
+\begin{proof}
+	The capacity starts out at zero and becomes $\initcapacity$ once one element is appended. From then on, it can only grow by a factor of $\growthfactor$ via $\FuncGrow$, so if $\growthfactor^i\initcapacity$ is the current capacity then $\growthfactor^{i + 1}\initcapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \growthfactor^i\initcapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $\varnitems$, $k$ is the smallest integer for which $\growthfactor^k\initcapacity \geq \varnitems$. Using this property, I now derive $k$.
+	
+	\begin{align*}
+	\growthfactor^k\initcapacity &\geq \varnitems\\
+	\growthfactor^k &\geq \frac{\varnitems}{\initcapacity}\\
+	k &\geq \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity\\
+	k &\geq \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity > k - 1\\
+	k &= \big\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \big\rceil
+	\end{align*}
+	
+	Then the final term in the sequence is $\growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil}\initcapacity$, completing the proof.
+\end{proof}
 
 [make lemma]
 Now, consider that to grow by $\growthfactor$, $\FuncGrow$ must be called. So $\growthfactor^k\initcapacity$ being present in $S_C$ means $\FuncGrow$ was called at size $\growthfactor^{k - 1}\initcapacity$ for $k \geq 1$. Then $\FuncGrow$ was called at the sizes $$S_R = 0,\ \initcapacity,\ \growthfactor\initcapacity,\ \growthfactor^2\initcapacity,\ \ldots\ \growthfactor^{\lceil \log_{\growthfactor} \varnitems - \log_{\growthfactor} \initcapacity \rceil - 1}\initcapacity$$
@@ -84,7 +87,7 @@ To make this expression easier to work with, I will write it in big-P notation t
 
 I wish to find the space allocated while appending $\varnitems$ items to a dynamic array. I denote this quantity $\spacefn(\varnitems)$, and define it as the total length of all arrays allocated during $\varnitems$ $\FuncAppend$ calls. I now derive a formula for $\spacefn(\varnitems)$.
 
-From [lemma] I know the exact capacities $\listname$ takes on as $\varnitems$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
+From \ref{CapacitySequence} I know the exact capacities $\listname$ takes on as $\varnitems$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
 
 \begin{align*}
 \spacefn(\varnitems) &= \sum_{i \in S_C} i\\
