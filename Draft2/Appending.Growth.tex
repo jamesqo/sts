@@ -1,6 +1,6 @@
 \groarrayimpl
 
-\tcomplex
+\HdrTimeComplex
 
 I again start off by finding the write cost when $\varnitems$ are appended. I give the write cost function a slightly different name, $\nwritesnewfn(\varnitems)$, so I can compare it to $\nwritesfn(\varnitems)$ later. I also use $\growthfactornew$ and $\initcapacitynew$ instead of $\growthfactor$ and $\initcapacity$ for the growth factor and initial capacity, respectively.
 
@@ -54,7 +54,7 @@ Then, it is shown that the $k$-term disappears when analyzing the big-P complexi
 &= \biggo(\varnitems)
 \end{align*}
 
-\scomplex
+\HdrSpaceComplex
 
 % Should this be C(n) instead of C?
 The space function for $\varnitems$ $\FuncAppend$ calls on a growth array is denoted $\spacenewfn(\varnitems)$. Since growth arrays never throw away item buffers, if the current capacity is $C$ then the total length of item buffers is also $C$. $\spacenewfn(\varnitems)$ is usually greater than $C$, however; this is because growth arrays not only allocate item buffers, but stores references to them in the tail. Thus the space the tail allocates must also be determined.

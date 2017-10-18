@@ -31,7 +31,7 @@ I will first implement appending for dynamic arrays. Let $\listname$ be a dynami
 	\end{algorithmic}
 \end{algorithm}
 
-\tcomplex
+\HdrTimeComplex
 
 Before I analyze the time complexity of $\FuncAppend$, I consider a different method for measuring its cost. Suppose I start with an empty list and $\varnitems$ elements are appended. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $\varnitems$ appends, and denote it $\nwritesfn(n)$.
 
@@ -83,7 +83,7 @@ To make this expression easier to work with, I will write it in big-P notation t
 \biggo\left( \left( \frac{\growthfactor}{\growthfactor - 1} \right) \varnitems \right) \leq \biggo\left( \nwritesfn(\varnitems) \right) &< \biggo\left( \left( \frac{2\growthfactor - 1}{\growthfactor - 1} \right) \varnitems \right)
 \end{align*}
 
-\scomplex
+\HdrSpaceComplex
 
 I wish to find the space allocated while appending $\varnitems$ items to a dynamic array. I denote this quantity $\spacefn(\varnitems)$, and define it as the total length of all arrays allocated during $\varnitems$ $\FuncAppend$ calls. I now derive a formula for $\spacefn(\varnitems)$.
 
