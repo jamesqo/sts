@@ -1,0 +1,67 @@
+\appendix
+\appendixpage
+
+\section{Proofs of Properties of Big-P Notation}
+
+\subsection{Merging over Arithmetic Operations}
+\label{MergingOverArithmetic}
+
+\begin{theorem}
+	$\biggo$ merges over addition and subtraction. That is,
+	\begin{align*}
+	\biggo(f(n)) + \biggo(g(n)) &= \biggo(f(n) + g(n))\\
+	\biggo(f(n)) - \biggo(g(n)) &= \biggo(f(n) - g(n))
+	\end{align*}
+\end{theorem}
+
+\begin{theorem}
+	$\biggo$ merges over multiplication and division. That is,
+	\begin{align*}
+	\biggo(f(n)) \cdot \biggo(g(n)) &= \biggo(f(n) \cdot g(n))\\
+	\frac {\biggo(f(n))} {\biggo(g(n))} &= \biggo\left(\frac{f(n)} {g(n)}\right)
+	\end{align*}
+\end{theorem}
+
+\subsection{Unique Class Lemma}
+\label{UniqueClassOfFunctions}
+
+\begin{lemma}
+	Each function $f(n)$ has a unique class of functions under $\biggo$. That is, suppose $f \in \biggo(g(n))$ and $f \in \biggo(h(n))$. Then $\biggo(g(n)) = \biggo(h(n))$.
+\end{lemma}
+
+\begin{proof}
+	By definition, $\lim_{n \to \infty} \frac{f(n)}{g(n)} = 1$ and $\lim_{n \to \infty} \frac{f(n)}{h(n)} = 1$. Flipping the first equation and multiplying, we receive
+	
+	\begin{align*}
+	\left( \lim_{n \to \infty} \frac {g(n)} {f(n)} \right) \left( \lim_{n \to \infty} \frac {f(n)} {h(n)} \right) &= 1\\
+	\lim_{n \to \infty} \frac {g(n)} {h(n)} &= 1\\
+	g &\in \biggo(h(n))
+	\end{align*}
+	
+	Now, consider any $g' \in \biggo(g(n))$. Since
+	
+	\begin{align*}
+	\lim_{n \to \infty} \frac {g'(n)} {g(n)} &= 1\\
+	\left( \lim_{n \to \infty} \frac {g'(n)} {g(n)} \right) \left( \lim_{n \to \infty} \frac{g(n)}{h(n)} \right) &= 1\\
+	\lim_{n \to \infty} \frac{g'(n)}{h(n)} &= 1
+	\end{align*}
+	
+	it follows that $g' \in \biggo(h(n))$, and thus $\biggo(g(n)) \subseteq \biggo(h(n))$. By a similar argument, it can be shown $\biggo(h(n)) \subseteq \biggo(g(n))$. Thus it must be true that $\biggo(g(n)) = \biggo(h(n))$.
+\end{proof}
+
+\subsection{Removal of Lower-Order Terms}
+\label{ScrubsLowerOrderTerms}
+
+\begin{theorem}
+	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $\biggo(f(n) + g(n)) = \biggo(f(n))$.
+\end{theorem}
+
+\begin{proof}
+	\begin{align*}
+	\lim_{n \to \infty} \left( \frac{f(n) + g(n)}{f(n)} \right) &= \lim_{n \to \infty} \frac{f(n)}{f(n)} + \lim_{n \to \infty} \frac{g(n)}{f(n)}\\
+	&= 1 + 0\\
+	&= 1
+	\end{align*}
+	
+	Then $f(n) + g(n) \in \biggo(f(n))$. Since it is also true that $f(n) + g(n) \in \biggo(f(n) + g(n))$, it follows from \ref{UniqueClassOfFunctions} that $\biggo(f(n)) = \biggo(f(n) + g(n))$.
+\end{proof}
