@@ -23,7 +23,7 @@ I will first implement appending for dynamic arrays. Let $\ListName$ be a dynami
 			\If{$\ListName.\FieldEmpty$}
 				\State $\ListName.\FieldBuffer \gets \FuncNewArray(\InitCapacity)$
 			\Else
-				\State $new\ buf \gets \FuncNewArray(\ListName.\FieldSize \cdot \GrowthFactor)$
+				\State $new\ buf \gets \FuncNewArray(\ListName.\FieldSize \times \GrowthFactor)$
 				\State $\FuncArrayCopy(source: \ListName.\FieldBuffer, dest: new\ buf, len: \ListName.\FieldSize)$
 				\State $\ListName.\FieldBuffer \gets new\ buf$
 			\EndIf
