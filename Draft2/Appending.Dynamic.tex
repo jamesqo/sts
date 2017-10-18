@@ -18,6 +18,16 @@ I will first implement appending for dynamic arrays. Let $\listname$ be a dynami
 			\State $\listname.\FieldHead[\listname.\FieldHeadSize] \gets item$
 			\State $\listname.\FieldSize \gets \listname.\FieldSize + 1$
 		\EndProcedure
+		
+		\Procedure{$\FuncGrow$}{$L$}
+			\If{$\listname.\FieldEmpty$}
+				\State $\listname.\FieldBuffer \gets \FuncNewArray(\initcapacity)$
+			\Else
+				\State $new\ buf \gets \FuncNewArray(\listname.\FieldSize \cdot \growthfactor)$
+				\State $\FuncArrayCopy(source: \listname.\FieldBuffer, dest: new\ buf, len: \listname.\FieldSize)$
+				\State $\listname.\FieldBuffer \gets new\ buf$
+			\EndIf
+		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
 
