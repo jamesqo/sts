@@ -9,8 +9,15 @@ I will first implement appending for dynamic arrays. Let $\listname$ be a dynami
 \end{description}
 
 \begin{algorithm}
-	\begin{algorithmic}
-		\State
+	\begin{algorithmic}[1]
+		\Procedure{$\FuncAppend$}{$L, item$}
+			\If{$\listname.\FieldFull$}
+				\State $\listname.\FuncGrow()$
+			\EndIf
+			
+			\State $\listname.\FieldHead[\listname.\FieldHeadSize] \gets item$
+			\State $\listname.\FieldSize \gets \listname.\FieldSize + 1$
+		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
 
