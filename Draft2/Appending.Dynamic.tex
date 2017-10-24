@@ -65,7 +65,7 @@ Each time $\FuncGrow$ is called, $i$ items are copied where $i$ is the current s
 0 + \InitCapacity + \GrowthFactor\InitCapacity + \ldots + \GrowthFactor^{\lceil \log_{\GrowthFactor} \varnitems - \log_{\GrowthFactor} \InitCapacity \rceil - 1}\InitCapacity &= \left( \frac{\GrowthFactor^{\lceil \log_{\GrowthFactor} \varnitems - \log_{\GrowthFactor} \InitCapacity \rceil} - 1}{\GrowthFactor - 1} \right) \InitCapacity
 \end{align*}
 
-Finally, appending the writes made for every item in $\FuncAppend$, I finally find an explicit formula for $\nwritesfn(\varnitems)$.
+Finally, counting the writes made for every item in $\FuncAppend$, I finally find an explicit formula for $\nwritesfn(\varnitems)$.
 
 [ref1]
 $$
