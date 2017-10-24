@@ -7,10 +7,12 @@
 \label{MergingOverArithmetic}
 
 \begin{theorem}
-	$P$ merges over addition and subtraction. That is,
+	$P$ merges over addition and subtraction. That is, for functions $f$ and $g$,
 	\begin{align*}
-	P(f(n)) + P(g(n)) &= P(f(n) + g(n))\\
-	P(f(n)) - P(g(n)) &= P(f(n) - g(n))
+	\hat{f} \TextTilde f \land \hat{g} \TextTilde g \rightarrow \begin{cases}
+	(\hat{f} + \hat{g}) \TextTilde (f + g)\\
+	(\hat{f} - \hat{g}) \TextTilde (f - g)
+	\end{cases}
 	\end{align*}
 \end{theorem}
 
@@ -34,10 +36,12 @@
 \end{proof}
 
 \begin{theorem}
-	$P$ merges over multiplication and division. That is,
+	$P$ merges over multiplication and division. That is, for functions $f$ and $g$,
 	\begin{align*}
-	P(f(n))P(g(n)) &= P(f(n)g(n))\\
-	\frac {P(f(n))} {P(g(n))} &= P\left(\frac{f(n)} {g(n)}\right)
+	\hat{f} \TextTilde f \land \hat{g} \TextTilde g \rightarrow \begin{cases}
+	\hat{f}\hat{g} \TextTilde fg\\
+	\hat{f} / \hat{g} \TextTilde f / g
+	\end{cases}
 	\end{align*}
 \end{theorem}
 
