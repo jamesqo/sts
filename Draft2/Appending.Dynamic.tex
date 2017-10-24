@@ -1,31 +1,31 @@
 \HdrDynArrayImpl
 
-I will first implement appending for dynamic arrays. Let $\ListName$ be a dynamic array. The following definitions are used in the code:
+I will first implement appending for dynamic arrays. Let $\VarList$ be a dynamic array. The following definitions are used in the code:
 
 \begin{description}
-	\item[initial capacity] The capacity of a dynamic a array when one item is appended to it. I denote this $\InitCapacity$.\\
+	\item[initial capacity] The capacity of a dynamic a array when one item is appended to it. I denote this $\VarInitCapacity$.\\
 	(The capacity of any dynamic array with size zero should be zero.)
-	\item[growth factor] The factor by which the current capacity is multiplied to get the new capacity when $\ListName$ grows. I denote this with $\GrowthFactor$.
+	\item[growth factor] The factor by which the current capacity is multiplied to get the new capacity when $\VarList$ grows. I denote this with $\VarGrowthFactor$.
 \end{description}
 
 \begin{algorithm}
 	\begin{algorithmic}[1]
 		\Procedure{$\FuncAppend$}{$L, item$}
-			\If{$\ListName.\FieldFull$}
-				\State $\ListName.\FuncGrow()$
+			\If{$\VarList.\FieldFull$}
+				\State $\VarList.\FuncGrow()$
 			\EndIf
 			
-			\State $\ListName.\FieldHead[\ListName.\FieldHeadSize] \gets item$
-			\State $\ListName.\FieldSize \gets \ListName.\FieldSize + 1$
+			\State $\VarList.\FieldHead[\VarList.\FieldHeadSize] \gets item$
+			\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
 		\EndProcedure
 		\Statex
 		\Procedure{$\FuncGrow$}{$L$}
-			\If{$\ListName.\FieldEmpty$}
-				\State $\ListName.\FieldBuffer \gets \FuncNewArray(\InitCapacity)$
+			\If{$\VarList.\FieldEmpty$}
+				\State $\VarList.\FieldBuffer \gets \FuncNewArray(\VarInitCapacity)$
 			\Else
-				\State $new\ buf \gets \FuncNewArray(\ListName.\FieldSize \times \GrowthFactor)$
-				\State $\FuncArrayCopy(source: \ListName.\FieldBuffer, dest: new\ buf, len: \ListName.\FieldSize)$
-				\State $\ListName.\FieldBuffer \gets new\ buf$
+				\State $new\ buf \gets \FuncNewArray(\VarList.\FieldSize \times \VarGrowthFactor)$
+				\State $\FuncArrayCopy(source: \VarList.\FieldBuffer, dest: new\ buf, len: \VarList.\FieldSize)$
+				\State $\VarList.\FieldBuffer \gets new\ buf$
 			\EndIf
 		\EndProcedure
 	\end{algorithmic}
@@ -33,72 +33,72 @@ I will first implement appending for dynamic arrays. Let $\ListName$ be a dynami
 
 \HdrTimeComplex
 
-Before I analyze the time complexity of $\FuncAppend$, I consider a different method for measuring its cost. Suppose I start with an empty list and $n$ elements are appended. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $n$ appends, and denote it $\nwritesfn(n)$.
+Before I analyze the time complexity of $\FuncAppend$, I consider a different method for measuring its cost. Suppose I start with an empty list and $n$ elements are appended. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $n$ appends, and denote it $\FuncWrites(n)$.
 
-In the above code, one write is performed after the conditional, so it is apparent that $\nwritesfn(n) \geq n$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\nwritesfn(n)$, I need to analyze when $\FuncGrow$ is called. Consider the following lemma:
+In the above code, one write is performed after the conditional, so it is apparent that $\FuncWrites(n) \geq n$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\FuncWrites(n)$, I need to analyze when $\FuncGrow$ is called. Consider the following lemma:
 
 \begin{lemma}
 \label{CapacitySequence}
-	Let $\ListName$ by a dynamic array. As $n$ items are appended, the sequence of capacities $\ListName$ takes on is $$S_C = 0,\ \InitCapacity,\ \GrowthFactor\InitCapacity,\ \GrowthFactor^2\InitCapacity,\ \ldots\ \GrowthFactor^{\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \rceil}\InitCapacity$$.
+	Let $\VarList$ by a dynamic array. As $n$ items are appended, the sequence of capacities $\VarList$ takes on is $$S_C = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity$$.
 \end{lemma}
 
 \begin{proof}
-	The capacity starts out at zero and becomes $\InitCapacity$ once one element is appended. From then on, it can only grow by a factor of $\GrowthFactor$ via $\FuncGrow$, so if $\GrowthFactor^i\InitCapacity$ is the current capacity then $\GrowthFactor^{i + 1}\InitCapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \GrowthFactor^i\InitCapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $n$, $k$ is the smallest integer for which $\GrowthFactor^k\InitCapacity \geq n$. Using this property, I now derive $k$.
+	The capacity starts out at zero and becomes $\VarInitCapacity$ once one element is appended. From then on, it can only grow by a factor of $\VarGrowthFactor$ via $\FuncGrow$, so if $\VarGrowthFactor^i\VarInitCapacity$ is the current capacity then $\VarGrowthFactor^{i + 1}\VarInitCapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \VarGrowthFactor^i\VarInitCapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $n$, $k$ is the smallest integer for which $\VarGrowthFactor^k\VarInitCapacity \geq n$. Using this property, I now derive $k$.
 	
 	\begin{align*}
-	\GrowthFactor^k\InitCapacity &\geq n\\
-	\GrowthFactor^k &\geq \frac{n}{\InitCapacity}\\
-	k &\geq \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity\\
-	k &\geq \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity > k - 1\\
-	k &= \big\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \big\rceil
+	\VarGrowthFactor^k\VarInitCapacity &\geq n\\
+	\VarGrowthFactor^k &\geq \frac{n}{\VarInitCapacity}\\
+	k &\geq \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity\\
+	k &\geq \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity > k - 1\\
+	k &= \big\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \big\rceil
 	\end{align*}
 	
-	Then the final term in the sequence is $\GrowthFactor^{\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \rceil}\InitCapacity$, completing the proof.
+	Then the final term in the sequence is $\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity$, completing the proof.
 \end{proof}
 
 [make lemma]
-Now, consider that to grow by $\GrowthFactor$, $\FuncGrow$ must be called. So $\GrowthFactor^k\InitCapacity$ being present in $S_C$ means $\FuncGrow$ was called at size $\GrowthFactor^{k - 1}\InitCapacity$ for $k \geq 1$. Then $\FuncGrow$ was called at the sizes $$S_R = 0,\ \InitCapacity,\ \GrowthFactor\InitCapacity,\ \GrowthFactor^2\InitCapacity,\ \ldots\ \GrowthFactor^{\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \rceil - 1}\InitCapacity$$
+Now, consider that to grow by $\VarGrowthFactor$, $\FuncGrow$ must be called. So $\VarGrowthFactor^k\VarInitCapacity$ being present in $S_C$ means $\FuncGrow$ was called at size $\VarGrowthFactor^{k - 1}\VarInitCapacity$ for $k \geq 1$. Then $\FuncGrow$ was called at the sizes $$S_R = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil - 1}\VarInitCapacity$$
 
 Each time $\FuncGrow$ is called, $i$ items are copied where $i$ is the current size of the dynamic array. Then the total number of items copied for $n$ appends is
 
 \begin{align*}
-0 + \InitCapacity + \GrowthFactor\InitCapacity + \ldots + \GrowthFactor^{\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \rceil - 1}\InitCapacity &= \left( \frac{\GrowthFactor^{\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \rceil} - 1}{\GrowthFactor - 1} \right) \InitCapacity
+0 + \VarInitCapacity + \VarGrowthFactor\VarInitCapacity + \ldots + \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil - 1}\VarInitCapacity &= \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 \end{align*}
 
-Finally, counting the writes made for every item in $\FuncAppend$, I finally find an explicit formula for $\nwritesfn(n)$.
+Finally, counting the writes made for every item in $\FuncAppend$, I finally find an explicit formula for $\FuncWrites(n)$.
 
 [ref1]
 $$
-\nwritesfn(n) = n + \left( \frac{\GrowthFactor^{\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \rceil} - 1}{\GrowthFactor - 1} \right) \InitCapacity
+\FuncWrites(n) = n + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 $$
 
 [ref2]
-To make this expression easier to work with, I will write it in big-P notation to approximate it for large $n$. First I note that $\log_{\GrowthFactor} k \leq \lceil \log_{\GrowthFactor} k \rceil < \left( \log_{\GrowthFactor} k \right) + 1$ for any $k > 0$, so $k \leq \GrowthFactor^{\lceil \log_{\GrowthFactor} k \rceil} < \GrowthFactor{k}$. Then
+To make this expression easier to work with, I will write it in big-P notation to approximate it for large $n$. First I note that $\log_{\VarGrowthFactor} k \leq \lceil \log_{\VarGrowthFactor} k \rceil < \left( \log_{\VarGrowthFactor} k \right) + 1$ for any $k > 0$, so $k \leq \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k \rceil} < \VarGrowthFactor{k}$. Then
 
 \begin{align*}
-\nwritesfn(n) &= n + \left( \frac{\GrowthFactor^{\big\lceil \log_{\GrowthFactor} \left( \frac {n} {\InitCapacity} \right) \big\rceil} - 1}{\GrowthFactor - 1} \right) \InitCapacity\\
-n + \left( \frac{\frac{n}{\InitCapacity} - 1}{\GrowthFactor - 1} \right) \InitCapacity \leq \nwritesfn(n) &< n + \left( \frac{\GrowthFactor\frac{n}{\InitCapacity} - 1}{\GrowthFactor - 1} \right) \InitCapacity\\
-n + \left( \frac{n - \InitCapacity}{\GrowthFactor - 1} \right) \leq \nwritesfn(n) &< n + \left( \frac{\GrowthFactorn - \InitCapacity}{\GrowthFactor - 1} \right)\\
-P\left( n + \left( \frac{n - \InitCapacity}{\GrowthFactor - 1} \right) \right) \leq P\left( \nwritesfn(n) \right) &< P\left( n + \left( \frac{\GrowthFactorn - \InitCapacity}{\GrowthFactor - 1} \right) \right)\\
-P\left( \left( \frac{\GrowthFactor}{\GrowthFactor - 1} \right) n \right) \leq P\left( \nwritesfn(n) \right) &< P\left( \left( \frac{2\GrowthFactor - 1}{\GrowthFactor - 1} \right) n \right)
+\FuncWrites(n) &= n + \left( \frac{\VarGrowthFactor^{\big\lceil \log_{\VarGrowthFactor} \left( \frac {n} {\VarInitCapacity} \right) \big\rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
+n + \left( \frac{\frac{n}{\VarInitCapacity} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \leq \FuncWrites(n) &< n + \left( \frac{\VarGrowthFactor\frac{n}{\VarInitCapacity} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
+n + \left( \frac{n - \VarInitCapacity}{\VarGrowthFactor - 1} \right) \leq \FuncWrites(n) &< n + \left( \frac{\VarGrowthFactor{n} - \VarInitCapacity}{\VarGrowthFactor - 1} \right)\\
+P\left( n + \left( \frac{n - \VarInitCapacity}{\VarGrowthFactor - 1} \right) \right) \leq P\left( \FuncWrites(n) \right) &< P\left( n + \left( \frac{\VarGrowthFactor{n} - \VarInitCapacity}{\VarGrowthFactor - 1} \right) \right)\\
+P\left( \left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \right) \leq P\left( \FuncWrites(n) \right) &< P\left( \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n \right)
 \end{align*}
 
 \HdrSpaceComplex
 
-I wish to find the space allocated while appending $n$ items to a dynamic array. I denote this quantity $\spacefn(n)$, and define it as the total length of all arrays allocated during $n$ $\FuncAppend$ calls. I now derive a formula for $\spacefn(n)$.
+I wish to find the space allocated while appending $n$ items to a dynamic array. I denote this quantity $\FuncSpace(n)$, and define it as the total length of all arrays allocated during $n$ $\FuncAppend$ calls. I now derive a formula for $\FuncSpace(n)$.
 
-From \ref{CapacitySequence} I know the exact capacities $\ListName$ takes on as $n$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
+From \ref{CapacitySequence} I know the exact capacities $\VarList$ takes on as $n$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
 
 \begin{align*}
-\spacefn(n) &= \sum_{i \in S_C} i\\
-&= 0 + \InitCapacity + \GrowthFactor\InitCapacity + \GrowthFactor^2\InitCapacity + \ldots + \GrowthFactor^{\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \rceil}\InitCapacity\\
-&= \left( \frac{\GrowthFactor^{\lceil \log_{\GrowthFactor} n - \log_{\GrowthFactor} \InitCapacity \rceil + 1} - 1}{\GrowthFactor - 1} \right) \InitCapacity
+\FuncSpace(n) &= \sum_{i \in S_C} i\\
+&= 0 + \VarInitCapacity + \VarGrowthFactor\VarInitCapacity + \VarGrowthFactor^2\VarInitCapacity + \ldots + \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity\\
+&= \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil + 1} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 \end{align*}
 
 Using the identity in [ref2] again, I bound its big-P complexity:
 
 \begin{align*}
-\left( \frac{\GrowthFactor \frac{n}{\InitCapacity} - 1}{\GrowthFactor - 1} \right) \InitCapacity \leq \spacefn(n) &< \left( \frac{\GrowthFactor^2 \frac{n}{\InitCapacity} - 1}{\GrowthFactor - 1} \right) \InitCapacity\\
-P\left( \left( \frac{\GrowthFactor \frac{n}{\InitCapacity} - 1}{\GrowthFactor - 1} \right) \InitCapacity \right) \leq P\left( \spacefn(n) \right) &< P\left( \left( \frac{\GrowthFactor^2 \frac{n}{\InitCapacity} - 1}{\GrowthFactor - 1} \right) \InitCapacity \right)\\
-P\left( \left( \frac{\GrowthFactor}{\GrowthFactor - 1} \right) n \right) \leq P\left( \spacefn(n) \right) &< P\left( \left( \frac{\GrowthFactor^2}{\GrowthFactor - 1} \right) n \right)
+\left( \frac{\VarGrowthFactor \frac{n}{\VarInitCapacity} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \leq \FuncSpace(n) &< \left( \frac{\VarGrowthFactor^2 \frac{n}{\VarInitCapacity} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
+P\left( \left( \frac{\VarGrowthFactor \frac{n}{\VarInitCapacity} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \right) \leq P\left( \FuncSpace(n) \right) &< P\left( \left( \frac{\VarGrowthFactor^2 \frac{n}{\VarInitCapacity} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \right)\\
+P\left( \left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \right) \leq P\left( \FuncSpace(n) \right) &< P\left( \left( \frac{\VarGrowthFactor^2}{\VarGrowthFactor - 1} \right) n \right)
 \end{align*}

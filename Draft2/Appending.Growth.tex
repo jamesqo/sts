@@ -2,54 +2,54 @@
 
 \HdrTimeComplex
 
-I again start off by finding the write cost when $n$ are appended. I give the write cost function a slightly different name, $\nwritesnewfn(n)$, so I can compare it to $\nwritesfn(n)$ later. I also use $\GrowthFactornew$ and $\InitCapacitynew$ instead of $\GrowthFactor$ and $\InitCapacity$ for the growth factor and initial capacity, respectively.
+I again start off by finding the write cost when $n$ are appended. I give the write cost function a slightly different name, $\FuncWritesNew(n)$, so I can compare it to $\FuncWrites(n)$ later. I also use $\VarGrowthFactorNew$ and $\VarInitCapacityNew$ instead of $\VarGrowthFactor$ and $\VarInitCapacity$ for the growth factor and initial capacity, respectively.
 
 \ref{CapacitySequence} still holds, since all of the assumptions made there are also true for growth arrays. In particular, although growth arrays grow differently than dynamic arrays, the following claim is still true:
 
 \begin{lemma}
-	The capacity of a growth array grows by a constant factor $\GrowthFactornew$ after the first time it is called.
+	The capacity of a growth array grows by a constant factor $\VarGrowthFactorNew$ after the first time it is called.
 \end{lemma}
 
 \begin{proof}
 	I prove that the algorithm ensures this using induction.
 	
-	For the base case, consider the second time $\FuncGrow$ is called: the current capacity is $\InitCapacitynew$, and the next (total) capacity should be $\GrowthFactornew\InitCapacitynew$. Then a buffer of size $(\GrowthFactornew - 1)\InitCapacitynew$ should be appended, and that is what the algorithm does.
+	For the base case, consider the second time $\FuncGrow$ is called: the current capacity is $\VarInitCapacityNew$, and the next (total) capacity should be $\VarGrowthFactorNew\VarInitCapacityNew$. Then a buffer of size $(\VarGrowthFactorNew - 1)\VarInitCapacityNew$ should be appended, and that is what the algorithm does.
 	
-	For $i \geq 2$, given the algorithm behaves correctly the $i$th time it is called, I wish to show it behaves correctly the $(i + 1)$th time. From the inductive hypothesis, when the algorithm is called the $(i + 1)$th time, the current capacity is $\GrowthFactornew^i\InitCapacitynew$ and the head capacity is $(\GrowthFactornew^i - \GrowthFactornew^{i - 1})\InitCapacitynew$. The next (total) capacity should be $\GrowthFactornew^{i + 1}\InitCapacitynew$, and the next head capacity should be $(\GrowthFactornew^{i + 1} - \GrowthFactornew^i)\InitCapacitynew$, which is $\GrowthFactornew$ times the current head capacity. The algorithm determines the capacity of the next buffer in this manner, proving the inductive step and completing the induction.
+	For $i \geq 2$, given the algorithm behaves correctly the $i$th time it is called, I wish to show it behaves correctly the $(i + 1)$th time. From the inductive hypothesis, when the algorithm is called the $(i + 1)$th time, the current capacity is $\VarGrowthFactorNew^i\VarInitCapacityNew$ and the head capacity is $(\VarGrowthFactorNew^i - \VarGrowthFactorNew^{i - 1})\VarInitCapacityNew$. The next (total) capacity should be $\VarGrowthFactorNew^{i + 1}\VarInitCapacityNew$, and the next head capacity should be $(\VarGrowthFactorNew^{i + 1} - \VarGrowthFactorNew^i)\VarInitCapacityNew$, which is $\VarGrowthFactorNew$ times the current head capacity. The algorithm determines the capacity of the next buffer in this manner, proving the inductive step and completing the induction.
 \end{proof}
 
 Now I take a look at $\FuncGrow$. Unlike dynamic arrays, the number of writes performed does not equal $i$ if the current size is $i$. No items are being copied; the only source of writes is appending a buffer to the tail. The goal is to find the number of writes that causes.
 
-Let $\nwritesgrowfn(n)$ denote the total number of writes made by $\FuncGrow$. From [make lemma], I know that $\FuncGrow$ is called at the sizes
+Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$. From [make lemma], I know that $\FuncGrow$ is called at the sizes
 
 $$
-S_R = 0,\ \InitCapacitynew,\ \GrowthFactornew\InitCapacitynew,\ \GrowthFactornew^2\InitCapacitynew,\ \ldots\ \GrowthFactornew^{\lceil \log_{\GrowthFactornew} n - \log_{\GrowthFactornew} \InitCapacitynew \rceil - 1}\InitCapacitynew
+S_R = 0,\ \VarInitCapacityNew,\ \VarGrowthFactorNew\VarInitCapacityNew,\ \VarGrowthFactorNew^2\VarInitCapacityNew,\ \ldots\ \VarGrowthFactorNew^{\lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil - 1}\VarInitCapacityNew
 $$
 
-Let $k$ be the number of times the tail is appended to. Since the tail is a dynamic array, the number of writes it makes is $\nwritesfn(k)$. Since $\FuncGrow$ is called $|S_R|$ times and it appends to the tail each time except for the first, $k = |S_R| - 1 = \lceil \log_{\GrowthFactornew} n - \log_{\GrowthFactornew} \InitCapacitynew \rceil$. Then the formula for $\nwritesgrowfn(n)$ is
+Let $k$ be the number of times the tail is appended to. Since the tail is a dynamic array, the number of writes it makes is $\FuncWrites(k)$. Since $\FuncGrow$ is called $|S_R|$ times and it appends to the tail each time except for the first, $k = |S_R| - 1 = \lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil$. Then the formula for $\FuncWritesByGrow(n)$ is
 
 $$
-\nwritesgrowfn(n) = k + \left( \frac{\GrowthFactor^{\lceil \log_{\GrowthFactor} k - \log_{\GrowthFactor} \InitCapacity \rceil} - 1}{\GrowthFactor - 1} \right) \InitCapacity
+\FuncWritesByGrow(n) = k + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 $$
 
-where $\InitCapacity$ $\GrowthFactor$ are the capacity of the \textit{tail} (not the growth array). I finally conclude that
+where $\VarInitCapacity$ $\VarGrowthFactor$ are the capacity of the \textit{tail} (not the growth array). I finally conclude that
 
 $$
-\nwritesnewfn(n) = n + k + \left( \frac{\GrowthFactor^{\lceil \log_{\GrowthFactor} k - \log_{\GrowthFactor} \InitCapacity \rceil} - 1}{\GrowthFactor - 1} \right) \InitCapacity
+\FuncWritesNew(n) = n + k + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 $$
 
 I now approximate this expression with big-P notation. First, I establish an approximation for $k$ using big-O:
 
 \begin{align*}
-k &= \lceil \log_{\GrowthFactornew} n - \log_{\GrowthFactornew} \InitCapacitynew \rceil\\
+k &= \lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil\\
 O(k) &= O(\log n)
 \end{align*}
 
-Then, it is shown that the $k$-term disappears when analyzing the big-P complexity of $\nwritesnewfn(n)$, leaving just $P(n)$:
+Then, it is shown that the $k$-term disappears when analyzing the big-P complexity of $\FuncWritesNew(n)$, leaving just $P(n)$:
 
 \begin{align*}
-P(\nwritesnewfn(n)) &= P(n + \nwritesfn(k))\\
-&= P(n) + P(\nwritesfn(k))\\
+P(\FuncWritesNew(n)) &= P(n + \FuncWrites(k))\\
+&= P(n) + P(\FuncWrites(k))\\
 &= P(n) + O(\log n)\\
 &= P(n)
 \end{align*}
@@ -57,10 +57,10 @@ P(\nwritesnewfn(n)) &= P(n + \nwritesfn(k))\\
 \HdrSpaceComplex
 
 % Should this be C(n) instead of C?
-The space function for $n$ $\FuncAppend$ calls on a growth array is denoted $\spacenewfn(n)$. Since growth arrays never throw away item buffers, if the current capacity is $C$ then the total length of item buffers is also $C$. $\spacenewfn(n)$ is usually greater than $C$, however; this is because growth arrays not only allocate item buffers, but stores references to them in the tail. Thus the space the tail allocates must also be determined.
+The space function for $n$ $\FuncAppend$ calls on a growth array is denoted $\FuncSpaceNew(n)$. Since growth arrays never throw away item buffers, if the current capacity is $C$ then the total length of item buffers is also $C$. $\FuncSpaceNew(n)$ is usually greater than $C$, however; this is because growth arrays not only allocate item buffers, but stores references to them in the tail. Thus the space the tail allocates must also be determined.
 
-I determined in [...] that if $n$ are appended then the tail is appended to $k$ times, where $k = \lceil \log_{\GrowthFactornew} n - \log_{\GrowthFactornew} \InitCapacitynew \rceil$. Since the tail is a dynamic array, it allocates $\spacefn(k)$ space, where $\spacefn$ is the space function of the tail. Through a similar method to [...] it can be shown $O(\spacefn(k)) = O(k) = O(\log n)$. Then % TODO: P-analysis should come after the explicit formula.
+I determined in [...] that if $n$ are appended then the tail is appended to $k$ times, where $k = \lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil$. Since the tail is a dynamic array, it allocates $\FuncSpace(k)$ space, where $\FuncSpace$ is the space function of the tail. Through a similar method to [...] it can be shown $O(\FuncSpace(k)) = O(k) = O(\log n)$. Then % TODO: P-analysis should come after the explicit formula.
 
 \begin{align*}
-\spacenewfn(n) = P(2^{\lceil \log_2 n \rceil}) = O(n)
+\FuncSpaceNew(n) = P(2^{\lceil \log_2 n \rceil}) = O(n)
 \end{align*}
