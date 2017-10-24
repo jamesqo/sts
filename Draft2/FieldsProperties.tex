@@ -23,8 +23,10 @@ When a dynamic array is instantiated, the following code should run:
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\State $\VarList.\FieldBuffer \gets \FuncNewArray(0)$
-		\State $\VarList.\FieldSize \gets 0$
+		\Procedure{$\FuncConstructor$}{$\VarList$}
+			\State $\VarList.\FieldBuffer \gets \FuncNewArray(0)$
+			\State $\VarList.\FieldSize \gets 0$
+		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
 
@@ -62,9 +64,11 @@ When a growth array is instantiated, the following code should run:
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\State $\VarList.\FieldHead \gets \FuncNewArray(0)$
-		\State $\VarList.\FieldTail \gets \FuncNewDynamicArray()$
-		\State $\VarList.\FieldSize \gets 0$
-		\State $\VarList.\FieldCapacity \gets 0$
+		\Procedure{$\FuncConstructor$}{$\VarList$}
+			\State $\VarList.\FieldHead \gets \FuncNewArray(0)$
+			\State $\VarList.\FieldTail \gets \FuncNewDynamicArray()$
+			\State $\VarList.\FieldSize \gets 0$
+			\State $\VarList.\FieldCapacity \gets 0$
+		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
