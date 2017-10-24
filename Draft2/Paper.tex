@@ -4,8 +4,11 @@
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{appendix}
+\usepackage{textcomp}
 
 \algnewcommand{\LineComment}[1]{\Statex \(\triangleright\) #1}
+\newcommand{\TextTilde}{\ \mathtt{\sim}\ }
+\newcommand{\TextTildeNot}{\not\TextTilde}
 
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
@@ -14,9 +17,10 @@
 \newcommand{\HdrDescription}{\textbf{Description}}
 \newcommand{\HdrDynArrayImpl}{\textbf{Dynamic array implementation}}
 \newcommand{\HdrGrowthArrayImpl}{\textbf{Growth array implementation}}
+\newcommand{\HdrNote}{\textbf{Note:}}
 \newcommand{\HdrTimeComplex}{\textbf{Time complexity}}
-\newcommand{\HdrSpaceComplex}{\textbf{Space complexity}}
 \newcommand{\HdrTimeComplexCmp}{\textbf{Time complexity comparison}}
+\newcommand{\HdrSpaceComplex}{\textbf{Space complexity}}
 \newcommand{\HdrSpaceComplexCmp}{\textbf{Space complexity comparison}}
 
 \newcommand{\FuncCapacity}{c}
@@ -76,9 +80,9 @@
 	
 	\input{FieldsProperties}
 	
-	\section{Big-P Notation}
+	\section{Asymptotic Notation}
 	
-	\input{BigPNotation}
+	\input{AsymptoticNotation}
 	
 	\section{Common Operations}
 	

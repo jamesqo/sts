@@ -15,7 +15,7 @@
 \end{theorem}
 
 \begin{proof}
-	We will consider the statement about addition first. Recall from the note at \ref{BigPProperties} that this statement is equivalent to:
+	We will consider the statement about addition first. Recall from the note at \ref{AsymptoticProperties} that this statement is equivalent to:
 	
 	\textit{Let $f' \in P(f(n))$ and $g' \in P(g(n))$. Then $f' + g' \in P(f(n) + g(n))$.}
 	
@@ -42,7 +42,7 @@
 \end{theorem}
 
 \begin{proof}
-	We will consider the statement about multiplication first. Recall from the note at \ref{BigPProperties} that this statement is equivalent to:
+	We will consider the statement about multiplication first. Recall from the note at \ref{AsymptoticProperties} that this statement is equivalent to:
 	
 	\textit{Let $f' \in P(f(n))$ and $g' \in P(g(n))$. Then $f'g' \in P(f(n)g(n))$.}
 	
@@ -92,7 +92,7 @@
 \end{proof}
 
 \subsection{Removal of Lower-Order Terms}
-\label{ScrubsLowerOrderTerms}
+\label{RemovesLowerOrderTerms}
 
 \begin{theorem}
 	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $P(f(n) + g(n)) = P(f(n))$.
