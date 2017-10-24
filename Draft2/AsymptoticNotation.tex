@@ -46,5 +46,15 @@ A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic
 Another nice property $\TextTilde$ and $O$ have in common is that lower-order terms are removed from consideration. For example, $n \TextTilde n + \log_2 n$. This is stated by the below theorem, which is proved in \ref{pf:RemovesLowerOrderTerms}.
 
 \begin{theorem}
-	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $f(n) + g(n) \TextTilde f(n)$.
+\label{thm:RemovesLowerOrderTerms}
+	If $\lim_{n \to \infty} g / f = 0$, then $f + g \TextTilde f$.
 \end{theorem}
+
+Finally, $\TextTilde$ is a transitive operator. That is,
+
+\begin{theorem}
+\label{thm:Transitivity}
+	If $f \TextTilde g$ and $g \TextTilde h$, then $f \TextTilde h$.
+\end{theorem}
+
+This property is used implicitly whenever we chain multiple $\TextTilde$s like $f \TextTilde g \TextTilde h$ and then conclude that $f \TextTilde h$. It is proved in \ref{pf:Transitivity}.
