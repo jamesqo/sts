@@ -19,9 +19,10 @@ Notice that while $O(2n) = O(n)$, $2n \TextTildeNot n$. Thus, $\TextTilde$ makes
 \subsection{Properties}
 \label{subsec:AsymptoticProperties}
 
-A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{pf:MergingOverArithmetic}.
+A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{pf:MergesOverArithmetic}.
 
 \begin{theorem}
+\label{thm:MergesOverArithmeticAdd}
 	$P$ merges over addition and subtraction. That is, for functions $f$ and $g$,
 	\begin{align*}
 	\hat{f} \TextTilde f \land \hat{g} \TextTilde g \rightarrow \begin{cases}
@@ -32,6 +33,7 @@ A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic
 \end{theorem}
 
 \begin{theorem}
+\label{thm:MergesOverArithmeticMultiply}
 	$P$ merges over multiplication and division. That is, for functions $f$ and $g$,
 	\begin{align*}
 	\hat{f} \TextTilde f \land \hat{g} \TextTilde g \rightarrow \begin{cases}

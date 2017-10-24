@@ -4,19 +4,9 @@
 \section{Proofs of $\TextTilde$ Properties}
 
 \subsection{Merging over Arithmetic Operations}
-\label{pf:MergingOverArithmetic}
+\label{pf:MergesOverArithmetic}
 
-\begin{theorem}
-	$P$ merges over addition and subtraction. That is, for functions $f$ and $g$,
-	\begin{align*}
-	\hat{f} \TextTilde f \land \hat{g} \TextTilde g \rightarrow \begin{cases}
-	(\hat{f} + \hat{g}) \TextTilde (f + g)\\
-	(\hat{f} - \hat{g}) \TextTilde (f - g)
-	\end{cases}
-	\end{align*}
-\end{theorem}
-
-\begin{proof}
+\begin{proof}[Proof (Theorem \ref{thm:MergesOverArithmeticAdd})]
 	We will consider the statement about addition first. Recall from the note at \ref{subsec:AsymptoticProperties} that this statement is equivalent to:
 	
 	\textit{Let $\hat{f} \in P(f(n))$ and $\hat{g} \in P(g(n))$. Then $\hat{f} + \hat{g} \in P(f(n) + g(n))$.}
@@ -35,17 +25,7 @@
 	it follows that $\hat{f} + \hat{g} \in P(f(n) + g(n))$. The statement about subtraction can be proved in a similar fashion.
 \end{proof}
 
-\begin{theorem}
-	$P$ merges over multiplication and division. That is, for functions $f$ and $g$,
-	\begin{align*}
-	\hat{f} \TextTilde f \land \hat{g} \TextTilde g \rightarrow \begin{cases}
-	\hat{f}\hat{g} \TextTilde fg\\
-	\hat{f} / \hat{g} \TextTilde f / g
-	\end{cases}
-	\end{align*}
-\end{theorem}
-
-\begin{proof}
+\begin{proof}[Proof (Theorem \ref{thm:MergesOverArithmeticMultiply})]
 	We will consider the statement about multiplication first. Recall from the note at \ref{subsec:AsymptoticProperties} that this statement is equivalent to:
 	
 	\textit{Let $\hat{f} \in P(f(n))$ and $\hat{g} \in P(g(n))$. Then $\hat{f}\hat{g} \in P(f(n)g(n))$.}
@@ -71,7 +51,13 @@
 \subsection{Transitivity}
 \label{pf:Transitivity}
 
+\begin{theorem}
+	If $f \TextTilde g$ and $g \TextTilde h$, then $f \TextTilde h$.
+\end{theorem}
 
+\begin{proof}
+	By definition, $\lim_{n \to \infty} g / f = 1$ and $\lim_{n \to \infty} h / g = 1$. Multiplying the two equations, $\lim_{n \to \infty} h / f = 1$ which implies $f \TextTilde h$.
+\end{proof}
 
 \subsection{Removal of Lower-Order Terms}
 \label{pf:RemovesLowerOrderTerms}
