@@ -1,10 +1,10 @@
 \appendix
 \appendixpage
 
-\section{Proofs of Properties of Big-P Notation}
+\section{Proofs of $\TextTilde$ Properties}
 
 \subsection{Merging over Arithmetic Operations}
-\label{MergingOverArithmetic}
+\label{pf:MergingOverArithmetic}
 
 \begin{theorem}
 	$P$ merges over addition and subtraction. That is, for functions $f$ and $g$,
@@ -17,7 +17,7 @@
 \end{theorem}
 
 \begin{proof}
-	We will consider the statement about addition first. Recall from the note at \ref{AsymptoticProperties} that this statement is equivalent to:
+	We will consider the statement about addition first. Recall from the note at \ref{subsec:AsymptoticProperties} that this statement is equivalent to:
 	
 	\textit{Let $\hat{f} \in P(f(n))$ and $\hat{g} \in P(g(n))$. Then $\hat{f} + \hat{g} \in P(f(n) + g(n))$.}
 	
@@ -46,7 +46,7 @@
 \end{theorem}
 
 \begin{proof}
-	We will consider the statement about multiplication first. Recall from the note at \ref{AsymptoticProperties} that this statement is equivalent to:
+	We will consider the statement about multiplication first. Recall from the note at \ref{subsec:AsymptoticProperties} that this statement is equivalent to:
 	
 	\textit{Let $\hat{f} \in P(f(n))$ and $\hat{g} \in P(g(n))$. Then $\hat{f}\hat{g} \in P(f(n)g(n))$.}
 	
@@ -68,35 +68,13 @@
 	This implies $\hat{f} / \hat{g} \in P(f(n) / g(n))$.
 \end{proof}
 
-\subsection{Unique Class Lemma}
-\label{UniqueClassOfFunctions}
+\subsection{Transitivity}
+\label{pf:Transitivity}
 
-\begin{lemma}
-	Each function $f(n)$ has a unique class of functions under $P$. That is, suppose $f \in P(g(n))$ and $f \in P(h(n))$. Then $P(g(n)) = P(h(n))$.
-\end{lemma}
 
-\begin{proof}
-	By definition, $\lim_{n \to \infty} \frac{f(n)}{g(n)} = 1$ and $\lim_{n \to \infty} \frac{f(n)}{h(n)} = 1$. Flipping the first equation and multiplying, we receive
-	
-	\begin{align*}
-	\left( \lim_{n \to \infty} \frac {g(n)} {f(n)} \right) \left( \lim_{n \to \infty} \frac {f(n)} {h(n)} \right) &= 1\\
-	\lim_{n \to \infty} \frac {g(n)} {h(n)} &= 1\\
-	g &\in P(h(n))
-	\end{align*}
-	
-	Now, consider any $\hat{g} \in P(g(n))$. Since
-	
-	\begin{align*}
-	\lim_{n \to \infty} \frac {\hat{g}(n)} {g(n)} &= 1\\
-	\left( \lim_{n \to \infty} \frac {\hat{g}(n)} {g(n)} \right) \left( \lim_{n \to \infty} \frac{g(n)}{h(n)} \right) &= 1\\
-	\lim_{n \to \infty} \frac{\hat{g}(n)}{h(n)} &= 1
-	\end{align*}
-	
-	it follows that $\hat{g} \in P(h(n))$, and thus $P(g(n)) \subseteq P(h(n))$. By a similar argument, it can be shown $P(h(n)) \subseteq P(g(n))$. Thus it must be true that $P(g(n)) = P(h(n))$.
-\end{proof}
 
 \subsection{Removal of Lower-Order Terms}
-\label{RemovesLowerOrderTerms}
+\label{pf:RemovesLowerOrderTerms}
 
 \begin{theorem}
 	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $P(f(n) + g(n)) = P(f(n))$.
@@ -109,5 +87,5 @@
 	&= 1
 	\end{align*}
 	
-	Then $f(n) + g(n) \in P(f(n))$. Since it is also true that $f(n) + g(n) \in P(f(n) + g(n))$, it follows from \ref{UniqueClassOfFunctions} that $P(f(n)) = P(f(n) + g(n))$.
+	Then $f(n) + g(n) \in P(f(n))$. Since it is also true that $f(n) + g(n) \in P(f(n) + g(n))$, it follows from \ref{pf:Transitivity} that $P(f(n)) = P(f(n) + g(n))$.
 \end{proof}

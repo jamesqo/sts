@@ -38,7 +38,7 @@ Before I analyze the time complexity of $\FuncAppend$, I consider a different me
 In the above code, one write is performed after the conditional, so it is apparent that $\FuncWrites(n) \geq n$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\FuncWrites(n)$, I need to analyze when $\FuncGrow$ is called. Consider the following lemma:
 
 \begin{lemma}
-\label{CapacitySequence}
+\label{lem:CapacitySequence}
 	Let $\VarList$ by a dynamic array. As $n$ items are appended, the sequence of capacities $\VarList$ takes on is $$S_C = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity$$.
 \end{lemma}
 
@@ -87,7 +87,7 @@ P\left( \left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \right) \
 
 I wish to find the space allocated while appending $n$ items to a dynamic array. I denote this quantity $\FuncSpace(n)$, and define it as the total length of all arrays allocated during $n$ $\FuncAppend$ calls. I now derive a formula for $\FuncSpace(n)$.
 
-From \ref{CapacitySequence} I know the exact capacities $\VarList$ takes on as $n$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
+From \ref{lem:CapacitySequence} I know the exact capacities $\VarList$ takes on as $n$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
 
 \begin{align*}
 \FuncSpace(n) &= \sum_{i \in S_C} i\\

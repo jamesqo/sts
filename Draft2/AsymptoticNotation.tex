@@ -17,9 +17,9 @@ $f$ and $g$ may be used as shorthand to denote $f(n)$ and $g(n)$, respectively.
 Notice that while $O(2n) = O(n)$, $2n \TextTildeNot n$. Thus, $\TextTilde$ makes it possible to distinguish between a function that uses $n$ space and one that uses $2n$ space. \HdrNote A consequence of this is that bases for logarithms cannot be omitted, like in big-O notation.
 
 \subsection{Properties}
-\label{AsymptoticProperties}
+\label{subsec:AsymptoticProperties}
 
-A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{MergingOverArithmetic}.
+A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{pf:MergingOverArithmetic}.
 
 \begin{theorem}
 	$P$ merges over addition and subtraction. That is, for functions $f$ and $g$,
@@ -41,7 +41,7 @@ A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic
 	\end{align*}
 \end{theorem}
 
-Another nice property $\TextTilde$ and $O$ have in common is that lower-order terms are removed from consideration. For example, $n \TextTilde n + \log_2 n$. This is stated by the below theorem, which is proved in \ref{RemovesLowerOrderTerms}.
+Another nice property $\TextTilde$ and $O$ have in common is that lower-order terms are removed from consideration. For example, $n \TextTilde n + \log_2 n$. This is stated by the below theorem, which is proved in \ref{pf:RemovesLowerOrderTerms}.
 
 \begin{theorem}
 	If $\lim_{n \to \infty} \frac{g(n)}{f(n)} = 0$, then $f(n) + g(n) \TextTilde f(n)$.
