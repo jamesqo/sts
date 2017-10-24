@@ -38,19 +38,19 @@ $$
 \FuncWritesNew(n) = n + k + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 $$
 
-I now approximate this expression using $\TextTilde$. First, I approximate $k$ using big-O:
+I now approximate this expression using $\sim$. First, I approximate $k$ using big-O:
 
 \begin{align*}
 k &= \lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil\\
 O(k) &= O(\log n)
 \end{align*}
 
-Now, the $k$-term disappears when using $\TextTilde$ to approximate $\FuncWritesNew(n)$, leaving just $n$:
+Now, the $k$-term disappears when using $\sim$ to approximate $\FuncWritesNew(n)$, leaving just $n$:
 
 \begin{align*}
-\FuncWritesNew(n) &\TextTilde n + \FuncWrites(k)\\
+\FuncWritesNew(n) &\sim n + \FuncWrites(k)\\
 &= n + O(\log n)\\
-&\TextTilde n
+&\sim n
 \end{align*}
 
 \HdrSpaceComplex
@@ -61,5 +61,5 @@ The space function for $n$ $\FuncAppend$ calls on a growth array is denoted $\Fu
 I determined in [...] that if $n$ are appended then the tail is appended to $k$ times, where $k = \lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil$. Since the tail is a dynamic array, it allocates $\FuncSpace(k)$ space, where $\FuncSpace$ is the space function of the tail. Through a similar method to [...] it can be shown $O(\FuncSpace(k)) = O(k) = O(\log n)$. Then % TODO: P-analysis should come after the explicit formula.
 
 \begin{align*}
-\FuncSpaceNew(n) \TextTilde 2^{\lceil \log_2 n \rceil} = O(n)
+\FuncSpaceNew(n) \sim 2^{\lceil \log_2 n \rceil} = O(n)
 \end{align*}

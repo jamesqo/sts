@@ -1,7 +1,7 @@
 \appendix
 \appendixpage
 
-\section{Proofs of $\TextTilde$ Properties}
+\section{Proofs of $\sim$ Properties}
 
 \subsection{Merging over Arithmetic Operations}
 \label{pf:MergesOverArithmetic}
@@ -19,13 +19,13 @@
 	\lim_{n \to \infty} \frac{\hat{f}\hat{g}}{fg} &= 1
 	\end{align*}
 	
-	it follows that $\hat{f}\hat{g} \TextTilde fg$. The statement about division can be proved by flipping the fraction for $\hat{g}$ before multiplying, resulting in
+	it follows that $\hat{f}\hat{g} \sim fg$. The statement about division can be proved by flipping the fraction for $\hat{g}$ before multiplying, resulting in
 	
 	\begin{align*}
 	\lim_{n \to \infty} \frac{\hat{f} / \hat{g}}{f / g} = 1
 	\end{align*}
 	
-	This shows $\hat{f} / \hat{g} \TextTilde f / g$.
+	This shows $\hat{f} / \hat{g} \sim f / g$.
 \end{proof}
 
 \subsection{Removal of Lower-Order Terms}
@@ -40,12 +40,12 @@
 	&= 1
 	\end{align*}
 	
-	it follows that $f + g \TextTilde f$.
+	it follows that $f + g \sim f$.
 \end{proof}
 
 \subsection{Transitivity}
 \label{pf:Transitivity}
 
 \begin{proof}[Proof (Theorem \ref{thm:Transitivity})]
-By definition, $\lim_{n \to \infty} g / f = 1$ and $\lim_{n \to \infty} h / g = 1$. Multiplying the two equations, $\lim_{n \to \infty} h / f = 1$ which implies $f \TextTilde h$.
+By definition, $\lim_{n \to \infty} g / f = 1$ and $\lim_{n \to \infty} h / g = 1$. Multiplying the two equations, $\lim_{n \to \infty} h / f = 1$ which implies $f \sim h$.
 \end{proof}

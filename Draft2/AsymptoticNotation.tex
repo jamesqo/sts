@@ -6,28 +6,28 @@ My goal is to be able to compare the coefficients of the highest-order terms in 
 
 \subsection{Definition}
 
-I will use the $\TextTilde$ relation to analyze time complexity. It is defined as follows:
+To analyze time complexity, I will use the $\sim$ relation. It is defined as follows:
 
 \begin{align*}
-f(n) \TextTilde g(n) \leftrightarrow \lim_{n \to \infty} \frac{g(n)}{f(n)} = 1
+f(n) \sim g(n) \leftrightarrow \lim_{n \to \infty} \frac{g(n)}{f(n)} = 1
 \end{align*}
 
 $f$ and $g$ may be used as shorthand to denote $f(n)$ and $g(n)$, respectively.
 
-Notice that while $O(2n) = O(n)$, $2n \TextTildeNot n$. Thus, $\TextTilde$ makes it possible to distinguish between a function that uses $n$ space and one that uses $2n$ space. \HdrNote A consequence of this is that bases for logarithms cannot be omitted, like in big-O notation.
+Notice that while $O(2n) = O(n)$, $2n \not\sim n$. Thus, $\sim$ makes it possible to distinguish between a function that uses $n$ space and one that uses $2n$ space. {\HdrNote} A consequence of this is that bases for logarithms cannot be omitted, like in big-O notation.
 
 \subsection{Properties}
 \label{subsec:AsymptoticProperties}
 
-A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{pf:MergesOverArithmetic}.
+A useful property $\sim$ shares with $O$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{pf:MergesOverArithmetic}.
 
 \begin{theorem}
 \label{thm:MergesOverArithmeticAdd}
 	$P$ merges over addition and subtraction. That is, for functions $f$ and $g$,
 	\begin{align*}
-	\hat{f} \TextTilde f \land \hat{g} \TextTilde g \rightarrow \begin{cases}
-		(\hat{f} + \hat{g}) \TextTilde (f + g)\\
-		(\hat{f} - \hat{g}) \TextTilde (f - g)
+	(\hat{f} \sim f) \land (\hat{g} \sim g) \rightarrow \begin{cases}
+		(\hat{f} + \hat{g}) \sim (f + g)\\
+		(\hat{f} - \hat{g}) \sim (f - g)
 	\end{cases}
 	\end{align*}
 \end{theorem}
@@ -36,25 +36,25 @@ A useful property $\TextTilde$ shares with $O$ is that it merges over arithmetic
 \label{thm:MergesOverArithmeticMultiply}
 	$P$ merges over multiplication and division. That is, for functions $f$ and $g$,
 	\begin{align*}
-	\hat{f} \TextTilde f \land \hat{g} \TextTilde g \rightarrow \begin{cases}
-	\hat{f}\hat{g} \TextTilde fg\\
-	\hat{f} / \hat{g} \TextTilde f / g
+	(\hat{f} \sim f) \land (\hat{g} \sim g) \rightarrow \begin{cases}
+	\hat{f}\hat{g} \sim fg\\
+	\hat{f} / \hat{g} \sim f / g
 	\end{cases}
 	\end{align*}
 \end{theorem}
 
-Another nice property $\TextTilde$ and $O$ have in common is that lower-order terms are removed from consideration. For example, $n \TextTilde n + \log_2 n$. This is stated by the below theorem, which is proved in \ref{pf:RemovesLowerOrderTerms}.
+Another nice property $\sim$ and $O$ have in common is that lower-order terms are removed from consideration. For example, $n \sim (n + \log_2 n)$. This is stated by the below theorem, which is proved in \ref{pf:RemovesLowerOrderTerms}.
 
 \begin{theorem}
 \label{thm:RemovesLowerOrderTerms}
-	If $\lim_{n \to \infty} g / f = 0$, then $f + g \TextTilde f$.
+	If $\lim_{n \to \infty} g / f = 0$, then $f + g \sim f$.
 \end{theorem}
 
-Finally, $\TextTilde$ is a transitive operator. That is,
+Finally, $\sim$ is a transitive operator. That is,
 
 \begin{theorem}
 \label{thm:Transitivity}
-	If $f \TextTilde g$ and $g \TextTilde h$, then $f \TextTilde h$.
+	If $f \sim g$ and $g \sim h$, then $f \sim h$.
 \end{theorem}
 
-This property is used implicitly whenever we chain multiple $\TextTilde$s like $f \TextTilde g \TextTilde h$ and then conclude that $f \TextTilde h$. It is proved in \ref{pf:Transitivity}.
+This property is used implicitly by proofs that chain multiple $\sim$s in the form $f \sim g \sim h$, then conclude that $f \sim h$. It is proved in \ref{pf:Transitivity}.
