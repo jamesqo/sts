@@ -38,11 +38,11 @@ Before I analyze the time complexity of $\FuncAppend$, I consider a different me
 In the code for $\FuncAppend$, one array store is performed unconditionally, so it is apparent that $\FuncWrites(n) \geq n$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\FuncWrites(n)$, I need to analyze when $\FuncGrow$ is called. To do this, I use the following lemma:
 
 \begin{lemma}
-\label{lem:CapacitySequence}
-	Let $\VarList$ by a dynamic array. Let its \textbf{capacity sequence}, $\VarCapacitySequence$, be the capacities $\VarList$ takes on as $n$ items are appended. Then
+\label{lem:CapacitySeq}
+	Let $\VarList$ by a dynamic array. Let its \textbf{capacity sequence}, $\VarCapacitySeq$, be the capacities $\VarList$ takes on as $n$ items are appended. Then
 	
 	$$
-	\VarCapacitySequence = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity
+	\VarCapacitySeq = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity
 	$$
 \end{lemma}
 
@@ -93,7 +93,7 @@ P\left( \left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \right) \
 
 I wish to find the space allocated while appending $n$ items to a dynamic array. I denote this quantity $\FuncSpace(n)$, and define it as the total length of all arrays allocated during $n$ $\FuncAppend$ calls. I now derive a formula for $\FuncSpace(n)$.
 
-From \ref{lem:CapacitySequence} I know the exact capacities $\VarList$ takes on as $n$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
+From \ref{lem:CapacitySeq} I know the exact capacities $\VarList$ takes on as $n$ items are appended. Dynamic arrays also have the property that $i \in S_C$ iff an array of length $i$ was allocated. Then the total length of arrays allocated is
 
 \begin{align*}
 \FuncSpace(n) &= \sum_{i \in S_C} i\\

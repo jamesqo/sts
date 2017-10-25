@@ -4,7 +4,7 @@
 
 I again start off by finding the write cost when $n$ are appended. I give the write cost function a slightly different name, $\FuncWritesNew(n)$, so I can compare it to $\FuncWrites(n)$ later. I also use $\VarGrowthFactorNew$ and $\VarInitCapacityNew$ instead of $\VarGrowthFactor$ and $\VarInitCapacity$ for the growth factor and initial capacity, respectively.
 
-\ref{lem:CapacitySequence} still holds, since all of the assumptions made there are also true for growth arrays. In particular, although growth arrays grow differently than dynamic arrays, the following claim is still true:
+\ref{lem:CapacitySeq} still holds, since all of the assumptions made there are also true for growth arrays. In particular, although growth arrays grow differently than dynamic arrays, the following claim is still true:
 
 \begin{lemma}
 	The capacity of a growth array grows by a constant factor $\VarGrowthFactorNew$ after the first time it is called.
