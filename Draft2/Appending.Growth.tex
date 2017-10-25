@@ -22,21 +22,21 @@ Now I take a look at $\FuncGrow$. Unlike dynamic arrays, the number of writes pe
 
 Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$. From [make lemma], I know that $\FuncGrow$ is called at the sizes
 
-$$
+\begin{align*}
 S_R = 0,\ \VarInitCapacityNew,\ \VarGrowthFactorNew\VarInitCapacityNew,\ \VarGrowthFactorNew^2\VarInitCapacityNew,\ \ldots\ \VarGrowthFactorNew^{\lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil - 1}\VarInitCapacityNew
-$$
+\end{align*}
 
 Let $k$ be the number of times the tail is appended to. Since the tail is a dynamic array, the number of writes it makes is $\FuncWrites(k)$. Since $\FuncGrow$ is called $|S_R|$ times and it appends to the tail each time except for the first, $k = |S_R| - 1 = \lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil$. Then the formula for $\FuncWritesByGrow(n)$ is
 
-$$
+\begin{align*}
 \FuncWritesByGrow(n) = k + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
-$$
+\end{align*}
 
 where $\VarInitCapacity$ $\VarGrowthFactor$ are the capacity of the \textit{tail} (not the growth array). I finally conclude that
 
-$$
+\begin{align*}
 \FuncWritesNew(n) = n + k + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
-$$
+\end{align*}
 
 I now approximate this expression using $\sim$. First, I approximate $k$ using big-O:
 

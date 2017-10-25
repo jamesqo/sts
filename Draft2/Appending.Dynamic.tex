@@ -41,15 +41,21 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 \label{lem:CapacitySeq}
 	Let $\VarList$ by a dynamic array. Let its \textbf{capacity sequence}, $\VarCapacitySeq$, be the capacities $\VarList$ takes on as $n$ items are appended. Then
 	
-	$$
+	\begin{align*}
 	\VarCapacitySeq = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity
-	$$
+	\end{align*}
 \end{lemma}
 
 % Bookmark
 
 \begin{proof}
-	The capacity starts out at zero and becomes $\VarInitCapacity$ once one element is appended. From then on, it can only grow by a factor of $\VarGrowthFactor$ via $\FuncGrow$, so if $\VarGrowthFactor^i\VarInitCapacity$ is the current capacity then $\VarGrowthFactor^{i + 1}\VarInitCapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \VarGrowthFactor^i\VarInitCapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $n$, $k$ is the smallest integer for which $\VarGrowthFactor^k\VarInitCapacity \geq n$. Using this property, I now derive $k$.
+	The capacity starts out at zero and becomes $\VarInitCapacity$ once one element is appended. From then on, it can only grow by a factor of $\VarGrowthFactor$ via $\FuncGrow$, so if $\VarGrowthFactor^i\VarInitCapacity$ is the current capacity then $\VarGrowthFactor^{i + 1}\VarInitCapacity$ must be the next capacity. By induction, the rest of the sequence is
+	
+	\begin{align*}
+	\left\{ \VarGrowthFactor^i\VarInitCapacity \right\}_{i = 1}^k
+	\end{align*}
+	
+	for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $n$, $k$ is the smallest integer for which $\VarGrowthFactor^k\VarInitCapacity \geq n$. Using this property, I now derive $k$.
 	
 	\begin{align*}
 	\VarGrowthFactor^k\VarInitCapacity &\geq n\\
@@ -63,7 +69,11 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 \end{proof}
 
 [make lemma]
-Now, consider that to grow by $\VarGrowthFactor$, $\FuncGrow$ must be called. So $\VarGrowthFactor^k\VarInitCapacity$ being present in $S_C$ means $\FuncGrow$ was called at size $\VarGrowthFactor^{k - 1}\VarInitCapacity$ for $k \geq 1$. Then $\FuncGrow$ was called at the sizes $$S_R = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil - 1}\VarInitCapacity$$
+Now, consider that to grow by $\VarGrowthFactor$, $\FuncGrow$ must be called. So $\VarGrowthFactor^k\VarInitCapacity$ being present in $S_C$ means $\FuncGrow$ was called at size $\VarGrowthFactor^{k - 1}\VarInitCapacity$ for $k \geq 1$. Then $\FuncGrow$ was called at the sizes
+
+\begin{align*}
+S_R = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil - 1}\VarInitCapacity
+\end{align*}
 
 Each time $\FuncGrow$ is called, $i$ items are copied where $i$ is the current size of the dynamic array. Then the total number of items copied for $n$ appends is
 
@@ -74,9 +84,9 @@ Each time $\FuncGrow$ is called, $i$ items are copied where $i$ is the current s
 Finally, counting the writes made for every item in $\FuncAppend$, I finally find an explicit formula for $\FuncWrites(n)$.
 
 [ref1]
-$$
+\begin{align*}
 \FuncWrites(n) = n + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
-$$
+\end{align*}
 
 [ref2]
 To make this expression easier to work with, I will write it in big-P notation to approximate it for large $n$. First I note that $\log_{\VarGrowthFactor} k \leq \lceil \log_{\VarGrowthFactor} k \rceil < \left( \log_{\VarGrowthFactor} k \right) + 1$ for any $k > 0$, so $k \leq \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k \rceil} < \VarGrowthFactor{k}$. Then
