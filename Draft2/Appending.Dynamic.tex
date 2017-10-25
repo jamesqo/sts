@@ -4,7 +4,7 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 
 \begin{description}
 	\item[initial capacity] Denoted by $\VarInitCapacity$. The capacity of a dynamic a array when one item is appended to it.\\
-	(The capacity of any dynamic array with size zero should be zero.)
+	{\HdrNote} The capacity of any dynamic array with size zero should be zero.
 	\item[growth factor] Denoted by $\VarGrowthFactor$. The factor by which the current capacity is multiplied to get the new capacity when $\VarList$ grows.
 \end{description}
 
@@ -24,7 +24,7 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 				\State $\VarList.\FieldBuffer \gets \FuncNewArray(\VarInitCapacity)$
 			\Else
 				\State $new\ buf \gets \FuncNewArray(\VarList.\FieldSize \times \VarGrowthFactor)$
-				\State $\FuncArrayCopy(source: \VarList.\FieldBuffer, dest: new\ buf, len: \VarList.\FieldSize)$
+				\State $\FuncArrayCopy(\VarList.\FieldBuffer, new\ buf, \VarList.\FieldSize)$
 				\State $\VarList.\FieldBuffer \gets new\ buf$
 			\EndIf
 		\EndProcedure
@@ -33,9 +33,11 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 
 \HdrTimeComplex
 
-Before I analyze the time complexity of $\FuncAppend$, I consider a different method for measuring its cost. Suppose I start with an empty list and $n$ elements are appended. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $n$ appends, and denote it $\FuncWrites(n)$.
+Before I analyze the time complexity of $\FuncAppend$, I consider a different method for measuring its cost. Suppose I start with an empty collection and $n$ elements are appended. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $n$ appends, and denote it $\FuncWrites(n)$.
 
-In the above code, one write is performed after the conditional, so it is apparent that $\FuncWrites(n) \geq n$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\FuncWrites(n)$, I need to analyze when $\FuncGrow$ is called. Consider the following lemma:
+In the code for $\FuncAppend$, one array store is performed unconditionally, so it is apparent that $\FuncWrites(n) \geq n$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\FuncWrites(n)$, I need to analyze when $\FuncGrow$ is called. To do this, I use the following lemma:
+
+% Bookmark
 
 \begin{lemma}
 \label{lem:CapacitySequence}
