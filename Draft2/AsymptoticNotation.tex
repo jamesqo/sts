@@ -9,17 +9,19 @@ My goal is to be able to compare the coefficients of the highest-order terms in 
 To analyze time complexity, I will use the $\sim$ relation. It is defined as follows:
 
 \begin{align*}
-f(n) \sim g(n) \leftrightarrow \lim_{n \to \infty} \frac{g(n)}{f(n)} = 1
+f \sim g \leftrightarrow \lim_{n \to \infty} \frac{g}{f} = 1
 \end{align*}
 
-$f$ and $g$ may be used as shorthand to denote $f(n)$ and $g(n)$, respectively.
+This is read as "$f$ is asymptotic to $g$" or "$f$ and $g$ are asymptotic." {\HdrNote} $f$ and $g$ are used as shorthand to denote $f(n)$ and $g(n)$, respectively.
 
 Notice that while $O(2n) = O(n)$, $2n \not\sim n$. Thus, $\sim$ makes it possible to distinguish between a function that uses $n$ space and one that uses $2n$ space. {\HdrNote} A consequence of this is that bases for logarithms cannot be omitted, like in big-O notation.
 
 \subsection{Properties}
 \label{subsec:AsymptoticProperties}
 
-A useful property $\sim$ shares with $O$ is that it merges over arithmetic operations. This is stated by the following two theorems, which are proved in \ref{pf:MergesOverArithmetic}.
+Here, I define various properties of the $\sim$ relation that will be used in my proofs. Proofs of these properties can be found in the appendix.
+
+The following two theorems state that $\sim$ can "merge", or un-distribute, over arithmetic operations. This is a property shared with big-O.
 
 \begin{theorem}
 \label{thm:MergesOverArithmeticAdd}
@@ -43,18 +45,23 @@ A useful property $\sim$ shares with $O$ is that it merges over arithmetic opera
 	\end{align*}
 \end{theorem}
 
-Another nice property $\sim$ and $O$ have in common is that lower-order terms are removed from consideration. For example, $n \sim (n + \log_2 n)$. This is stated by the below theorem, which is proved in \ref{pf:RemovesLowerOrderTerms}.
+The following theorem states that lower-order terms may be removed. For example, $(n + \log_2 n) \sim n$.
 
 \begin{theorem}
 \label{thm:RemovesLowerOrderTerms}
-	If $\lim_{n \to \infty} g / f = 0$, then $f + g \sim f$.
+	If $\lim_{n \to \infty} g / f = 0$, then $f + O(g) \sim f$.
 \end{theorem}
 
-Finally, $\sim$ is a transitive operator. That is,
+The following theorem shows that $\sim$ is a transitive relation. This property is used implicitly by proofs that chain multiple $\sim$s in the form $f \sim g \sim h$, then conclude that $f \sim h$.
 
 \begin{theorem}
 \label{thm:Transitivity}
 	If $f \sim g$ and $g \sim h$, then $f \sim h$.
 \end{theorem}
 
-This property is used implicitly by proofs that chain multiple $\sim$s in the form $f \sim g \sim h$, then conclude that $f \sim h$. It is proved in \ref{pf:Transitivity}.
+The following theorem states that if two functions are asymptotic, then they belong to the same big-O class.
+
+\begin{theorem}
+\label{thm:SameBigOClass}
+	If $f \sim g$ and $g = O(h)$, then $f = O(h)$.
+\end{theorem}

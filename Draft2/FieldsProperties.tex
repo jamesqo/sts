@@ -34,7 +34,8 @@ If $\VarList$ is a growth array, then it is assumed to have the following fields
 
 \begin{itemize}
 	\item $\VarList.\FieldHead$ - The \textbf{head} of $\VarList$. It returns the buffer we are currently adding items to.
-	\item $\VarList.\FieldTail$ - The \textbf{tail} of $\VarList$. It returns a dynamic array of buffers that have already been filled. This can be thought of as a two-dimensional array.
+	\item $\VarList.\FieldTail$ - The \textbf{tail} of $\VarList$. It returns a dynamic array of references to buffers that have already been filled. This can be thought of as a two-dimensional array.
+		\subitem It may seem strange for growth arrays to use dynamic arrays internally. There is little harm from the extra copying and allocations these dynamic arrays perform, however, since only $O(\log n)$ references are appended to them (proved in [ref3]).
 	\item $\VarList.\FieldSize$ - The number of items in $\VarList$.
 	\item $\VarList.\FieldCapacity$ - The \textbf{capacity} of $\VarList$. It returns the maximum number of items $\VarList$ can hold without resizing.
 \end{itemize}
