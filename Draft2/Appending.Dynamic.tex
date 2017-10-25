@@ -37,12 +37,16 @@ Before I analyze the time complexity of $\FuncAppend$, I consider a different me
 
 In the code for $\FuncAppend$, one array store is performed unconditionally, so it is apparent that $\FuncWrites(n) \geq n$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\FuncWrites(n)$, I need to analyze when $\FuncGrow$ is called. To do this, I use the following lemma:
 
-% Bookmark
-
 \begin{lemma}
 \label{lem:CapacitySequence}
-	Let $\VarList$ by a dynamic array. As $n$ items are appended, the sequence of capacities $\VarList$ takes on is $$S_C = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity$$.
+	Let $\VarList$ by a dynamic array. Let its \textbf{capacity sequence}, $\VarCapacitySequence$, be the capacities $\VarList$ takes on as $n$ items are appended. Then
+	
+	$$
+	\VarCapacitySequence = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity
+	$$
 \end{lemma}
+
+% Bookmark
 
 \begin{proof}
 	The capacity starts out at zero and becomes $\VarInitCapacity$ once one element is appended. From then on, it can only grow by a factor of $\VarGrowthFactor$ via $\FuncGrow$, so if $\VarGrowthFactor^i\VarInitCapacity$ is the current capacity then $\VarGrowthFactor^{i + 1}\VarInitCapacity$ must be the next capacity. By induction, the rest of the sequence is $$\left\{ \VarGrowthFactor^i\VarInitCapacity \right\}_{i = 1}^k$$ for some $k$. Since the capacity is only as big as is needs to be, namely greater than or equal to $n$, $k$ is the smallest integer for which $\VarGrowthFactor^k\VarInitCapacity \geq n$. Using this property, I now derive $k$.
