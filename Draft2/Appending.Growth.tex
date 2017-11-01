@@ -15,15 +15,15 @@ I again start off by finding the write cost for $n$ items. I will denote mathema
 
 	For $k = 2$, $c_i(2) = \VarInitCapacityNew$. I wish to show that $c_f(2) = \VarGrowthFactorNew\VarInitCapacityNew$. This happens if and only if the next buffer has size ${\Delta c}(2) = (\VarGrowthFactorNew - 1)\VarInitCapacityNew$, which the algorithm ensures.
 	
-	For $k > 2$, by induction $c_i(k) = c_f(k - 1) = \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew$ and $h_i(k) = h_f(k - 1) = (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew$. I wish to show $c_f(k) = \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew$ and $h_f(k) = (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew$. Because $k > 2$, the algorithm will calculate $h_f$ as $\VarGrowthFactorNew$ times $h_i$. Then
+	For $k > 2$, by induction $c_i(k) = c_f(k - 1) = \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew$ and $h_i(k) = h_f(k - 1) = (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew$. I wish to show $c_f(k) = \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew$ and $h_f(k) = (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew$. Because $k > 2$, the algorithm will calculate $h_f(k)$ as $\VarGrowthFactorNew$ times $h_i(k)$. Then
 	\begin{align*}
-	h_f &= \VarGrowthFactorNew h_i\\
+	h_f(k) &= \VarGrowthFactorNew h_i(k)\\
 	&= \VarGrowthFactorNew (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew\\
 	&= (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew
 	\end{align*}
 	and
 	\begin{align*}
-	c_f &= c_i + h_f\\
+	c_f(k) &= c_i(k) + h_f(k)\\
 	&= \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew + (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew\\
 	&= \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew
 	\end{align*}
