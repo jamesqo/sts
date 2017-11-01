@@ -65,17 +65,17 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 	\begin{align*}
 	\VarUseful &= \big\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \big\rceil
 	\end{align*}
-	If $n \leq \VarInitCapacity$, then necessarily $\VarCapacitySeq_{\VarUseful + 2} = \VarGrowthFactor^\VarUseful\VarInitCapacity$ is empty and $\VarUseful = 0$. Since $\VarUseful \geq 1$ for the previous case, we may obtain a general formula for $\VarUseful$ like so:
+	If $n \leq \VarInitCapacity$, then necessarily $\left( \VarCapacitySeq_i \right)_{i = 3}^{\VarUseful + 2}$ is empty and $\VarUseful = 0$. Since $\VarUseful \geq 1$ for the previous case, and (for this case) if $n \leq \VarInitCapacity$ then $\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil \leq 0$, a general formula for $\VarUseful$ is as follows:
 	\begin{align*}
 	\VarUseful &= \max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)
 	\end{align*}
 	The final term in the sequence is $\VarGrowthFactor^\VarUseful\VarInitCapacity = \VarGrowthFactor^{\max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)}\VarInitCapacity$, completing the proof.
 \end{proof}
 
-[make lemma]
-Now, consider that to grow by $\VarGrowthFactor$, $\FuncGrow$ must be called. So $\VarGrowthFactor^i\VarInitCapacity$ being present in $S_C$ means $\FuncGrow$ was called at size $\VarGrowthFactor^{i - 1}\VarInitCapacity$ for $i \geq 1$. Then $\FuncGrow$ was called at the sizes
+[make corollary]
+Clearly, if $C_i$ is defined for $i > 1$, then $\FuncGrow$ must have been called at the size $C_{i - 1}$. Then the \textbf{growth sequence}, the sequence of sizes at which $\FuncGrow$ is called for $n$ appends, must be $\VarCapacitySeq$ with the last element removed:
 \begin{align*}
-\VarGrowSeq = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\VarUseful - 1}\VarInitCapacity
+\VarGrowSeq = \left( \VarCapacitySeq_i \right)_{i = 1}^{|\VarCapacitySeq| - 1}
 \end{align*}
 Each time $\FuncGrow$ is called, $s$ items are copied where $s$ is the current size of the dynamic array. Then the total number of items copied for $n$ appends is
 \begin{align*}
@@ -98,19 +98,16 @@ n + \left( \frac{n - \VarInitCapacity}{\VarGrowthFactor - 1} \right) \leq \FuncW
 n + \left( \frac{n - \VarInitCapacity}{\VarGrowthFactor - 1} \right) \RelLessEqual \FuncWrites(n) &\RelLess n + \left( \frac{\VarGrowthFactor{n} - \VarInitCapacity}{\VarGrowthFactor - 1} \right)\\
 \left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \RelLessEqual \FuncWrites(n) &\RelLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n
 \end{align*}
-
 \HdrSpaceComplex
 
 I wish to find the space allocated when $n$ items are appended to a dynamic array. I call this quantity the \textbf{space cost}, denote it $\FuncSpace(n)$, and define it as the total length of arrays allocated by $n$ $\FuncAppend$ calls. I now derive a formula for $\FuncSpace(n)$.
 
 From \ref{lem:CapacitySeq}, I know the capacity sequence of $\VarList$. Dynamic arrays also have the property that $c \in \VarCapacitySeq$ iff an array of length $c$ was allocated. Then the total length of arrays allocated is
-
 \begin{align*}
 \FuncSpace(n) &= \sum_{c \in \VarCapacitySeq} c\\
 &= 0 + \VarInitCapacity + \VarGrowthFactor\VarInitCapacity + \VarGrowthFactor^2\VarInitCapacity + \ldots + \VarGrowthFactor^\VarUseful\VarInitCapacity\\
 &= \left( \frac{\VarGrowthFactor^{\VarUseful + 1} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 \end{align*}
-
 Using the identity in [ref2] again, I asymptotically bound $\FuncSpace(n)$:
 
 \begin{align*}

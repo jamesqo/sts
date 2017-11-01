@@ -7,6 +7,7 @@ I again start off by finding the write cost for $n$ items. I will denote mathema
 \ref{lem:CapacitySeq} still holds, since all of the assumptions made there still hold for growth arrays. In particular, although growth arrays use a different growth algorithm than dynamic arrays, the following claim is still true:
 
 \begin{lemma}
+\label{lem:GrowthArraysGrowthFactor}
 	The capacity of a non-empty growth array grows by the constant factor $\VarGrowthFactorNew$.
 \end{lemma}
 
@@ -30,27 +31,18 @@ I again start off by finding the write cost for $n$ items. I will denote mathema
 	as desired.
 \end{proof}
 
+Now that \ref{lem:GrowthArraysGrowthFactor} and consequently \ref{lem:CapacitySeq} are proved for growth arrays, I examine the write cost of $\FuncGrow$. Unlike dynamic arrays, $\FuncGrow$ does not make $s$ writes if the current size is $s$. In fact, no items are copied; the only source of writes is when a buffer is appended to the tail, since the tail is a dynamic array.
+
+Let $\FuncWritesByGrowNew(n)$ denote the total number of writes made by $\FuncGrow$, and let $\VarNumItemsTail$ be the size of the tail. Consider that [make corollary] also holds true for growth arrays, so $\FuncGrow$ is called $|\VarGrowSeq|$ times. A buffer is appended to the tail every time except the first, so the size of the tail is
+\begin{align*}
+\VarNumItemsTail &= |\VarGrowSeq| - 1 = |\VarCapacitySeq| - 2 = \VarUsefulNew
+\end{align*}
+Then the formula for $\FuncWritesByGrowNew(n)$ is simply $\FuncWrites(\VarUsefulNew)$, where $\FuncWrites$ is the write cost function for dynamic arrays. Finally, adding the writes made by $\FuncAppend$, the formula for $\FuncWritesNew(n)$ is
+\begin{align*}
+\FuncWritesNew(n) = n + \FuncWrites(\VarUsefulNew)
+\end{align*}
+
 % Bookmark
-
-Now I take a look at $\FuncGrow$. Unlike dynamic arrays, the number of writes performed does not equal $i$ if the current size is $i$. No items are being copied; the only source of writes is appending a buffer to the tail. The goal is to find the number of writes that causes.
-
-Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$. From [make lemma], I know that $\FuncGrow$ is called at the sizes
-
-\begin{align*}
-S_R = 0,\ \VarInitCapacityNew,\ \VarGrowthFactorNew\VarInitCapacityNew,\ \VarGrowthFactorNew^2\VarInitCapacityNew,\ \ldots\ \VarGrowthFactorNew^{\lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil - 1}\VarInitCapacityNew
-\end{align*}
-
-Let $k$ be the number of times the tail is appended to. Since the tail is a dynamic array, the number of writes it makes is $\FuncWrites(k)$. Since $\FuncGrow$ is called $|S_R|$ times and it appends to the tail each time except for the first, $k = |S_R| - 1 = \lceil \log_{\VarGrowthFactorNew} n - \log_{\VarGrowthFactorNew} \VarInitCapacityNew \rceil$. Then the formula for $\FuncWritesByGrow(n)$ is
-
-\begin{align*}
-\FuncWritesByGrow(n) = k + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
-\end{align*}
-
-where $\VarInitCapacity$ $\VarGrowthFactor$ are the capacity of the \textit{tail} (not the growth array). I finally conclude that
-
-\begin{align*}
-\FuncWritesNew(n) = n + k + \left( \frac{\VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} k - \log_{\VarGrowthFactor} \VarInitCapacity \rceil} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
-\end{align*}
 
 I now approximate this expression using $\sim$. First, I approximate $k$ using big-O:
 
