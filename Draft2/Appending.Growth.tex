@@ -2,21 +2,23 @@
 
 \HdrTimeComplex
 
-I again start off by finding the write cost when $n$ are appended. I give the write cost function a slightly different name, $\FuncWritesNew(n)$, so I can compare it to $\FuncWrites(n)$ later. I also use $\VarGrowthFactorNew$ and $\VarInitCapacityNew$ instead of $\VarGrowthFactor$ and $\VarInitCapacity$ for the growth factor and initial capacity, respectively.
+I again start off by finding the write cost for $n$ items. I will denote mathematical variables and functions associated with growth arrays with a hat on top, to avoid confusion with their dynamic array counterparts. For example, $\FuncWritesNew(n)$ will denote growth arrays' write cost function, $\VarInitCapacityNew$ their initial capacity, $\VarGrowthFactorNew$ their growth factor, and so on.
 
-\ref{lem:CapacitySeq} still holds, since all of the assumptions made there are also true for growth arrays. In particular, although growth arrays grow differently than dynamic arrays, the following claim is still true:
+\ref{lem:CapacitySeq} still holds, since all of the assumptions made there still hold for growth arrays. In particular, although growth arrays use a different growth algorithm than dynamic arrays, the following claim is still true:
 
 \begin{lemma}
-	The capacity of a growth array grows by a constant factor $\VarGrowthFactorNew$ after the first time it is called.
+	The capacity of a non-empty growth array grows by the constant factor $\VarGrowthFactorNew$.
 \end{lemma}
 
 \begin{proof}
-	I prove that the algorithm ensures this using induction.
+	I prove that the $\FuncGrow$ algorithm always enforces this using induction. I induct on the number of times $\FuncGrow$ is called, $k$, showing that for all $k \geq 2$, $\FuncGrow$ behaves correctly when called the $k$th time. (At $k = 1$, the growth array is empty, so its behavior is not relevant to this lemma.) I will let $c_i$ and $c_f$ denote the initial and final capacities and $h_i$ and $h_f$ denote the initial and final head capacities for the $k$th call, respectively.
+
+	At $k = 2$, $c_i = \VarInitCapacityNew$. I wish to show that $c_f = \VarGrowthFactorNew\VarInitCapacityNew$. This happens if and only if the next buffer has size $\Delta c = (\VarGrowthFactorNew - 1)\VarInitCapacityNew$, which the algorithm ensures.
 	
-	For the base case, consider the second time $\FuncGrow$ is called: the current capacity is $\VarInitCapacityNew$, and the next (total) capacity should be $\VarGrowthFactorNew\VarInitCapacityNew$. Then a buffer of size $(\VarGrowthFactorNew - 1)\VarInitCapacityNew$ should be appended, and that is what the algorithm does.
-	
-	For $i \geq 2$, given the algorithm behaves correctly the $i$th time it is called, I wish to show it behaves correctly the $(i + 1)$th time. From the inductive hypothesis, when the algorithm is called the $(i + 1)$th time, the current capacity is $\VarGrowthFactorNew^i\VarInitCapacityNew$ and the head capacity is $(\VarGrowthFactorNew^i - \VarGrowthFactorNew^{i - 1})\VarInitCapacityNew$. The next (total) capacity should be $\VarGrowthFactorNew^{i + 1}\VarInitCapacityNew$, and the next head capacity should be $(\VarGrowthFactorNew^{i + 1} - \VarGrowthFactorNew^i)\VarInitCapacityNew$, which is $\VarGrowthFactorNew$ times the current head capacity. The algorithm determines the capacity of the next buffer in this manner, proving the inductive step and completing the induction.
+	For $k > 2$, by induction $c_i = \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew$ and $h_i = (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew$. I wish to show $c_f = \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew$ and $h_f = (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew$. Because $k > 2$, the algorithm will calculate $h_f$ as $\VarGrowthFactorNew$ times $h_i$. Then $h_f = \VarGrowthFactorNew h_i = \VarGrowthFactorNew (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew = (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew$ as desired, and $c_f = c_i + h_f = \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew + (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew = \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew$, concluding the proof.
 \end{proof}
+
+% Bookmark
 
 Now I take a look at $\FuncGrow$. Unlike dynamic arrays, the number of writes performed does not equal $i$ if the current size is $i$. No items are being copied; the only source of writes is appending a buffer to the tail. The goal is to find the number of writes that causes.
 

@@ -39,18 +39,23 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 
 \begin{lemma}
 \label{lem:CapacitySeq}
-	Let $\VarList$ by a dynamic array. Let its \textbf{capacity sequence}, $\VarCapacitySeq$, be the capacities $\VarList$ takes on as $n$ items are appended. Then
+	Let $\VarList$ by a dynamic array. Let its \textbf{capacity sequence}, $\VarCapacitySeq$, be the capacities $\VarList$ takes on as $n$ items are appended. For $n = 0$, trivially $\VarCapacitySeq = (0)$. For $n > 0$,
 	\begin{align*}
-	\VarCapacitySeq = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity
+	\VarCapacitySeq = 0,\ \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)}\VarInitCapacity
 	\end{align*}
 \end{lemma}
 
-% Bookmark
-
 \begin{proof}
-	The capacity starts out at zero and becomes $\VarInitCapacity$ once one element is appended. From then on, it can only grow by a factor of $\VarGrowthFactor$ via $\FuncGrow$, so if $\VarGrowthFactor^i\VarInitCapacity$ is the current capacity then $\VarGrowthFactor^{i + 1}\VarInitCapacity$ must be the next capacity. By induction, the rest of the sequence is $\left( \VarGrowthFactor^i\VarInitCapacity \right)_{i = 1}^\VarUseful$ for some $\VarUseful$.
+	We use the following properties of dynamic arrays:
+	\begin{enumerate}
+		\item The capacity of an empty dynamic array is $0$.
+		\item The capacity of a dynamic array with one item is $\VarInitCapacity$.
+		\item Once it is non-empty, the capacity of a dynamic array can only grow by $\VarGrowthFactor$.
+		\item The capacity is only as large as it needs to be. That is, if $\VarCapacitySeq_i$ is the capacity for size $n$, then $n > \VarCapacitySeq_{i - 1}$. ($i > 1$ since $n > 0$, so $\VarCapacitySeq_{i - 1}$ must be defined.)
+	\end{enumerate}
+	Assumptions (1) and (2) immediately show $\VarCapacitySeq_1 = 0$ and $\VarCapacitySeq_2 = \VarInitCapacity$. Assumption (3) shows that if $\VarGrowthFactor^i\VarInitCapacity$ is the current capacity, then $\VarGrowthFactor^{i + 1}\VarInitCapacity$ must be the next capacity. By induction, the rest of the sequence is $\left( \VarGrowthFactor^i\VarInitCapacity \right)_{i = 1}^\VarUseful = \left( \VarCapacitySeq_i \right)_{i = 3}^{\VarUseful + 2}$ for some integer $\VarUseful$.
 	
-	Since the capacity is only as big as is needs to be, namely greater than or equal to $n$, $\VarUseful$ is the smallest integer for which $\VarGrowthFactor^\VarUseful\VarInitCapacity \geq n$. Using this property, I now derive $\VarUseful$.
+	By assumption (4), $\VarCapacitySeq_{\VarUseful + 2} \geq n > \VarCapacitySeq_{\VarUseful + 1}$. Supposing $n > \VarInitCapacity$, from (4) again I know that the rest of the sequence contains at least one term. Then $\VarUseful \geq 1$, so $\VarCapacitySeq_{\VarUseful + 2} = \VarGrowthFactor^\VarUseful\VarInitCapacity$ and $\VarCapacitySeq_{\VarUseful + 1} = \VarGrowthFactor^{\VarUseful - 1}\VarInitCapacity$. I can now derive $\VarUseful$:
 	\begin{align*}
 	\VarGrowthFactor^\VarUseful\VarInitCapacity &\geq n > \VarGrowthFactor^{\VarUseful - 1}\VarInitCapacity\\
 	\VarGrowthFactor^\VarUseful &\geq \frac{n}{\VarInitCapacity} > \VarGrowthFactor^{\VarUseful - 1}\\
@@ -60,7 +65,11 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 	\begin{align*}
 	\VarUseful &= \big\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \big\rceil
 	\end{align*}
-	The final term in the sequence is $\VarGrowthFactor^\VarUseful = \VarGrowthFactor^{\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil}\VarInitCapacity$, completing the proof.
+	If $n \leq \VarInitCapacity$, then necessarily $\VarCapacitySeq_{\VarUseful + 2} = \VarGrowthFactor^\VarUseful\VarInitCapacity$ is empty and $\VarUseful = 0$. Since $\VarUseful \geq 1$ for the previous case, we may obtain a general formula for $\VarUseful$ like so:
+	\begin{align*}
+	\VarUseful &= \max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)
+	\end{align*}
+	The final term in the sequence is $\VarGrowthFactor^\VarUseful\VarInitCapacity = \VarGrowthFactor^{\max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)}\VarInitCapacity$, completing the proof.
 \end{proof}
 
 [make lemma]
