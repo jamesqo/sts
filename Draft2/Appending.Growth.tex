@@ -11,11 +11,23 @@ I again start off by finding the write cost for $n$ items. I will denote mathema
 \end{lemma}
 
 \begin{proof}
-	I prove that the $\FuncGrow$ algorithm always enforces this using induction. I induct on the number of times $\FuncGrow$ is called, $k$, showing that for all $k \geq 2$, $\FuncGrow$ behaves correctly when called the $k$th time. (At $k = 1$, the growth array is empty, so its behavior is not relevant to this lemma.) I will let $c_i$ and $c_f$ denote the initial and final capacities and $h_i$ and $h_f$ denote the initial and final head capacities for the $k$th call, respectively.
+	I prove that the $\FuncGrow$ algorithm always enforces this using induction. I induct on the number of times $\FuncGrow$ is called, $k$, showing that for all $k \geq 2$, $\FuncGrow$ behaves correctly when called the $k$th time. (At $k = 1$, the growth array is empty, so its behavior is not relevant to this lemma.) I will let $c_i(k)$ and $c_f(k)$ denote the initial/final capacities and $h_i(k)$ and $h_f(k)$ denote the initial/final head capacities for the $k$th call, respectively.
 
-	At $k = 2$, $c_i = \VarInitCapacityNew$. I wish to show that $c_f = \VarGrowthFactorNew\VarInitCapacityNew$. This happens if and only if the next buffer has size $\Delta c = (\VarGrowthFactorNew - 1)\VarInitCapacityNew$, which the algorithm ensures.
+	For $k = 2$, $c_i(2) = \VarInitCapacityNew$. I wish to show that $c_f(2) = \VarGrowthFactorNew\VarInitCapacityNew$. This happens if and only if the next buffer has size ${\Delta c}(2) = (\VarGrowthFactorNew - 1)\VarInitCapacityNew$, which the algorithm ensures.
 	
-	For $k > 2$, by induction $c_i = \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew$ and $h_i = (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew$. I wish to show $c_f = \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew$ and $h_f = (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew$. Because $k > 2$, the algorithm will calculate $h_f$ as $\VarGrowthFactorNew$ times $h_i$. Then $h_f = \VarGrowthFactorNew h_i = \VarGrowthFactorNew (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew = (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew$ as desired, and $c_f = c_i + h_f = \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew + (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew = \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew$, concluding the proof.
+	For $k > 2$, by induction $c_i(k) = c_f(k - 1) = \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew$ and $h_i(k) = h_f(k - 1) = (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew$. I wish to show $c_f(k) = \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew$ and $h_f(k) = (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew$. Because $k > 2$, the algorithm will calculate $h_f$ as $\VarGrowthFactorNew$ times $h_i$. Then
+	\begin{align*}
+	h_f &= \VarGrowthFactorNew h_i\\
+	&= \VarGrowthFactorNew (\VarGrowthFactorNew^{k - 2} - \VarGrowthFactorNew^{k - 3})\VarInitCapacityNew\\
+	&= (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew
+	\end{align*}
+	and
+	\begin{align*}
+	c_f &= c_i + h_f\\
+	&= \VarGrowthFactorNew^{k - 2}\VarInitCapacityNew + (\VarGrowthFactorNew^{k - 1} - \VarGrowthFactorNew^{k - 2})\VarInitCapacityNew\\
+	&= \VarGrowthFactorNew^{k - 1}\VarInitCapacityNew
+	\end{align*}
+	as desired.
 \end{proof}
 
 % Bookmark
