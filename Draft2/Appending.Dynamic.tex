@@ -89,7 +89,7 @@ Counting the writes made for each item by $\FuncAppend$, an explicit formula for
 Now, my goal is to approximate $\FuncWrites(n)$ with $\sim$. To make is easier to do so, I will asymptotically bound $\VarGrowthFactor^\VarUseful$ which depends on $n$.
 
 \begin{lemma}
-	$n / \VarInitCapacity \RelLessEqual \VarGrowthFactor^\VarUseful \RelLess \VarGrowthFactor{n} / \VarInitCapacity$.
+	$n / \VarInitCapacity \FluteLeq \VarGrowthFactor^\VarUseful \FluteLess \VarGrowthFactor{n} / \VarInitCapacity$.
 \end{lemma}
 
 \begin{proof}
@@ -103,8 +103,8 @@ First I note that $\log_{\VarGrowthFactor} k \leq \lceil \log_{\VarGrowthFactor}
 \FuncWrites(n) &= n + \left( \frac{\VarGrowthFactor^\VarUseful - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
 n + \left( \frac{n / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \leq \FuncWrites(n) &< n + \left( \frac{\VarGrowthFactor{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
 n + \left( \frac{n - \VarInitCapacity}{\VarGrowthFactor - 1} \right) \leq \FuncWrites(n) &< n + \left( \frac{\VarGrowthFactor{n} - \VarInitCapacity}{\VarGrowthFactor - 1} \right)\\
-n + \left( \frac{n - \VarInitCapacity}{\VarGrowthFactor - 1} \right) \RelLessEqual \FuncWrites(n) &\RelLess n + \left( \frac{\VarGrowthFactor{n} - \VarInitCapacity}{\VarGrowthFactor - 1} \right)\\
-\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \RelLessEqual \FuncWrites(n) &\RelLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n
+n + \left( \frac{n - \VarInitCapacity}{\VarGrowthFactor - 1} \right) \FluteLeq \FuncWrites(n) &\FluteLess n + \left( \frac{\VarGrowthFactor{n} - \VarInitCapacity}{\VarGrowthFactor - 1} \right)\\
+\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \FluteLeq \FuncWrites(n) &\FluteLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n
 \end{align*}
 \HdrSpaceComplex
 
@@ -120,6 +120,6 @@ Using the identity in [ref2] again, I asymptotically bound $\FuncSpace(n)$:
 
 \begin{align*}
 \left( \frac{\VarGrowthFactor{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \leq \FuncSpace(n) &< \left( \frac{\VarGrowthFactor^2{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
-\left( \frac{\VarGrowthFactor{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \RelLessEqual \FuncSpace(n) &\RelLess \left( \frac{\VarGrowthFactor^2{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
-\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \RelLessEqual \FuncSpace(n) &\RelLess \left( \frac{\VarGrowthFactor^2}{\VarGrowthFactor - 1} \right) n
+\left( \frac{\VarGrowthFactor{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \FluteLeq \FuncSpace(n) &\FluteLess \left( \frac{\VarGrowthFactor^2{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
+\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \FluteLeq \FuncSpace(n) &\FluteLess \left( \frac{\VarGrowthFactor^2}{\VarGrowthFactor - 1} \right) n
 \end{align*}
