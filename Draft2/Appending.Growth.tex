@@ -39,6 +39,16 @@ Then the formula for $\FuncWritesByGrow(n)$ is simply $\hat{\FuncWrites}(\VarUse
 \begin{align*}
 \FuncWrites(n) = n + \hat{\FuncWrites}(\VarUseful)
 \end{align*}
+Now, I approximate this expression using $\sim$. To do this, I will first need to find the big-O complexity of $\VarUseful$:
+\begin{align*}
+\VarUseful &= \max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)\\
+\VarUseful &\sim \max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)\\
+&\sim \lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil\\
+&\sim \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity\\
+&\sim \log_{\VarGrowthFactor} n
+\end{align*}
+
+By [lemma], $O(\VarUseful) = O(\log_{\VarGrowthFactor} n) = O(\log n)$.
 
 % Bookmark
 
