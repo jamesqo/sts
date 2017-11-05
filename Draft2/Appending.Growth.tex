@@ -35,10 +35,11 @@ Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$
 \begin{align*}
 \VarNumItemsTail &= |\VarGrowSeq| - 1 = |\VarCapacitySeq| - 2 = \VarUseful
 \end{align*}
-Then the formula for $\FuncWritesByGrow(n)$ is simply $\hat{\FuncWrites}(\VarUseful)$, where $\hat{\FuncWrites}$ is the write cost function for dynamic arrays. Finally, adding the writes made by $\FuncAppend$, the formula for $\FuncWrites(n)$ is
+Then the formula for $\FuncWritesByGrow(n)$ is simply $\hat{\FuncWrites}(\VarUseful)$, where $\hat{\FuncWrites}$ denotes the write cost function for dynamic arrays. Finally, adding the writes made by $\FuncAppend$, the formula for $\FuncWrites(n)$ is
 \begin{align*}
 \FuncWrites(n) = n + \hat{\FuncWrites}(\VarUseful)
 \end{align*}
+% Todo: Make this a lemma.
 Now, I approximate this expression using $\sim$. To do this, I will first need to find the big-O complexity of $\VarUseful$:
 \begin{align*}
 \VarUseful &= \max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)\\
