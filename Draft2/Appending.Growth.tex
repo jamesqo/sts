@@ -38,6 +38,7 @@ Then the formula for $\FuncWritesByGrow(n)$ is simply $\FuncWritesTail(\VarUsefu
 Now, I approximate $\FuncWrites(n)$ using $\sim$. To do this, I will derive the big-O complexity of $\VarUseful$.
 
 \begin{lemma}
+\label{lem:VarUsefulIsOLogN}
 	$\VarUseful = O(\log n)$.
 \end{lemma}
 
@@ -49,30 +50,29 @@ Now, I approximate $\FuncWrites(n)$ using $\sim$. To do this, I will derive the 
 	By [lemma], $O(\VarUseful) = O(\log_{\VarGrowthFactor} n) = O(\log n)$ as desired.
 \end{proof}
 
-% Bookmark
-
-I now approximate this expression using $\sim$. First, I approximate $k$ using big-O:
-
+Now when $\FuncWrites(n)$ is approximated with $\sim$, the $\FuncWritesTail(\VarUseful)$ term disappears:
 \begin{align*}
-k &= \lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil\\
-O(k) &= O(\log n)
-\end{align*}
-
-Now, the $k$-term disappears when using $\sim$ to approximate $\FuncWrites(n)$, leaving just $n$:
-
-\begin{align*}
-\FuncWrites(n) &\sim n + \FuncWrites(k)\\
-&= n + O(\log n)\\
-&\sim n
+\FuncWrites(n) &= n + \FuncWritesTail(\VarUseful) = n + O(\VarUseful) = n + O(\log n) \sim n
 \end{align*}
 
 \HdrSpaceComplex
 
-% Should this be C(n) instead of C?
-The space function for $n$ $\FuncAppend$ calls on a growth array is denoted $\FuncSpace(n)$. Since growth arrays never throw away item buffers, if the current capacity is $C$ then the total length of item buffers is also $C$. $\FuncSpace(n)$ is usually greater than $C$, however; this is because growth arrays not only allocate item buffers, but stores references to them in the tail. Thus the space the tail allocates must also be determined.
+Unlike dynamic arrays, growth arrays never throw away buffers. This means that if the current capacity is $c$, then the total length of buffers allocated to store items is also $c$. Typically, however, $\FuncSpace(n) > c$. This is because growth arrays not only store items in buffers, they also store \textbf{references} (or \textbf{pointers}) to the buffers holding the items, in the tail. Thus, the space the tail allocates must also be considered.
 
-I determined in [...] that if $n$ are appended then the tail is appended to $k$ times, where $k = \lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil$. Since the tail is a dynamic array, it allocates $\FuncSpace(k)$ space, where $\FuncSpace$ is the space function of the tail. Through a similar method to [...] it can be shown $O(\FuncSpace(k)) = O(k) = O(\log n)$. Then % TODO: P-analysis should come after the explicit formula.
-
+We established in [lemma] that $\VarNumItemsTail = \VarUseful$. Then since $\VarCapacitySeq_\VarUseful$ is the space needed to hold items, and $\FuncSpaceTail(\VarUseful)$ is the space the tail needs to hold references, the formula for $\FuncSpace(n)$ is
 \begin{align*}
-\FuncSpace(n) \sim 2^{\lceil \log_2 n \rceil} = O(n)
+\FuncSpace(n) = \VarCapacitySeq_\VarUseful + \FuncSpaceTail(\VarUseful)
+\end{align*}
+I now wish to approximate this using $\sim$. First, note that since $\VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$, it follows from Lemma \ref{lem:ToVarUsefulPowerBounds} that $n \FluteLeq \VarCapacitySeq_\VarUseful \FluteLess \VarGrowthFactor{n}$. Since $n$ and $\VarGrowthFactor{n}$ are both $O(n)$, [the squeeze theorem] implies that $\VarCapacitySeq_\VarUseful = O(n)$.
+
+Now, consider the ratio $\lim_{n \to \infty} \left( \FuncSpaceTail(\VarUseful) / \VarCapacitySeq_\VarUseful \right) = O(\log n) / O(n) = O({\log n} / {n}) = 0$. Because it is $0$, from \ref{thm:RemovesLowerOrderTerms} we may conclude
+\begin{align*}
+\FuncSpace(n) = \VarCapacitySeq_\VarUseful + \FuncSpaceTail(\VarUseful) \sim \VarCapacitySeq_\VarUseful
+\end{align*}
+
+% Bookmark
+
+Using Lemma \ref{lem:VarUsefulIsOLogN} again, $\FuncSpaceTail(\VarUseful) = O(\VarUseful) = O(\log n)$. Similarly to before, the $\FuncSpaceTail(\VarUseful)$ term vanishes under $\sim$:
+\begin{align*}
+\FuncSpace(n) \sim ... + O(\log n) = ...
 \end{align*}
