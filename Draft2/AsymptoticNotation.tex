@@ -8,7 +8,7 @@ My goal is to be able to compare the coefficients of the highest-order terms in 
 
 I will mainly use the $\sim$ relation to analyze complexity. It is defined as follows:
 \begin{align*}
-f \sim g \leftrightarrow \lim_{n \to \infty} \frac f g = 1
+f \sim g \Biconditional \lim_{n \to \infty} \frac f g = 1
 \end{align*}
 This is read as "$f$ is asymptotic to $g$" or "$f$ and $g$ are asymptotic." {\HdrNote} $f$ and $g$ are used as shorthand to denote $f(n)$ and $g(n)$, respectively.
 
@@ -16,7 +16,7 @@ Notice that while $O(2n) = O(n)$, $2n \not\sim n$. Thus, $\sim$ makes it possibl
 
 I will also introduce the cousins of $\sim$, $\FluteLess$ and $\FluteLeq$. $f \FluteLeq g$ if and only if $f \FluteLess g$ or $f \sim g$. $\FluteLess$ is defined as follows:
 \begin{align*}
-f \FluteLess g \leftrightarrow \lim_{n \to \infty} \frac f g < 1
+f \FluteLess g \Biconditional \lim_{n \to \infty} \frac f g < 1
 \end{align*}
 \subsection{Properties}
 \label{subsec:AsymptoticProperties}
