@@ -37,7 +37,7 @@ If $\VarList$ is a growth array, then it is assumed to have the following fields
 	\item $\VarList.\FieldTail$ - The \textbf{tail} of $\VarList$. \textbf{Important note: The tail is a dynamic array.} It returns a \textit{dynamic array} of references to buffers that are already filled with items. The tail can be thought of as a two-dimensional array.\\
 	{\HdrNote} It may seem strange for a growth array to use the very data structure it is replacing. As shown in Lemma \ref{lem:VarUsefulIsOLogN}, however, only $O(\log n)$ many references are appended to the tail. Thus, the extra copying and allocations the tail performs is minuscule compared to other work done by the growth array.
 	\item $\VarList.\FieldSize$ - The number of items in $\VarList$.
-	\item $\VarList.\FieldCapacity$ - The \textbf{capacity} of $\VarList$. It returns the maximum number of items $\VarList$ can hold without resizing.
+	\item $\VarList.\FieldCapacity$ - The \textbf{capacity} of $\VarList$. It returns the maximum number of items $\VarList$ can hold before it must grow.
 \end{itemize}
 
 As a growth array, $\VarList$ is also given the following properties:
