@@ -57,6 +57,11 @@
 \newcommand{\FluteLess}{\prec}
 \newcommand{\FluteLeq}{\preceq}
 
+\newcommand{\ExprMessy}{\left\lceil \ExprMessyInner \right\rceil}
+\newcommand{\ExprMessyInner}{\log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity}
+\newcommand{\ExprMessyAlt}{\left\lceil \ExprMessyAltInner \right\rceil}
+\newcommand{\ExprMessyAltInner}{\log_{\VarGrowthFactor} \frac {n} {\VarInitCapacity}}
+
 \setlength{\parskip}{1em}
 
 \title{A more efficient algorithm for appending data}
