@@ -65,7 +65,7 @@ We established in [lemma] that $\VarNumItemsTail = \VarUseful$. Then since $\Var
 \end{align*}
 I now wish to approximate this using $\sim$. First, note that since $\VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$, it follows from Lemma \ref{lem:ToVarUsefulPowerBounds} that $n \FluteLeq \VarCapacitySeq_\VarUseful \FluteLess \VarGrowthFactor{n}$. Since $n$ and $\VarGrowthFactor{n}$ are both $O(n)$, [the squeeze theorem] implies that $\VarCapacitySeq_\VarUseful = O(n)$.
 
-Now, consider the ratio $\lim_{n \to \infty} \left( \FuncSpaceTail(\VarUseful) / \VarCapacitySeq_\VarUseful \right) = O(\log n) / O(n) = O({\log n} / {n}) = 0$. Because it is $0$, from \ref{thm:RemovesLowerOrderTerms} we may conclude
+Now, consider the ratio $\lim_{n \to \infty} \dfrac {\FuncSpaceTail(\VarUseful)} {\VarCapacitySeq_\VarUseful} = \dfrac {O(\log n)} {O(n)} = O \left( \dfrac{\log n}{n} \right) = 0$. Because it is $0$, from Theorem \ref{thm:RemovesLowerOrderTerms} we may conclude
 \begin{align*}
 \FuncSpace(n) = \VarCapacitySeq_\VarUseful + \FuncSpaceTail(\VarUseful) \sim \VarCapacitySeq_\VarUseful
 \end{align*}
