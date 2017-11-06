@@ -2,54 +2,52 @@
 
 \HdrTimeComplex
 
-I again start off by finding the write cost for $n$ items. \ref{lem:CapacitySeq} still holds, since all of the assumptions made there still hold for growth arrays. In particular, although growth arrays use a different growth algorithm than dynamic arrays, the following claim is still true:
+I start off again by finding the write cost for $n$ items. Lemma \ref{lem:CapacitySeq} still holds, since growth arrays satisfy the properties used by that proof. In particular, although growth arrays use a different growth algorithm than dynamic arrays, the following claim is still true:
 
 \begin{lemma}
 \label{lem:GrowthArraysGrowthFactor}
-	The capacity of a non-empty growth array grows by the constant factor $\VarGrowthFactor$.
+	The capacity of a growth array grows by the constant factor $\VarGrowthFactor$.
 \end{lemma}
 
 \begin{proof}
-	I prove that the $\FuncGrow$ algorithm always enforces this using induction. I induct on the number of times $\FuncGrow$ is called, $k$, showing that for all $k \geq 2$, $\FuncGrow$ behaves correctly when called the $k$th time. (At $k = 1$, the growth array is empty, so its behavior is not relevant to this lemma.) I will let $c_i(k)$ and $c_f(k)$ denote the initial/final capacities and $h_i(k)$ and $h_f(k)$ denote the initial/final head capacities for the $k$th call, respectively.
+	I prove that the $\FuncGrow$ algorithm enforces this using induction. I induct on the number of times $\FuncGrow$ is called, $k$, showing that for all natural numbers $k$, $\FuncGrow$ behaves correctly when called the $k$th time. I will let $c_i$ and $c_f$ denote the initial/final capacities and $h_i$ and $h_f$ denote the initial/final head capacities for the $k$th call, respectively.
 
-	For $k = 2$, $c_i(2) = \VarInitCapacity$. I wish to show that $c_f(2) = \VarGrowthFactor\VarInitCapacity$. This happens if and only if the next buffer has size ${\Delta c}(2) = (\VarGrowthFactor - 1)\VarInitCapacity$, which the algorithm ensures.
+	For $k = 1$, $c_i = \VarInitCapacity$. I wish to show that $c_f = \VarGrowthFactor\VarInitCapacity$. This happens if and only if the next buffer has size $\Delta c = (\VarGrowthFactor - 1)\VarInitCapacity$, which the algorithm ensures.
 	
-	For $k > 2$, by induction $c_i(k) = c_f(k - 1) = \VarGrowthFactor^{k - 2}\VarInitCapacity$ and $h_i(k) = h_f(k - 1) = (\VarGrowthFactor^{k - 2} - \VarGrowthFactor^{k - 3})\VarInitCapacity$. I wish to show $c_f(k) = \VarGrowthFactor^{k - 1}\VarInitCapacity$ and $h_f(k) = (\VarGrowthFactor^{k - 1} - \VarGrowthFactor^{k - 2})\VarInitCapacity$. Because $k > 2$, the algorithm will calculate $h_f(k)$ as $\VarGrowthFactor$ times $h_i(k)$. Then
+	For $k > 1$, by induction $c_i = \text{previous }c_f = \VarGrowthFactor^{k - 2}\VarInitCapacity$, and $h_i = \text{previous }h_f = (\VarGrowthFactor^{k - 2} - \VarGrowthFactor^{k - 3})\VarInitCapacity$. I wish to show $c_f = \VarGrowthFactor^{k - 1}\VarInitCapacity$ and $h_f = (\VarGrowthFactor^{k - 1} - \VarGrowthFactor^{k - 2})\VarInitCapacity$. Because $k > 1$, the algorithm will calculate $h_f$ as $\VarGrowthFactor$ times $h_i$. Then
 	\begin{align*}
-	h_f(k) &= \VarGrowthFactor h_i(k)\\
-	&= \VarGrowthFactor (\VarGrowthFactor^{k - 2} - \VarGrowthFactor^{k - 3})\VarInitCapacity\\
-	&= (\VarGrowthFactor^{k - 1} - \VarGrowthFactor^{k - 2})\VarInitCapacity
+	h_f &= \VarGrowthFactor h_i = \VarGrowthFactor (\VarGrowthFactor^{k - 2} - \VarGrowthFactor^{k - 3})\VarInitCapacity = (\VarGrowthFactor^{k - 1} - \VarGrowthFactor^{k - 2})\VarInitCapacity
 	\end{align*}
 	and
 	\begin{align*}
-	c_f(k) &= c_i(k) + h_f(k)\\
-	&= \VarGrowthFactor^{k - 2}\VarInitCapacity + (\VarGrowthFactor^{k - 1} - \VarGrowthFactor^{k - 2})\VarInitCapacity\\
-	&= \VarGrowthFactor^{k - 1}\VarInitCapacity
+	c_f &= c_i + h_f = \VarGrowthFactor^{k - 2}\VarInitCapacity + (\VarGrowthFactor^{k - 1} - \VarGrowthFactor^{k - 2})\VarInitCapacity = \VarGrowthFactor^{k - 1}\VarInitCapacity
 	\end{align*}
 	as desired.
 \end{proof}
 
-Now that \ref{lem:GrowthArraysGrowthFactor} and consequently \ref{lem:CapacitySeq} are proved for growth arrays, I examine the write cost of $\FuncGrow$. Unlike dynamic arrays, $\FuncGrow$ does not make $s$ writes if the current size is $s$. In fact, no items are copied; the only source of writes is when a buffer is appended to the tail, since the tail is a dynamic array.
+Since Lemma \ref{lem:GrowthArraysGrowthFactor} has been proven, Lemma \ref{lem:CapacitySeq} and all results based on it must also hold true for growth arrays. Now, I am ready to find the write cost of $\FuncGrow$. Unlike dynamic arrays, $\FuncGrow$ does not make $\VarGrowSeq_i$ writes when the current size is $\VarGrowSeq_i$. In fact, $\FuncGrow$ does not copy \textit{any} items supplied by the user. Writes are only made when a buffer is appended to the tail, since the tail is a dynamic array.
 
-Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$, and let $\VarNumItemsTail$ be the size of the tail. Consider that [make corollary] also holds true for growth arrays, so $\FuncGrow$ is called $|\VarGrowSeq|$ times. A buffer is appended to the tail every time except the first, so the size of the tail is
+Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$, and let $\VarNumItemsTail$ be the size of the tail. Since Corollary \ref{coro:GrowthSeq} also holds true for growth arrays, $\FuncGrow$ is called $|\VarGrowSeq|$ times. A buffer is appended to the tail each time $\FuncGrow$ is called. Thus, the tail's size is
 \begin{align*}
-\VarNumItemsTail &= |\VarGrowSeq| - 1 = |\VarCapacitySeq| - 2 = \VarUseful
+\VarNumItemsTail &= |\VarGrowSeq| = |\VarCapacitySeq| - 1 = \VarUseful
 \end{align*}
-Then the formula for $\FuncWritesByGrow(n)$ is simply $\hat{\FuncWrites}(\VarUseful)$, where $\hat{\FuncWrites}$ denotes the write cost function for dynamic arrays. Finally, adding the writes made by $\FuncAppend$, the formula for $\FuncWrites(n)$ is
+Then the formula for $\FuncWritesByGrow(n)$ is simply $\FuncWritesTail(\VarUseful)$, where $\FuncWritesTail$ denotes the tail's write cost function, that is, the write cost function for dynamic arrays. Finally, adding the writes made by $\FuncAppend$, the formula for $\FuncWrites(n)$ is
 \begin{align*}
-\FuncWrites(n) = n + \hat{\FuncWrites}(\VarUseful)
+\FuncWrites(n) = n + \FuncWritesTail(\VarUseful)
 \end{align*}
-% Todo: Make this a lemma.
-Now, I approximate this expression using $\sim$. To do this, I will first need to find the big-O complexity of $\VarUseful$:
-\begin{align*}
-\VarUseful &= \max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)\\
-\VarUseful &\sim \max(\lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil, 0)\\
-&\sim \lceil \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity \rceil\\
-&\sim \log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity\\
-&\sim \log_{\VarGrowthFactor} n
-\end{align*}
+Now, I approximate $\FuncWrites(n)$ using $\sim$. To do this, I will derive the big-O complexity of $\VarUseful$.
 
-By [lemma], $O(\VarUseful) = O(\log_{\VarGrowthFactor} n) = O(\log n)$.
+\begin{lemma}
+	$\VarUseful = O(\log n)$.
+\end{lemma}
+
+\begin{proof}
+	From \ref{lem:CapacitySeq}, $\VarUseful = \max(\ExprMessy, 0)$. As mentioned in Lemma \ref{lem:ToVarUsefulPowerBounds}, for sufficiently large $n$, $\VarUseful = \ExprMessy$. Then
+	\begin{align*}
+	\VarUseful \sim \ExprMessy \sim \left( \ExprMessyInner \right) \sim \log_{\VarGrowthFactor} n
+	\end{align*}
+	By [lemma], $O(\VarUseful) = O(\log_{\VarGrowthFactor} n) = O(\log n)$ as desired.
+\end{proof}
 
 % Bookmark
 
