@@ -78,11 +78,6 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 \begin{proof}
 	If $\VarCapacitySeq_i$ exists and $i \geq 1$, then clearly $\FuncGrow$ must have been called when the size was $\VarCapacitySeq_{i - 1}$, so $\VarCapacitySeq_{i - 1} \in \VarGrowSeq$. Then $\VarGrowSeq$ contains every term in $\VarCapacitySeq$ except for the last, $\VarCapacitySeq_\VarUseful$, as the corollary states.
 \end{proof}
-[make corollary]
-If $\VarCapacitySeq_i$ exists and $i \geq 1$, then clearly $\FuncGrow$ must have been called when the size was $\VarCapacitySeq_{i - 1}$. Then the \textbf{growth sequence}, the sizes for which $\FuncGrow$ is called when $n$ items are appended, is $\VarCapacitySeq$ with the last term removed:
-\begin{align*}
-\VarGrowSeq = \VarCapacitySeq \setminus \left\{ \VarCapacitySeq_\VarUseful \right\}
-\end{align*}
 
 When $\FuncGrow$ is called and the current size is $\VarGrowSeq_i$, the algorithm copies $\VarGrowSeq_i$ items. Then the total number of items copied when $n$ items are appended is:
 \begin{align*}
