@@ -1,3 +1,28 @@
 \HdrTimeComplexCmp
 
+Let $\FuncWritesDynamicArray(n)$ and $\FuncWritesGrowthArray(n)$ be the write costs for dynamic and growth arrays, respectively. I derived earlier that
+\begin{align*}
+\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \FluteLeq \FuncWritesDynamicArray(n) &\FluteLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n
+\end{align*}
+Dividing all sides of this inequality by $n$, I receive
+\begin{align*}
+\frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \FluteLeq \frac {\FuncWritesDynamicArray(n)} n &\FluteLess \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1}
+\end{align*}
+Since $\FuncWritesGrowthArray(n) \sim n$, $\dfrac {\FuncWritesDynamicArray(n)} n \sim \dfrac{\FuncWritesDynamicArray(n)}{\FuncWritesGrowthArray(n)}$, thus
+\begin{align*}
+\frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \FluteLeq \frac {\FuncWritesDynamicArray(n)} {\FuncWritesGrowthArray(n)} &\FluteLess \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1}
+\end{align*}
+
 \HdrSpaceComplexCmp
+
+Let $\FuncSpaceDynamicArray(n)$ and $\FuncSpaceGrowthArray(n)$ be the space costs for dynamic and growth arrays, respectively. Recall that
+\begin{align*}
+\FuncSpaceDynamicArray(n) = \left( \frac{\VarGrowthFactor^{\VarUseful + 1} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
+\end{align*}
+and $\FuncSpaceGrowthArray(n) \sim \VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$. Taking the ratio of $\FuncSpaceDynamicArray(n)$ to $\FuncSpaceGrowthArray(n)$, I receive
+\begin{align*}
+\frac{\FuncSpaceDynamicArray(n)}{\FuncSpaceGrowthArray(n)} &\sim \left( \frac{1}{\VarGrowthFactor^\VarUseful} \right) \left( \frac{\VarGrowthFactor^{\VarUseful + 1} - 1}{\VarGrowthFactor - 1} \right)\\
+&= \frac{\VarGrowthFactor - 1 / {\VarGrowthFactor^\VarUseful}}{\VarGrowthFactor - 1}\\
+&\sim \frac{\VarGrowthFactor}{\VarGrowthFactor - 1}
+\end{align*}
+The last step comes from the fact that $\VarUseful = \max(\ExprMessy, 0) \to \infty$ as $n \to \infty$.
