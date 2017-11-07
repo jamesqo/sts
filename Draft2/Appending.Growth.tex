@@ -16,12 +16,12 @@ In this section, $\VarList$ is a growth array. The following algorithm implement
 		\Procedure{$\FuncGrow$}{$L$}
 		\State $\VarList.\FieldTail.Append(\VarList.\FieldHead)$
 		\If{$\VarList.\FieldHeadCapacity = \VarInitCapacity$}
-			\State $new\ hcap \gets (\VarGrowthFactor - 1) \times \VarList.\FieldHeadCapacity$
+			\State $\VarNewHeadCapacity \gets (\VarGrowthFactor - 1) \times \VarList.\FieldHeadCapacity$
 		\Else
-			\State $new\ hcap \gets \VarGrowthFactor \times \VarList.\FieldHeadCapacity$
+			\State $\VarNewHeadCapacity \gets \VarGrowthFactor \times \VarList.\FieldHeadCapacity$
 		\EndIf
-		\State $\VarList.\FieldHead \gets \FuncNewArray(new\ hcap)$
-		\State $\VarList.\FieldCapacity \gets \VarList.\FieldCapacity + new\ hcap$
+		\State $\VarList.\FieldHead \gets \FuncNewArray(\VarNewHeadCapacity)$
+		\State $\VarList.\FieldCapacity \gets \VarList.\FieldCapacity + \VarNewHeadCapacity$
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}

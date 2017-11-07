@@ -13,6 +13,7 @@
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
 
+% Headers
 \newcommand{\HdrAssumptions}{\textbf{Assumptions:}}
 \newcommand{\HdrDynArrayImpl}{\textbf{Dynamic array implementation}}
 \newcommand{\HdrGrowthArrayImpl}{\textbf{Growth array implementation}}
@@ -22,6 +23,7 @@
 \newcommand{\HdrSpaceComplex}{\textbf{Space complexity}}
 \newcommand{\HdrSpaceComplexCmp}{\textbf{Space complexity comparison}}
 
+% Mathematical functions
 \newcommand{\FuncSpace}{s}
 \newcommand{\FuncSpaceTail}{\FuncSpace_\tau}
 \newcommand{\FuncTime}{t}
@@ -29,6 +31,7 @@
 \newcommand{\FuncWritesByGrow}{{\FuncWrites}_{\VarGrowSeq}}
 \newcommand{\FuncWritesTail}{\FuncWrites_\tau}
 
+% Mathematical variables
 \newcommand{\VarCapacitySeq}{\kappa}
 \newcommand{\VarGrowSeq}{\gamma}
 \newcommand{\VarGrowthFactor}{g}
@@ -37,6 +40,7 @@
 \newcommand{\VarNumItemsTail}{n_\tau}
 \newcommand{\VarUseful}{\lambda}
 
+% Algorithm fields
 \newcommand{\FieldBuffer}{Buf}
 \newcommand{\FieldCapacity}{Cap}
 \newcommand{\FieldEmpty}{Empty?}
@@ -48,6 +52,7 @@
 \newcommand{\FieldSize}{Size}
 \newcommand{\FieldTail}{Tail}
 
+% Algorithm functions
 \newcommand{\FuncArrayCopy}{Array\ copy}
 \newcommand{\FuncAppend}{Append}
 \newcommand{\FuncConstructor}{Constructor}
@@ -55,15 +60,21 @@
 \newcommand{\FuncNewArray}{New\ array}
 \newcommand{\FuncNewDynamicArray}{New\ dynamic\ array}
 
+% Mathematical symbols
 \newcommand{\Biconditional}{\Longleftrightarrow}
 \newcommand{\FluteLess}{\prec}
 \newcommand{\FluteLeq}{\preceq}
 
+% Common mathematical expressions
 \newcommand{\ExprMessy}{\left\lceil \ExprMessyInner \right\rceil}
 \newcommand{\ExprMessyInner}{\log_{\VarGrowthFactor} n - \log_{\VarGrowthFactor} \VarInitCapacity}
 \newcommand{\ExprMessyAlt}{\left\lceil \ExprMessyAltInner \right\rceil}
 \newcommand{\ExprMessyAltInner}{\log_{\VarGrowthFactor} \frac {n} {\VarInitCapacity}}
 \newcommand{\ExprNToInfty}{\lim_{n \to \infty}}
+
+% Mathematical variables
+\newcommand{\VarNewBuffer}{\text{new buf}}
+\newcommand{\VarNewHeadCapacity}{\text{new hcap}}
 
 \setlength{\parskip}{1em}
 
