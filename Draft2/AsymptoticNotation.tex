@@ -10,7 +10,7 @@ I will mainly use the $\sim$ relation to analyze complexity. It is defined as fo
 \begin{align*}
 f \sim g \Biconditional \ExprNToInfty \frac f g = 1
 \end{align*}
-This is read as "$f$ is asymptotic to $g$" or "$f$ and $g$ are asymptotic." {\HdrNote} $f$ and $g$ are used as shorthand to denote $f(n)$ and $g(n)$, respectively.
+This is read as ``$f$ is asymptotic to $g$'' or ``$f$ and $g$ are asymptotic.'' {\HdrNote} $f$ and $g$ are used as shorthand to denote $f(n)$ and $g(n)$, respectively.
 
 Notice that while $O(2n) = O(n)$, $2n \not\sim n$. Thus, $\sim$ makes it possible to distinguish between a function that uses $n$ space and one that uses $2n$ space. {\HdrNote} A consequence of this is that bases for logarithms cannot be omitted, like in big-O notation.
 
@@ -23,7 +23,7 @@ f \FluteLess g \Biconditional \ExprNToInfty \frac f g < 1
 
 Here, I define various properties of the $\sim$ relation that will be used in my proofs. These properties themselves are proved in the appendix.
 
-The following theorem states that $\sim$ can "merge", or un-distribute, over addition, multiplication, and division. This is a property shared with big-O.
+The following theorem states that $\sim$ can ``merge,'' or un-distribute, over addition, multiplication, and division. This is a property shared with big-O.
 
 \begin{theorem}
 \label{thm:MergesOverOps}
