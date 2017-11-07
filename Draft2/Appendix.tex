@@ -1,31 +1,23 @@
 \appendix
 \appendixpage
 
-\section{Proofs of $\sim$ Properties}
+\section{Proving $\sim$ Properties}
 
-\subsection{Merging over Arithmetic Operations}
+\subsection{$\sim$ Merges over $+$, $\times$, and $\div$}
 \label{pf:MergesOverArithmetic}
-
-\begin{proof}[Proof (Theorem \ref{thm:MergesOverArithmeticAdd})]
-\end{proof}
-
-\begin{proof}[Proof (Theorem \ref{thm:MergesOverArithmeticMultiply})]
-	This can be easily shown by multiplying the limits corresponding to $\hat{f}$ and $\hat{g}$:
-	
+\begin{proof}[Proof (Theorem \ref{thm:MergesOverOps})]
+	The statement about multiplication can be shown easily by multiplying the limits corresponding to $f$ and $g$:
 	\begin{align*}
-	\lim_{n \to \infty} \frac{\hat{f}}{f} &= 1\\
-	\lim_{n \to \infty} \frac{\hat{g}}{g} &= 1\\
-	\left( \lim_{n \to \infty} \frac{\hat{f}}{f} \right) \left( \lim_{n \to \infty} \frac{\hat{g}}{g} \right) &= 1 \cdot 1\\
-	\lim_{n \to \infty} \frac{\hat{f}\hat{g}}{fg} &= 1
+	\lim_{n \to \infty} \frac{f}{\Tweak{f}} &= 1\\
+	\lim_{n \to \infty} \frac{g}{\Tweak{g}} &= 1\\
+	\left( \lim_{n \to \infty} \frac{f}{\Tweak{f}} \right) \left( \lim_{n \to \infty} \frac{g}{\Tweak{g}} \right) &= 1 \cdot 1\\
+	\lim_{n \to \infty} \frac{fg}{\Tweak{f}\Tweak{g}} &= 1
 	\end{align*}
-	
-	it follows that $\hat{f}\hat{g} \sim fg$. The statement about division can be proved by flipping the fraction for $\hat{g}$ before multiplying, resulting in
-	
+	it follows that $fg \sim \Tweak{f}\Tweak{g}$. The statement about division can be proved by flipping the limit for $g$ before multiplying, resulting in
 	\begin{align*}
-	\lim_{n \to \infty} \frac{\hat{f} / \hat{g}}{f / g} = 1
+	\lim_{n \to \infty} \frac{f / g}{\Tweak{f} / \Tweak{g}} = 1
 	\end{align*}
-	
-	This shows $\hat{f} / \hat{g} \sim f / g$.
+	This shows $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
 \end{proof}
 
 \subsection{Removal of Lower-Order Terms}

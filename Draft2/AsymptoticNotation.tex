@@ -21,40 +21,28 @@ f \FluteLess g \Biconditional \lim_{n \to \infty} \frac f g < 1
 \subsection{Properties}
 \label{subsec:AsymptoticProperties}
 
-Here, I define various properties of the $\sim$ relation that will be used in my proofs. Proofs of these properties can be found in the appendix.
+Here, I define various properties of the $\sim$ relation that will be used in my proofs. These properties themselves are proved in the appendix.
 
-The following two theorems state that $\sim$ can "merge", or un-distribute, over arithmetic operations. This is a property shared with big-O.
+The following theorem states that $\sim$ can "merge", or un-distribute, over addition, multiplication, and division. This is a property shared with big-O.
 
 \begin{theorem}
-\label{thm:MergesOverArithmeticAdd}
-	$P$ merges over addition and subtraction. That is, for functions $f$ and $g$,
+\label{thm:MergesOverOps}
+	Suppose $f$, $\Tweak{f}$, $g$, and $\Tweak{g}$ are functions. If $f \sim \Tweak{f}$ and $g \sim \Tweak{g}$, then
 	\begin{align*}
-	(\hat{f} \sim f) \land (\hat{g} \sim g) \rightarrow \begin{cases}
-		(\hat{f} + \hat{g}) \sim (f + g)\\
-		(\hat{f} - \hat{g}) \sim (f - g)
-	\end{cases}
+	f + g &\sim \Tweak{f} + \Tweak{g}\\
+	fg &\sim \Tweak{f}\Tweak{g}\\
+	\frac{f}{g} &\sim \frac {\Tweak{f}} {\Tweak{g}}
 	\end{align*}
 \end{theorem}
 
-\begin{theorem}
-\label{thm:MergesOverArithmeticMultiply}
-	$P$ merges over multiplication and division. That is, for functions $f$ and $g$,
-	\begin{align*}
-	(\hat{f} \sim f) \land (\hat{g} \sim g) \rightarrow \begin{cases}
-	\hat{f}\hat{g} \sim fg\\
-	\hat{f} / \hat{g} \sim f / g
-	\end{cases}
-	\end{align*}
-\end{theorem}
-
-The following theorem states that lower-order terms may be removed. For example, $(n + \log_2 n) \sim n$.
+The following theorem states that lower-order terms may be removed: for example, $(n + \log_2 n) \sim n$. This is also a property shared with big-O.
 
 \begin{theorem}
 \label{thm:RemovesLowerOrderTerms}
-	If $\lim_{n \to \infty} g / f = 0$, then $f + O(g) \sim f$.
+	If $\lim_{n \to \infty} \dfrac{g}{f} = 0$, then $f + O(g) \sim f$.
 \end{theorem}
 
-The following theorem shows that $\sim$ is a transitive relation. This property is used implicitly by proofs that chain multiple $\sim$s in the form $f \sim g \sim h$, then conclude that $f \sim h$.
+The following theorem states that $\sim$ is a transitive relation. This property is used implicitly by proofs that chain multiple $\sim$s in the form $f \sim g \sim h$, then conclude that $f \sim h$.
 
 \begin{theorem}
 \label{thm:Transitivity}
