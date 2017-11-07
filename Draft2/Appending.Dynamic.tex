@@ -16,12 +16,12 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 				\State $\VarList.\FuncGrow()$
 			\EndIf
 			
-			\State $\VarList.\FieldHead[\VarList.\FieldHeadSize] \gets item$
+			\State $\VarList.\FieldBuffer[\VarList.\FieldSize] \gets item$
 			\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
 		\EndProcedure
 		\Statex
 		\Procedure{$\FuncGrow$}{$L$}
-			\State $new\ buf \gets \FuncNewArray(\VarList.\FieldSize \times \VarGrowthFactor)$
+			\State $new\ buf \gets \FuncNewArray(\VarGrowthFactor \times \VarList.\FieldSize)$
 			\State $\FuncArrayCopy(\VarList.\FieldBuffer, new\ buf, \VarList.\FieldSize)$
 			\State $\VarList.\FieldBuffer \gets new\ buf$
 		\EndProcedure

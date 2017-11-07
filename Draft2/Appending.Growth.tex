@@ -1,5 +1,31 @@
 \HdrGrowthArrayImpl
 
+In this section, $\VarList$ is a growth array. The following algorithm implements appending for growth arrays.
+
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\Procedure{$\FuncAppend$}{$L, item$}
+		\If{$\VarList.\FieldFull$}
+		\State $\VarList.\FuncGrow()$
+		\EndIf
+		
+		\State $\VarList.\FieldHead[\VarList.\FieldHeadSize] \gets item$
+		\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
+		\EndProcedure
+		\Statex
+		\Procedure{$\FuncGrow$}{$L$}
+		\State $\VarList.\FieldTail.Append(\VarList.\FieldHead)$
+		\If{$\VarList.\FieldHeadCapacity = \VarInitCapacity$}
+			\State $new\ hcap \gets (\VarGrowthFactor - 1) \times \VarList.\FieldHeadCapacity$
+		\Else
+			\State $new\ hcap \gets \VarGrowthFactor \times \VarList.\FieldHeadCapacity$
+		\EndIf
+		\State $\VarList.\FieldHead \gets \FuncNewArray(new\ hcap)$
+		\State $\VarList.\FieldCapacity \gets \VarList.\FieldCapacity + new\ hcap$
+		\EndProcedure
+	\end{algorithmic}
+\end{algorithm}
+
 \HdrTimeComplex
 
 I start off again by finding the write cost for $n$ items. Lemma \ref{lem:CapacitySeq} still holds, since growth arrays satisfy the properties used by that proof. In particular, although growth arrays use a different growth algorithm than dynamic arrays, the following claim is still true:
