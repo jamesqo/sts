@@ -36,7 +36,7 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 
 \begin{lemma}
 \label{lem:CapacitySeq}
-	Let $\VarList$ by a dynamic array. Let its \textbf{capacity sequence}, $\VarCapacitySeq$, be the range of values for $\VarList.\FieldCapacity$ as $n$ items are appended. For $n = 0$, trivially $\VarCapacitySeq = (\VarInitCapacity)$. For $n > 0$,
+	Let $\VarList$ be a dynamic array. Let its \textbf{capacity sequence}, $\VarCapacitySeq$, be the range of values for $\VarList.\FieldCapacity$ as $n$ items are appended. For $n = 0$, trivially $\VarCapacitySeq = (\VarInitCapacity)$. For $n > 0$,
 	\begin{align*}
 	\VarCapacitySeq = \VarInitCapacity,\ \VarGrowthFactor\VarInitCapacity,\ \VarGrowthFactor^2\VarInitCapacity,\ \ldots\ \VarGrowthFactor^{\max(\ExprMessy, 0)}\VarInitCapacity
 	\end{align*}
@@ -76,7 +76,7 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 \end{corollary}
 
 \begin{proof}
-	If $\VarCapacitySeq_i$ exists and $i \geq 1$, then clearly $\FuncGrow$ must have been called when the size was $\VarCapacitySeq_{i - 1}$, so $\VarCapacitySeq_{i - 1} \in \VarGrowSeq$. Then $\VarGrowSeq$ contains every term in $\VarCapacitySeq$ except for the last, $\VarCapacitySeq_\VarUseful$, as stated by the corollary.
+	If $\VarCapacitySeq_i$ exists and $i \geq 1$, then clearly $\FuncGrow$ must have been called when the size was $\VarCapacitySeq_{i - 1}$, so $\VarCapacitySeq_{i - 1} \in \VarGrowSeq$. Then $\VarGrowSeq$ contains every term in $\VarCapacitySeq$ except for the last, $\VarCapacitySeq_\VarUseful$, as the corollary states.
 \end{proof}
 [make corollary]
 If $\VarCapacitySeq_i$ exists and $i \geq 1$, then clearly $\FuncGrow$ must have been called when the size was $\VarCapacitySeq_{i - 1}$. Then the \textbf{growth sequence}, the sizes for which $\FuncGrow$ is called when $n$ items are appended, is $\VarCapacitySeq$ with the last term removed:

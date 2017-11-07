@@ -4,7 +4,7 @@
 \section{Proving $\sim$ Properties}
 
 \subsection{$\sim$ Merges over $+$, $\times$, and $\div$}
-\label{pf:MergesOverArithmetic}
+
 \begin{proof}[Proof (Theorem \ref{thm:MergesOverOps})]
 	% TODO: Prove statement for addition.
 	
@@ -23,7 +23,6 @@
 \end{proof}
 
 \subsection{$\sim$ Removes Lower-Order Terms}
-\label{pf:RemovesLowerOrderTerms}
 
 \begin{proof}[Proof (Theorem \ref{thm:RemovesLowerOrderTerms})]
 	Since
@@ -36,8 +35,7 @@
 \end{proof}
 
 \subsection{$\sim$ is Transitive}
-\label{pf:Transitivity}
 
-\begin{proof}[Proof (Theorem \ref{thm:Transitivity})]
+\begin{proof}[Proof (Theorem \ref{thm:SimIsTransitive})]
 By definition, $\ExprNToInfty \dfrac f g = 1$ and $\ExprNToInfty \dfrac g h = 1$. Multiplying the two equations, $\ExprNToInfty \dfrac f h = 1$ which implies $f \sim h$.
 \end{proof}
