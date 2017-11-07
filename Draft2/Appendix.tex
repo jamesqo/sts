@@ -6,6 +6,8 @@
 \subsection{$\sim$ Merges over $+$, $\times$, and $\div$}
 \label{pf:MergesOverArithmetic}
 \begin{proof}[Proof (Theorem \ref{thm:MergesOverOps})]
+	% TODO: Prove statement for addition.
+	
 	The statement about multiplication can be shown easily by multiplying the limits corresponding to $f$ and $g$:
 	\begin{align*}
 	\ExprNToInfty \frac{f}{\Tweak{f}} &= 1\\
@@ -20,24 +22,22 @@
 	This shows $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
 \end{proof}
 
-\subsection{Removal of Lower-Order Terms}
+\subsection{$\sim$ Removes Lower-Order Terms}
 \label{pf:RemovesLowerOrderTerms}
 
 \begin{proof}[Proof (Theorem \ref{thm:RemovesLowerOrderTerms})]
 	Since
-	
 	\begin{align*}
-	\ExprNToInfty \left( \frac{f + g}{f} \right) &= \ExprNToInfty \frac{f}{f} + \ExprNToInfty \frac{g}{f}\\
+	\ExprNToInfty \frac{f + g}{f} &= \ExprNToInfty \frac{f}{f} + \ExprNToInfty \frac{g}{f}\\
 	&= 1 + 0\\
 	&= 1
 	\end{align*}
-	
 	it follows that $f + g \sim f$.
 \end{proof}
 
-\subsection{Transitivity}
+\subsection{$\sim$ is Transitive}
 \label{pf:Transitivity}
 
 \begin{proof}[Proof (Theorem \ref{thm:Transitivity})]
-By definition, $\ExprNToInfty g / f = 1$ and $\ExprNToInfty h / g = 1$. Multiplying the two equations, $\ExprNToInfty h / f = 1$ which implies $f \sim h$.
+By definition, $\ExprNToInfty \dfrac f g = 1$ and $\ExprNToInfty \dfrac g h = 1$. Multiplying the two equations, $\ExprNToInfty \dfrac f h = 1$ which implies $f \sim h$.
 \end{proof}
