@@ -4,6 +4,8 @@ Indexing a growth array is slower and more complex than indexing a dynamic array
 
 Despite growth arrays' relatively poor indexing performance, I include this section for two reasons. 1) Dynamic arrays are indexed frequently. In order for growth arrays to be a viable replacement for them, it should be possible to index growth arrays too. 2) I wish to show that it is possible to index growth arrays in constant time.
 
+\HdrLogarithmicImpl
+
 The first algorithm I will demonstrate is a na\"{i}ve implementation that runs in logarithmic time:
 
 \begin{algorithm}
@@ -23,10 +25,18 @@ The first algorithm I will demonstrate is a na\"{i}ve implementation that runs i
 
 I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumItemsTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time.
 
-TODO: The following needs polish
+I present this algorithm in addition to the constant time one since 1) it is easier to understand, and 2) the latter is often slower if special circumstances are not met.
 
-Although I have an $O(1)$ algorithm, I present this algorithm because 1) it is easier to understand and 2) the other algorithm is only fast for certain values of $\VarGrowthFactor$. [More]
+\HdrConstantImpl
 
-Before I present the constant time algorithm, I must establish [a mathematical foundation for the code]. I note that every valid index $i$ can also be represented by an ordered pair [TODO: intro vars for these] [beta/varepsilon?] $(I_B, I_E)$, where $I_B$ represents the index of the buffer within the tail, and $I_E$ represents the index of the item within the buffer. Once these values are determined, the desired item is easily found via [code or math?] $\VarList.\FieldTail[I_B][I_E]$. [I will let $I_B = \VarList.\FieldTail.\FieldSize$ [TODO: Introduce Tsize?] mean that the buffer is $\VarList.\FieldHead$.]
+% TODO: The following needs polish
+
+In this section, I will present the constant time algorithm for indexing a growth array. Before I do so, however, I must establish a mathematical foundation for the algorithm.
+
+I note that every valid index $i$ (``valid'' means $0 \leq i < \VarList.\FieldSize$) can be represented by the ordered pair of integers $(\VarIndexBuffer, \VarIndexElement)$. $\VarIndexBuffer$ is called the \textbf{buffer index} and represents the index of the buffer within the tail. $\VarIndexElement$ is called the \textbf{element index} and represents the index of the element within the buffer.
+
+% TODO: Even more polish
+
+Once these values are determined, the desired item is easily found via [code or math?] $\VarList.\FieldTail[I_B][I_E]$. [I will let $I_B = \VarList.\FieldTail.\FieldSize$ [TODO: Introduce Tsize?] mean that the buffer is $\VarList.\FieldHead$.]
 
 I now derive formulas for $I_B$ and $I_E$ in terms of $i$ [and g and c_0?]. $I_B$ is just the index of the last buffer when $i$ elements are added, or $\VarList.\FieldTail.\FieldSize - 1$
