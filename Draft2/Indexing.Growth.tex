@@ -23,4 +23,10 @@ The first algorithm I will demonstrate is a na\"{i}ve implementation that runs i
 
 I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumItemsTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time.
 
-% TODO: Explain why you're presenting this algorithm alongside the O(1) algorithm. 1) Simpler 2) 2nd implementation is only fast when g = 2.
+TODO: The following needs polish
+
+Although I have an $O(1)$ algorithm, I present this algorithm because 1) it is easier to understand and 2) the other algorithm is only fast for certain values of $\VarGrowthFactor$. [More]
+
+Before I present the constant time algorithm, I must establish [a mathematical foundation for the code]. I note that every valid index $i$ can also be represented by an ordered pair [TODO: intro vars for these] [beta/varepsilon?] $(I_B, I_E)$, where $I_B$ represents the index of the buffer within the tail, and $I_E$ represents the index of the item within the buffer. Once these values are determined, the desired item is easily found via [code or math?] $\VarList.\FieldTail[I_B][I_E]$. [I will let $I_B = \VarList.\FieldTail.\FieldSize$ [TODO: Introduce Tsize?] mean that the buffer is $\VarList.\FieldHead$.]
+
+I now derive formulas for $I_B$ and $I_E$ in terms of $i$ [and g and c_0?]. $I_B$ is just the index of the last buffer when $i$ elements are added, or $\VarList.\FieldTail.\FieldSize - 1$
