@@ -6,9 +6,11 @@
 \usepackage{appendix}
 \usepackage{textcomp}
 
+% Commands
 \algnewcommand{\LineComment}[1]{\Statex \(\triangleright\) #1}
 \newcommand{\Tweak}[1]{#1_0}
 
+% Setup for theorem environments
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{corollary}{Corollary}[theorem]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -60,9 +62,11 @@
 \newcommand{\FuncArrayCopy}{Array\ copy}
 \newcommand{\FuncAppend}{Append}
 \newcommand{\FuncConstructor}{Constructor}
+\newcommand{\FuncGetItem}{Get\ item}
 \newcommand{\FuncGrow}{Grow}
 \newcommand{\FuncNewArray}{New\ array}
 \newcommand{\FuncNewDynamicArray}{New\ dynamic\ array}
+\newcommand{\FuncSetItem}{Set\ item}
 
 % Mathematical symbols
 \newcommand{\Biconditional}{\Longleftrightarrow}
@@ -76,9 +80,14 @@
 \newcommand{\ExprMessyAltInner}{\log_{\VarGrowthFactor} \frac {n} {\VarInitCapacity}}
 \newcommand{\ExprNToInfty}{\lim_{n \to \infty}}
 
-% Mathematical variables
+% Algorithm local variables
+\newcommand{\VarBuffer}{\textit{buf}}
+\newcommand{\VarIndex}{\textit{i}}
 \newcommand{\VarNewBuffer}{\textit{new buf}}
 \newcommand{\VarNewHeadCapacity}{\textit{new hcap}}
+
+% Algorithm text
+\newcommand{\TextIn}{\textbf{ in }}
 
 \setlength{\parskip}{1em}
 

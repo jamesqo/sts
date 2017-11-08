@@ -1,0 +1,26 @@
+\HdrGrowthArrayImpl
+
+Indexing a growth array is slower and more complex than indexing a dynamic array. However, this does not mean that accessing data of a growth array has to be slower than accessing that of a dynamic array. Refer to Sections [Iterating] and [Copying to an array] to learn how to quickly access growth arrays' data.
+
+Despite growth arrays' relatively poor indexing performance, I include this section for two reasons. 1) Dynamic arrays are indexed frequently. In order for growth arrays to be a viable replacement for them, it should be possible to index growth arrays too. 2) I wish to show that it is possible to index growth arrays in constant time.
+
+The first algorithm I will demonstrate is a na\"{i}ve implementation that runs in logarithmic time:
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\Function{$\FuncGetItem$}{$\VarList, index$}
+			\State $\VarIndex \gets index$
+			\For{$\VarBuffer \TextIn \VarList.\FieldTail$}
+				\If{$\VarIndex < \VarBuffer.\FieldLength$}
+					\State \Return $\VarBuffer[\VarIndex]$
+				\EndIf
+				\State $\VarIndex \gets \VarIndex - \VarBuffer.\FieldLength$
+			\EndFor
+			\State \Return $\VarList.\FieldHead[\VarIndex]$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumItemsTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time.
+
+% TODO: Explain why you're presenting this algorithm alongside the O(1) algorithm. 1) Simpler 2) 2nd implementation is only fast when g = 2.

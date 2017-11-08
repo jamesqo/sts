@@ -11,7 +11,7 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\Procedure{$\FuncAppend$}{$L, item$}
+		\Procedure{$\FuncAppend$}{$\VarList, item$}
 			\If{$\VarList.\FieldFull$}
 				\State $\VarList.\FuncGrow()$
 			\EndIf
@@ -20,7 +20,7 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 			\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
 		\EndProcedure
 		\Statex
-		\Procedure{$\FuncGrow$}{$L$}
+		\Procedure{$\FuncGrow$}{$\VarList$}
 			\State $\VarNewBuffer \gets \FuncNewArray(\VarGrowthFactor \times \VarList.\FieldSize)$
 			\State $\FuncArrayCopy(\VarList.\FieldBuffer, \VarNewBuffer, \VarList.\FieldSize)$
 			\State $\VarList.\FieldBuffer \gets \VarNewBuffer$

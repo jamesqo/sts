@@ -4,7 +4,7 @@ In this section, $\VarList$ is a growth array. The following algorithm implement
 
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\Procedure{$\FuncAppend$}{$L, item$}
+		\Procedure{$\FuncAppend$}{$\VarList, item$}
 		\If{$\VarList.\FieldFull$}
 		\State $\VarList.\FuncGrow()$
 		\EndIf
@@ -13,7 +13,7 @@ In this section, $\VarList$ is a growth array. The following algorithm implement
 		\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
 		\EndProcedure
 		\Statex
-		\Procedure{$\FuncGrow$}{$L$}
+		\Procedure{$\FuncGrow$}{$\VarList$}
 		\State $\VarList.\FieldTail.Append(\VarList.\FieldHead)$
 		\If{$\VarList.\FieldHeadCapacity = \VarInitCapacity$}
 			\State $\VarNewHeadCapacity \gets (\VarGrowthFactor - 1) \times \VarList.\FieldHeadCapacity$

@@ -1,0 +1,15 @@
+\HdrDynArrayImpl
+
+The following algorithm implements $\FuncGetItem$ for dynamic arrays. A $\FuncSetItem$ function can be implemented in a similar fashion.
+
+{\HdrNote} I assume all arguments passed to my algorithms are valid. Thus, I do not include argument validation nor error handling in my pseudocode.
+
+\begin{algorithm}
+	\begin{algorithmic}[1]
+		\Function{$\FuncGetItem$}{$\VarList, index$}
+			\State \Return $\VarList.\FieldBuffer[index]$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+Clearly, this function runs in constant time. It also has the benefit of using very few instructions: on architectures like x86, indexing the buffer may take as little as one instruction.
