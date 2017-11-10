@@ -25,18 +25,42 @@ The first algorithm I will demonstrate is a na\"{i}ve implementation that runs i
 
 I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumItemsTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time.
 
-I present this algorithm in addition to the constant time one since 1) it is easier to understand, and 2) the latter is often slower if special circumstances are not met.
+I present this algorithm alongside the constant time one because it is easier to understand, and the latter is often slower if special circumstances are not met.
 
 \HdrConstantImpl
 
-% TODO: The following needs polish
+In this section, I will present a constant time algorithm for indexing a growth array. Before I do so, however, I must establish a mathematical justification for it.
 
-In this section, I will present the constant time algorithm for indexing a growth array. Before I do so, however, I must establish a mathematical foundation for the algorithm.
+Suppose I want to get the $i$th element of a growth array, where $i$ is zero-based. I assume that $i$ is a valid index, or that $0 \leq i < \VarList.\FieldSize$. In order to locate the desired element, I must find two things: the buffer that holds the item, and the index of the item within that buffer.
 
-I note that every valid index $i$ (``valid'' means $0 \leq i < \VarList.\FieldSize$) can be represented by the ordered pair of integers $(\VarIndexBuffer, \VarIndexElement)$. $\VarIndexBuffer$ is called the \textbf{buffer index} and represents the index of the buffer within the tail. $\VarIndexElement$ is called the \textbf{element index} and represents the index of the element within the buffer.
+Now, consider that every buffer except the head is stored inside the tail. Thus, such buffers can be uniquely identified by their index in the tail. I will refer to this quantity as the \textbf{buffer index} and denote it $\VarIndexBuffer$. I wish to assign the head a buffer index as well, so that each buffer has a unique ID. Since the head succeeds the tail's last buffer, which has $\VarIndexBuffer = \VarNumItemsTail - 1$, I will let the head's $\VarIndexBuffer$ be $\VarNumItemsTail$.
 
-% TODO: Even more polish
+I define a helper function, $\FuncGetBuffer$, that gets the buffer associated with a given $\VarIndexBuffer$:
 
-Once these values are determined, the desired item is easily found via [code or math?] $\VarList.\FieldTail[I_B][I_E]$. [I will let $I_B = \VarList.\FieldTail.\FieldSize$ [TODO: Introduce Tsize?] mean that the buffer is $\VarList.\FieldHead$.]
+% Todo: Make parameter names for other parts consistent.
+\begin{algorithm}
+	\begin{algorithmic}
+		\Function{$\FuncGetBuffer$}{$\VarList, \VarIndexBuffer$}
+			\If{$\VarIndexBuffer < \VarList.\FieldTail.\FieldSize$}
+				\State \Return $\VarList.\FieldTail[\VarIndexBuffer]$
+			\Else
+				\State \Return $\VarList.\FieldHead$
+			\EndIf
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
 
-I now derive formulas for $I_B$ and $I_E$ in terms of $i$ [and g and c_0?]. $I_B$ is just the index of the last buffer when $i$ elements are added, or $\VarList.\FieldTail.\FieldSize - 1$
+I will call the index of the desired element within the buffer the \textbf{element index}, and denote it $\VarIndexElement$.
+
+If I define a helper function $\FuncDecompose$ that returns the $\VarIndexBuffer$ and $\VarIndexElement$ associated with $i$ in an ordered pair, then $\FuncGetItem$ may be written as follows:
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\Function{$\FuncGetItem$}{$\VarList, index$}
+			\State $(\VarIndexBuffer, \VarIndexElement) \gets \FuncDecompose(index)$
+			\State \Return $\VarList.\FuncGetBuffer(\VarIndexBuffer)[\VarIndexElement]$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in terms of $i$.
