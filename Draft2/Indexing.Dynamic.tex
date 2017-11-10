@@ -6,8 +6,8 @@ The following algorithm implements $\FuncGetItem$ for dynamic arrays. A $\FuncSe
 
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\Function{$\FuncGetItem$}{$\VarList, index$}
-			\State \Return $\VarList.\FieldBuffer[index]$
+		\Function{$\FuncGetItem$}{$\VarList, \ParamIndex$}
+			\State \Return $\VarList.\FieldBuffer[\ParamIndex]$
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}

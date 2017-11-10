@@ -11,12 +11,12 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\Procedure{$\FuncAppend$}{$\VarList, item$}
+		\Procedure{$\FuncAppend$}{$\VarList, \ParamItem$}
 			\If{$\VarList.\FieldFull$}
 				\State $\VarList.\FuncGrow()$
 			\EndIf
 			
-			\State $\VarList.\FieldBuffer[\VarList.\FieldSize] \gets item$
+			\State $\VarList.\FieldBuffer[\VarList.\FieldSize] \gets \ParamItem$
 			\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
 		\EndProcedure
 		\Statex

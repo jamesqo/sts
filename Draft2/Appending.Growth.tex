@@ -4,12 +4,12 @@ In this section, $\VarList$ is a growth array. The following algorithm implement
 
 \begin{algorithm}
 	\begin{algorithmic}[1]
-		\Procedure{$\FuncAppend$}{$\VarList, item$}
+		\Procedure{$\FuncAppend$}{$\VarList, \ParamItem$}
 		\If{$\VarList.\FieldFull$}
 		\State $\VarList.\FuncGrow()$
 		\EndIf
 		
-		\State $\VarList.\FieldHead[\VarList.\FieldHeadSize] \gets item$
+		\State $\VarList.\FieldHead[\VarList.\FieldHeadSize] \gets \ParamItem$
 		\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
 		\EndProcedure
 		\Statex

@@ -10,8 +10,8 @@ The first algorithm I will demonstrate is a na\"{i}ve implementation that runs i
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\Function{$\FuncGetItem$}{$\VarList, index$}
-			\State $\LclIndex \gets index$
+		\Function{$\FuncGetItem$}{$\VarList, \ParamIndex$}
+			\State $\LclIndex \gets \ParamIndex$
 			\For{$\LclBuffer \TextIn \VarList.\FieldTail$}
 				\If{$\LclIndex < \LclBuffer.\FieldLength$}
 					\State \Return $\LclBuffer[\LclIndex]$
@@ -40,9 +40,9 @@ I define a helper function, $\FuncGetBuffer$, that gets the buffer associated wi
 % Todo: Make parameter names for other parts consistent.
 \begin{algorithm}
 	\begin{algorithmic}
-		\Function{$\FuncGetBuffer$}{$\VarList, \VarIndexBuffer$}
-			\If{$\VarIndexBuffer < \VarList.\FieldTail.\FieldSize$}
-				\State \Return $\VarList.\FieldTail[\VarIndexBuffer]$
+		\Function{$\FuncGetBuffer$}{$\VarList, \ParamIndexBuffer$}
+			\If{$\ParamIndexBuffer < \VarList.\FieldTail.\FieldSize$}
+				\State \Return $\VarList.\FieldTail[\ParamIndexBuffer]$
 			\Else
 				\State \Return $\VarList.\FieldHead$
 			\EndIf
@@ -56,9 +56,9 @@ If I define a helper function $\FuncDecompose$ that returns the $\VarIndexBuffer
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\Function{$\FuncGetItem$}{$\VarList, index$}
-			\State $(\VarIndexBuffer, \VarIndexElement) \gets \FuncDecompose(index)$
-			\State \Return $\VarList.\FuncGetBuffer(\VarIndexBuffer)[\VarIndexElement]$
+		\Function{$\FuncGetItem$}{$\VarList, \ParamIndex$}
+			\State $(\VarIndexBuffer, \VarIndexElement) \gets \FuncDecompose(\ParamIndex)$
+			\State \Return $\VarList.\FuncGetBuffer(\ParamIndexBuffer)[\ParamIndexElement]$
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
