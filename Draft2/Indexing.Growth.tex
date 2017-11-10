@@ -35,14 +35,14 @@ Suppose I want to get the $i$th element of a growth array, where $i$ is zero-bas
 
 Now, consider that every buffer except the head is stored inside the tail. Thus, such buffers can be uniquely identified by their index in the tail. I will refer to this quantity as the \textbf{buffer index} and denote it $\VarIndexBuffer$. I wish to assign the head a buffer index as well, so that each buffer has a unique ID. Since the head succeeds the tail's last buffer, which has $\VarIndexBuffer = \VarNumItemsTail - 1$, I will let the head's $\VarIndexBuffer$ be $\VarNumItemsTail$.
 
-I define a helper function, $\FuncGetBuffer$, that gets the buffer associated with a given $\VarIndexBuffer$:
+I define a helper function, $\FuncGetBuffer$, that gets the buffer associated with a given $\VarIndexBuffer$. $\VarIndexBuffer$ is assumed to be valid; that is, $0 \leq \VarIndexBuffer \leq \VarNumItemsTail$.
 
 % Todo: Make parameter names for other parts consistent.
 \begin{algorithm}
 	\begin{algorithmic}
-		\Function{$\FuncGetBuffer$}{$\VarList,\ \ParamIndexBuffer$}
-			\If{$\ParamIndexBuffer < \VarList.\FieldTail.\FieldSize$}
-				\State \Return $\VarList.\FieldTail[\ParamIndexBuffer]$
+		\Function{$\FuncGetBuffer$}{$\VarList,\ \LclIndexBuffer$}
+			\If{$\LclIndexBuffer < \VarList.\FieldTail.\FieldSize$}
+				\State \Return $\VarList.\FieldTail[\LclIndexBuffer]$
 			\Else
 				\State \Return $\VarList.\FieldHead$
 			\EndIf
@@ -57,10 +57,56 @@ If I define a helper function $\FuncDecompose$ that returns the $\VarIndexBuffer
 \begin{algorithm}
 	\begin{algorithmic}
 		\Function{$\FuncGetItem$}{$\VarList,\ \ParamIndex$}
-			\State $(\VarIndexBuffer,\ \VarIndexElement) \gets \FuncDecompose(\ParamIndex)$
-			\State \Return $\VarList.\FuncGetBuffer(\ParamIndexBuffer)[\ParamIndexElement]$
+			\State $(\LclIndexBuffer,\ \LclIndexElement) \gets \FuncDecompose(\ParamIndex)$
+			\State \Return $\VarList.\FuncGetBuffer(\LclIndexBuffer)[\LclIndexElement]$
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
 
-The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in terms of $i$.
+% Todo: \VarLogicalIndex for i? Introduce "logical index" term above?
+The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in terms of $i$, in order to implement $\FuncDecompose$.
+
+% Todo: There's an awful lot of lemmas. Make some into theorems.
+\begin{lemma}
+	The formulae for $\VarIndexBuffer$ and $\VarIndexElement$ are
+	\begin{align*}
+	\VarIndexBuffer &= \VarUseful|_{n = i + 1}\\
+	\VarIndexElement &= i - \VarGrowSeq_{\VarIndexBuffer - 1}
+	\end{align*}
+\end{lemma}
+
+% Todo: "As shown earlier"
+% Todo: Again, by convention \VarGrowSeq_{-1} = 0. Modify the algorithm accordingly.
+\begin{proof}
+	Appending new items does not change the index of an item that is already in the list. Thus, this problem can be reduced to finding the last element when $n = i + 1$.
+	
+	The last element always resides in the head, so $\VarIndexBuffer = \VarNumItemsTail|_{n = i + 1}$. As shown earlier, $\VarNumItemsTail = \VarUseful$, so $\VarIndexBuffer = \VarUseful|_{n = i + 1}$.
+	
+	To find $\VarIndexElement$, consider the equation:
+	\begin{align*}
+	n = \text{\# of items in tail} + \text{\# of items in head}
+	\end{align*}
+	From the premise, $n = i + 1$. The number of items in the tail is the last size at which $\FuncGrow$ was called, or $\VarGrowSeq_{\VarUseful - 1} = \VarGrowSeq_{\VarIndexBuffer - 1}$. Finally, since the desired item is the last item in the growth array, it is also the last item in the head. Then the size of the head is $\VarIndexElement + 1$. Substituting these values into the above equation, I receive
+	\begin{align*}
+	i + 1 &= \VarGrowSeq_{\VarIndexBuffer - 1} + \VarIndexElement + 1\\
+	\VarIndexElement &= i - \VarGrowSeq_{\VarIndexBuffer - 1}
+	\end{align*}
+	completing the proof.
+\end{proof}
+
+% Todo: Mention formulae for \VarUseful and \VarGrowSeq_{\VarIndexBuffer - 1}.
+Now, the $\FuncDecompose$ function can be implemented as follows:
+
+% Todo: Continue to consider usage of mathematical vs. algorithm vars.
+% Todo: Can ceiling of \log_2 be implemented fast? Also, what if \VarInitCapacity is not a power of 2?
+\begin{algorithm}
+	\begin{algorithmic}
+		\Function{$\FuncDecompose$}{$\ParamIndex$}
+			\State $\LclIndexBuffer \gets \max(\left\lceil \log_{\VarGrowthFactor} (i + 1) - \log_{\VarGrowthFactor} \VarInitCapacity \right\rceil, 0)$
+			\State $\LclIndexElement \gets \ParamIndex - \VarGrowthFactor^{\LclIndexBuffer - 1} \times \VarInitCapacity$
+			\State \Return $(\LclIndexBuffer,\ \LclIndexElement)$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+
+Clearly, $\FuncDecompose$ runs in constant time. At first glance, however, it appears to be quite expensive since it % Bookmark
