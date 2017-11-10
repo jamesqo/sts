@@ -11,14 +11,14 @@ The first algorithm I will demonstrate is a na\"{i}ve implementation that runs i
 \begin{algorithm}
 	\begin{algorithmic}
 		\Function{$\FuncGetItem$}{$\VarList, index$}
-			\State $\VarIndex \gets index$
-			\For{$\VarBuffer \TextIn \VarList.\FieldTail$}
-				\If{$\VarIndex < \VarBuffer.\FieldLength$}
-					\State \Return $\VarBuffer[\VarIndex]$
+			\State $\LclIndex \gets index$
+			\For{$\LclBuffer \TextIn \VarList.\FieldTail$}
+				\If{$\LclIndex < \LclBuffer.\FieldLength$}
+					\State \Return $\LclBuffer[\LclIndex]$
 				\EndIf
-				\State $\VarIndex \gets \VarIndex - \VarBuffer.\FieldLength$
+				\State $\LclIndex \gets \LclIndex - \LclBuffer.\FieldLength$
 			\EndFor
-			\State \Return $\VarList.\FieldHead[\VarIndex]$
+			\State \Return $\VarList.\FieldHead[\LclIndex]$
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}

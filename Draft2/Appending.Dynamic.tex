@@ -21,9 +21,9 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 		\EndProcedure
 		\Statex
 		\Procedure{$\FuncGrow$}{$\VarList$}
-			\State $\VarNewBuffer \gets \FuncNewArray(\VarGrowthFactor \times \VarList.\FieldSize)$
-			\State $\FuncArrayCopy(\VarList.\FieldBuffer, \VarNewBuffer, \VarList.\FieldSize)$
-			\State $\VarList.\FieldBuffer \gets \VarNewBuffer$
+			\State $\LclNewBuffer \gets \FuncNewArray(\VarGrowthFactor \times \VarList.\FieldSize)$
+			\State $\FuncArrayCopy(\VarList.\FieldBuffer, \LclNewBuffer, \VarList.\FieldSize)$
+			\State $\VarList.\FieldBuffer \gets \LclNewBuffer$
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
