@@ -1,0 +1,13 @@
+\HdrDynArrayImpl
+
+The algorithm for converting a dynamic array to a raw array is straightforward:
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\Function{$\FuncToArray$}{$\VarList$}
+			\State $\LclRawArray \gets \FuncNewArray(\VarList.\FieldSize)$
+			\State $\FuncArrayCopy(\VarList.\FieldBuffer,\ \LclRawArray,\ \VarList.\FieldSize)$
+			\State \Return $\LclRawArray$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}

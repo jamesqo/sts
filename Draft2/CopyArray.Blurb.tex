@@ -1,9 +1,4 @@
-Users often want to take list structures, such as dynamic arrays, and convert them into plain arrays. There are multiple reasons why someone would want to do this after they are done appending to the list:
+% Todo: Is 'n memory' vague?
+After they are done appending to them, users often want to take dynamic arrays and convert them into raw arrays. There are multiple possible reasons for this: 1) Raw arrays hold on to exactly $n$ memory to store $n$ elements. However, dynamic and growth arrays typically use $> n$ memory so they need not grow every time $\FuncAppend$ is called. 2) A function in third-party code might only accept a raw array as an argument.
 
-\begin{itemize}
-	\item Plain arrays hold on to exactly the amount of memory needed to hold their elements. However, dynamic and growth arrays allocate more space than necessary to optimize appending new items.
-	\item The user wants to call a function in third-party code that takes a plain array as an argument.
-	\item
-	\item Plain arrays are contiguous, while growth arrays are fragmented and have worse locality.
-	\item The indexer of growth arrays is several times slower than that of plain arrays, whether the $O(1)$ or $O(\log n)$ implementation is chosen.
-\end{itemize}
+The case is even more compelling for growth arrays: 3) Since they are not entirely contiguous, they have worse data locality (even if the number of discontinuities is $O(\log n)$). 4) Raw arrays can be indexed much faster than growth arrays.

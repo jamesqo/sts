@@ -1,0 +1,16 @@
+\HdrGrowthArrayImpl
+
+The growth array implementation must call $\FuncArrayCopy$ multiple times, since not all elements are contiguous.
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\Function{$\FuncToArray$}{$\VarList$}
+		\State $\LclRawArray \gets \FuncNewArray(\VarList.\FieldSize)$
+		\For{$\LclBuffer \TextIn \VarList.\FieldTail$}
+			\State $\FuncArrayCopy(\LclBuffer,\ \LclRawArray,\ \LclBuffer.\FieldLength)$
+		\EndFor
+		\State $\FuncArrayCopy(\VarList.\FieldHead,\ \LclRawArray,\ \VarList.\FieldHeadSize)$
+		\State \Return $\LclRawArray$
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}

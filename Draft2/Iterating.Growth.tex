@@ -1,0 +1,20 @@
+\HdrGrowthArrayImpl
+
+The algorithm for growth arrays is not as simple, however, if the user wants optimal performance. As shown in the previous section, the algorithm for indexing growth arrays is very costly compared to its dynamic array counterpart. Thus, I wish to avoid using it in my iteration algorithm.
+
+Fortunately, it turns out that it is possible to avoid its use:
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\LineComment{Algorithm for ``$\TextFor \LclItem \TextIn \VarList$'', where $\VarList$ is a growth array}
+		\For{$\LclBuffer \TextIn \VarList.\FieldTail$}
+			\For{$\LclItem \TextIn \LclBuffer$}
+				\State $\ParamAction(\LclItem)$
+			\EndFor
+		\EndFor
+		\For{$\LclIndex = 0,\ \LclIndex < \VarList.\FieldHeadSize,\ \LclIndex \gets \LclIndex + 1$}
+		\State $\LclItem \gets \VarList.\FieldHead[\LclIndex]$
+		\State $\ParamAction(\LclItem)$
+		\EndFor
+	\end{algorithmic}
+\end{algorithm}
