@@ -102,7 +102,7 @@ Now, the $\FuncDecompose$ function can be implemented as follows:
 \begin{algorithm}
 	\begin{algorithmic}
 		\Function{$\FuncDecompose$}{$\ParamIndex$}
-			\State $\LclIndexBuffer \gets \max(\left\lceil \log_{\VarGrowthFactor} (i + 1) - \log_{\VarGrowthFactor} \VarInitCapacity \right\rceil, 0)$
+			\State $\LclIndexBuffer \gets \max(\left\lceil \log_{\VarGrowthFactor} (\ParamIndex + 1) - \log_{\VarGrowthFactor} \VarInitCapacity \right\rceil, 0)$
 			\State $\LclIndexElement \gets \ParamIndex - \VarGrowthFactor^{\LclIndexBuffer - 1} \times \VarInitCapacity$
 			\State \Return $(\LclIndexBuffer,\ \LclIndexElement)$
 		\EndFunction
