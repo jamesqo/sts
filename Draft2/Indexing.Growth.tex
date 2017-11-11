@@ -86,7 +86,7 @@ The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in
 	\begin{align*}
 	n = \text{\# of items in tail} + \text{\# of items in head}
 	\end{align*}
-	From the premise, $n = i + 1$. The number of items in the tail is the last size at which $\FuncGrow$ was called, or $\VarGrowSeq_{\VarUseful - 1} = \VarGrowSeq_{\VarIndexBuffer - 1}$. Finally, since the desired item is the last item in the growth array, it is also the last item in the head. Then the size of the head is $\VarIndexElement + 1$. Substituting these values into the above equation, I receive
+	From the premise, $n = i + 1$. The number of items in the tail is the last size at which $\FuncGrow$ was called, or $\VarGrowSeq_{\VarUseful - 1} = \VarGrowSeq_{\VarIndexBuffer - 1} = \text{the last term of } \VarGrowSeq$. Finally, since the desired item is the last item in the growth array, it is also the last item in the head. Thus $\VarIndexElement$ is the head's last valid index, so the size of the head is $\VarIndexElement + 1$. Substituting these values into the above equation, I receive
 	\begin{align*}
 	i + 1 &= \VarGrowSeq_{\VarIndexBuffer - 1} + \VarIndexElement + 1\\
 	\VarIndexElement &= i - \VarGrowSeq_{\VarIndexBuffer - 1}
@@ -109,4 +109,8 @@ Now, the $\FuncDecompose$ function can be implemented as follows:
 	\end{algorithmic}
 \end{algorithm}
 
-Clearly, $\FuncDecompose$ runs in constant time. At first glance, however, it appears to be quite expensive since it % Bookmark
+Clearly, $\FuncDecompose$ runs in constant time. Despite that, it still appears to be quite expensive: normally, logarithms and exponentiation utilize costly floating-point instructions. However, in the special case where $\VarGrowthFactor = 2$ and $\VarInitCapacity = 2^\VarLogInitCapacity$ for some constant whole number $\VarLogInitCapacity$, I claim that $\VarIndexBuffer$ and $\VarIndexElement$ can be computed without use of floating-point instructions.
+
+To see this, first note that $\VarIndexBuffer$ becomes $\max(\left\lceil \log_2 (i + 1) \right\rceil - \VarLogInitCapacity, 0)$. There is a constant time algorithm for computing $\left\lceil \log_2 k \right\rceil$ for any $k \in \mathbb{N}$, which uses bitwise operations instead of floating-point instructions. (I will not discuss it in this paper due to the length its mathematical justification would require, but the algorithm may be found in [Implementations section].) Thus $\left\lceil \log_2 (i + 1) \right\rceil$ can be computed without floating-point instructions. It is easy to see that the rest of the expression for $\VarIndexBuffer$ can be computed without them, too, proving the claim for $\VarIndexBuffer$.
+
+The expression for $\VarIndexElement$ becomes $i - 2^{\VarIndexBuffer + \VarLogInitCapacity - 1}$. Since $\VarIndexBuffer$ has already been found, it is trivial to compute $\VarIndexBuffer + \VarLogInitCapacity - 1$. $2$ raised to this power can be computed cheaply with a bit shift. Finally, subtracting from $i$ does not use floating-point instructions, proving the claim for $\VarIndexElement$.

@@ -1,6 +1,7 @@
 \documentclass{article}
 \usepackage{algorithm}
 \usepackage[noend]{algpseudocode}
+\usepackage{amsfonts}
 \usepackage{amsmath}
 \usepackage{amsthm}
 \usepackage{appendix}
@@ -47,6 +48,7 @@
 \newcommand{\VarIndexBuffer}{i_B}
 \newcommand{\VarIndexElement}{i_E}
 \newcommand{\VarInitCapacity}{c_0}
+\newcommand{\VarLogInitCapacity}{\varepsilon}
 \newcommand{\VarList}{L}
 \newcommand{\VarNumItemsTail}{n_\tau}
 \newcommand{\VarUseful}{\lambda}
@@ -90,8 +92,8 @@
 % Algorithm local variables
 \newcommand{\LclBuffer}{buf}
 \newcommand{\LclIndex}{i}
-\newcommand{\LclIndexBuffer}{b\_index}
-\newcommand{\LclIndexElement}{e\_index}
+\newcommand{\LclIndexBuffer}{\VarIndexBuffer}
+\newcommand{\LclIndexElement}{\VarIndexElement}
 \newcommand{\LclNewBuffer}{new\_buf}
 \newcommand{\LclNewHeadCapacity}{new\_hcap}
 
