@@ -15,8 +15,8 @@ In this section, $\VarList$ is a growth array. The following algorithm implement
 		\Statex
 		\Procedure{$\FuncGrow$}{$\VarList$}
 		\State $\VarList.\FieldTail.Append(\VarList.\FieldHead)$
-		\If{$\VarList.\FieldHeadCapacity = \VarInitCapacity$}
-			\State $\LclNewHeadCapacity \gets (\VarGrowthFactor - 1) \times \VarList.\FieldHeadCapacity$
+		\If{$\VarList.\FieldCapacity = \VarInitCapacity$}
+			\State $\LclNewHeadCapacity \gets (\VarGrowthFactor - 1) \times \VarInitCapacity$
 		\Else
 			\State $\LclNewHeadCapacity \gets \VarGrowthFactor \times \VarList.\FieldHeadCapacity$
 		\EndIf
