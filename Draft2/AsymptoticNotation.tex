@@ -25,7 +25,7 @@ When reading these symbols, one says ``$f$ is asymptotically less than $g$'' or 
 
 Here, I define various properties of the $\sim$ relation that later proofs will use. The properties themselves are proved in the appendix.
 
-In the following theorems, variables with the letters $f$, $g$, or $h$ denote arbitrary, non-decreasing functions with positive outputs for sufficiently large $n$.
+In the following theorems and their proofs, variables with the letters $f$, $g$, or $h$ denote arbitrary functions that are positive and non-decreasing for sufficiently large $n$.
 
 The following theorem states that $\sim$ meets the requirements of an equivalence relation.
 
@@ -59,6 +59,7 @@ The following theorem states that $\sim$ can ``merge,'' or un-distribute, over a
 \end{theorem}
 
 \begin{corollary}
+\label{coro:BothSides}
 	Both sides of a $\sim$ relation may be added, multiplied, or divided by the same function.
 \end{corollary}
 
@@ -66,7 +67,7 @@ The following theorem states that if two functions are asymptotic, then they bel
 
 \begin{theorem}
 \label{thm:SameBigOClass}
-	If $f \sim g$ and $g = O(h)$, then $f = O(h)$.
+	If $f \sim g$ and $g = O(\Tweak{g})$, then $f = O(\Tweak{g})$.
 \end{theorem}
 
 The following theorem states that if two functions are asymptotic, then they can be used interchangeably in an asymptotic inequality.
@@ -77,9 +78,14 @@ The following theorem states that if two functions are asymptotic, then they can
 \end{theorem}
 
 \begin{corollary}
+\label{coro:InterchangeableInNonStrictInequality}
 	The same statements hold true for $\FluteLeq$: If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLeq \TweakSecond{f}$, then $f \FluteLeq \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLeq \TweakSecond{g}$, then $\Tweak{g} \FluteLeq g$.
 \end{corollary}
 
-\begin{corollary}
-	Both sides of a $\FluteLess$ or $\FluteLeq$ relation may be added, multiplied, or divided by the same function.
-\end{corollary}
+% Todo: Add note, adding doesn't always work.
+In the same vein as Corollary \ref{coro:BothSides}, the following theorem states that asymptotic inequalities can be algebraically manipulated.
+
+\begin{theorem}
+\label{thm:BothSidesInequality}
+	Both sides of a $\FluteLess$ or $\FluteLeq$ relation may be multiplied or divided by the same function.
+\end{theorem}

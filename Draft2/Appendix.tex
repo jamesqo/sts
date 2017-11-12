@@ -17,13 +17,19 @@
 \subsection{$\sim$ Removes Lower-Order Terms}
 
 \begin{proof}[Proof (Theorem \ref{thm:RemovesLowerOrderTerms})]
-	Since
+	Let $h = O(g)$. By definition, $h \leq cg$ for sufficiently large $n$, where $c$ is a positive constant. Dividing both sides by $f$ and taking the limit, $\ExprNToInfty \dfrac{h}{f} \leq \ExprNToInfty c \left( \dfrac{g}{f} \right)$. Since $\ExprNToInfty \dfrac{g}{f}$ exists and equals $0$, the right-hand side equals $c \cdot 0 = 0$. However, $\ExprNToInfty \dfrac{h}{f} \geq 0$ since both $h$ and $f$ are positive. By the squeeze theorem, $\ExprNToInfty \dfrac{h}{f} = 0$.
+	
+	Since $\ExprNToInfty \dfrac{f}{f}$ and $\ExprNToInfty \dfrac{h}{f}$ both exist,
 	\begin{align*}
-	\ExprNToInfty \frac{f + g}{f} &= \ExprNToInfty \frac{f}{f} + \ExprNToInfty \frac{g}{f}\\
-	&= 1 + 0\\
-	&= 1
+	\ExprNToInfty \dfrac{f + h}{f} = \ExprNToInfty \dfrac{f}{f} + \ExprNToInfty \dfrac{h}{f} = 1 + 0 = 1
 	\end{align*}
-	it follows that $f + g \sim f$.
+	It follows that $f + h = f + O(g) \sim f$.
+\end{proof}
+
+\subsubsection{$f + c \sim f$ for Unbounded $f$}
+
+\begin{proof}[Proof (Corollary \ref{coro:PlusConstant})]
+	If $f$ is unbounded, $\ExprNToInfty \dfrac{c}{f} = 0$. Applying Theorem \ref{thm:RemovesLowerOrderTerms}, $f + c \sim f$.
 \end{proof}
 
 \subsection{$\sim$ Merges over $+$, $\times$, and $\div$}
@@ -31,16 +37,57 @@
 \begin{proof}[Proof (Theorem \ref{thm:MergesOverOps})]
 	% TODO: Prove statement for addition.
 	
-	The statement about multiplication can be shown easily by multiplying the limits corresponding to $f$ and $g$:
+	The statement about multiplication is more easily proven. Since both $\ExprNToInfty \dfrac{f}{\Tweak{f}}$ and $\ExprNToInfty \dfrac{g}{\Tweak{g}}$ exist,
 	\begin{align*}
-	\ExprNToInfty \frac{f}{\Tweak{f}} &= 1\\
-	\ExprNToInfty \frac{g}{\Tweak{g}} &= 1\\
-	\left( \ExprNToInfty \frac{f}{\Tweak{f}} \right) \left( \ExprNToInfty \frac{g}{\Tweak{g}} \right) &= 1 \cdot 1\\
-	\ExprNToInfty \frac{fg}{\Tweak{f}\Tweak{g}} &= 1
+	\ExprNToInfty \frac{fg}{\Tweak{f}\Tweak{g}} = \left( \ExprNToInfty \frac{f}{\Tweak{f}} \right) \left( \ExprNToInfty \frac{g}{\Tweak{g}} \right) = 1 \cdot 1 = 1
 	\end{align*}
-	it follows that $fg \sim \Tweak{f}\Tweak{g}$. The statement about division can be proved by flipping the limit for $g$ before multiplying, resulting in
+	It follows that $fg \sim \Tweak{f}\Tweak{g}$. If the limit for $g$ is flipped before multiplying, the following results:
 	\begin{align*}
 	\ExprNToInfty \frac{f / g}{\Tweak{f} / \Tweak{g}} = 1
 	\end{align*}
-	This shows $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
+	This shows that $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
+\end{proof}
+
+\subsubsection{$\sim$ Relations can be Algebraically Manipulated}
+
+\begin{proof}[Proof (Corollary \ref{coro:BothSides})]
+	Since $\sim$ is reflexive, $g \sim g$. Taking $\Tweak{g} = g$ for Theorem \ref{thm:MergesOverOps}, the corollary statement follows.
+\end{proof}
+
+\subsection{Asymptotic Functions Have the Same Big-O Class}
+
+\begin{proof}[Proof (Theorem \ref{thm:SameBigOClass})]
+	This will be a proof by contradiction. Assume $f = O(\Tweak{f})$ where $O(\Tweak{f}) \neq O(\Tweak{g})$. Then $\dfrac {O(\Tweak{f})} {O(\Tweak{g})} \neq 1$. However, $\ExprNToInfty \dfrac{f}{g} = \dfrac {O(\Tweak{f})} {O(\Tweak{g})}$, so $\ExprNToInfty \dfrac{f}{g} \neq 1$. It follows that $f \not\sim g$, which contradicts the given. Thus, it must be true that $f = O(\Tweak{g})$.
+\end{proof}
+
+\subsection{Asymptotic Functions may be Swapped in Strict Asymptotic Inequalities}
+
+\begin{proof}[Proof (Theorem \ref{thm:InterchangeableInInequality})]
+	By definition, $\ExprNToInfty \dfrac{f}{\Tweak{f}} = 1$ and $\ExprNToInfty \dfrac{\Tweak{f}}{\TweakSecond{f}} < 1$. Since both limits exist,
+	\begin{align*}
+	\ExprNToInfty \frac{f}{\TweakSecond{f}} = \left( \ExprNToInfty \frac{f}{\Tweak{f}} \right) \left( \ExprNToInfty \frac{\Tweak{f}}{\TweakSecond{f}} \right) < 1 \cdot 1 = 1
+	\end{align*}
+	It follows that $f \FluteLess \TweakSecond{f}$.
+	
+	The second statement may be proved in a similar manner. Since $\sim$ is symmetric, $\TweakSecond{g} \sim g$. Applying the same argument as before,
+	\begin{align*}
+	\ExprNToInfty \frac{\Tweak{g}}{g} = \left( \ExprNToInfty \frac{\Tweak{g}}{\TweakSecond{g}} \right) \left( \ExprNToInfty \frac{\TweakSecond{g}}{g} \right) < 1 \cdot 1 = 1
+	\end{align*}
+	Thus, $\Tweak{g} \FluteLess g$.
+\end{proof}
+
+\subsubsection{Asymptotic Functions may be Swapped in Non-Strict Asymptotic Inequalities}
+
+\begin{proof}[Proof (Corollary \ref{coro:InterchangeableInNonStrictInequality})]
+	Suppose $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLeq \TweakSecond{f}$. By definition, $\Tweak{f} \FluteLess \TweakSecond{f}$ or $\Tweak{f} \sim \TweakSecond{f}$. In the first case, from Theorem \ref{thm:InterchangeableInInequality} $f \FluteLess \TweakSecond{f}$. In the second case, since $\sim$ is transitive $f \sim \TweakSecond{f}$. In both cases, it is true that $f \FluteLeq \TweakSecond{f}$.
+	
+	The second statement is, again, proved in a similar manner. If $\Tweak{g} \FluteLeq \TweakSecond{g}$, then $\Tweak{g} \FluteLess \TweakSecond{g}$ or $\Tweak{g} \sim \TweakSecond{g}$. In the first case, $\Tweak{g} \FluteLess g$; in the second, $\Tweak{g} \sim g$. In both cases, $\Tweak{g} \FluteLeq g$.
+\end{proof}
+
+\subsubsection{$\FluteLess$ and $\FluteLeq$ Relations can be Algebraically Manipulated}
+
+\begin{proof}[Proof (Theorem \ref{thm:BothSidesInequality})]
+	Suppose that $f \FluteLess g$. By definition, $\ExprNToInfty \dfrac{f}{g} < 1$. For any function $h$, $\ExprNToInfty \dfrac{fh}{gh} < 1$ and $\ExprNToInfty \dfrac{f / h}{g / h} < 1$, so respectively $fh \FluteLess gh$ and $\dfrac{f}{h} \FluteLess \dfrac{g}{h}$.
+	
+	If I suppose $f \FluteLeq g$, then $f \FluteLess g$ or $f \sim g$. The first statement implies $fh \FluteLess gh$, and the second implies $fh \sim gh$ (from Corollary \ref{coro:BothSides}). In either case, $fh \FluteLeq gh$. Using the same logic, it is true that $\dfrac{f}{h} \FluteLeq \dfrac{g}{h}$.
 \end{proof}
