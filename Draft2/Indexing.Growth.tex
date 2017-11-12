@@ -73,6 +73,7 @@ The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in
 	\VarIndexBuffer &= \VarUseful|_{n = i + 1}\\
 	\VarIndexElement &= i - \VarGrowSeq_{\VarIndexBuffer - 1}
 	\end{align*}
+	(By convention, $\VarGrowSeq_{-1} = 0$.)
 \end{lemma}
 
 % Todo: "As shown earlier"
@@ -82,11 +83,13 @@ The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in
 	
 	The last element always resides in the head, so $\VarIndexBuffer = \VarNumItemsTail|_{n = i + 1}$. As shown earlier, $\VarNumItemsTail = \VarUseful$, so $\VarIndexBuffer = \VarUseful|_{n = i + 1}$.
 	
-	To find $\VarIndexElement$, consider the equation:
+	To find $\VarIndexElement$, consider the identity:
 	\begin{align*}
 	n = \text{\# of items in tail} + \text{\# of items in head}
 	\end{align*}
-	From the premise, $n = i + 1$. The number of items in the tail is the last size at which $\FuncGrow$ was called, or $\VarGrowSeq_{\VarUseful - 1} = \VarGrowSeq_{\VarIndexBuffer - 1} = \text{the last term of } \VarGrowSeq$. Finally, since the desired item is the last item in the growth array, it is also the last item in the head. Thus $\VarIndexElement$ is the head's last valid index, so the size of the head is $\VarIndexElement + 1$. Substituting these values into the above equation, I receive
+	First, I will determine the number of items in the tail. In the case where $\VarIndexBuffer = 0$, then because $\VarNumItemsTail = \VarIndexBuffer$, the tail contains $0$ buffers and thus $0 = \VarGrowSeq_{-1}$ items. If $\VarIndexBuffer > 0$, the number of items in the tail is the last size at which $\FuncGrow$ was called, or the last term of $\VarGrowSeq$. This quantity is $\VarGrowSeq_{\VarUseful - 1} = \VarGrowSeq_{\VarIndexBuffer - 1}$.
+	
+	The desired item is the growth array's last element, which implies it is also the head's last element. Thus $\VarIndexElement$ is the head's last valid index, so the head size is $\VarIndexElement + 1$. Finally, from the premise, $n = i + 1$. Substituting all values into the above identity, I receive
 	\begin{align*}
 	i + 1 &= \VarGrowSeq_{\VarIndexBuffer - 1} + \VarIndexElement + 1\\
 	\VarIndexElement &= i - \VarGrowSeq_{\VarIndexBuffer - 1}
@@ -94,8 +97,7 @@ The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in
 	completing the proof.
 \end{proof}
 
-% Todo: Mention formulae for \VarUseful and \VarGrowSeq_{\VarIndexBuffer - 1}.
-Now, the $\FuncDecompose$ function can be implemented as follows:
+Using the formulae for $\VarUseful$ and $\VarGrowSeq_i$, I now implement the $\FuncDecompose$ function:
 
 % Todo: Continue to consider usage of mathematical vs. algorithm vars.
 % Todo: Can ceiling of \log_2 be implemented fast? Also, what if \VarInitCapacity is not a power of 2?
@@ -103,14 +105,18 @@ Now, the $\FuncDecompose$ function can be implemented as follows:
 	\begin{algorithmic}
 		\Function{$\FuncDecompose$}{$\ParamIndex$}
 			\State $\LclIndexBuffer \gets \max(\left\lceil \log_{\VarGrowthFactor} (\ParamIndex + 1) - \log_{\VarGrowthFactor} \VarInitCapacity \right\rceil, 0)$
-			\State $\LclIndexElement \gets \ParamIndex - \VarGrowthFactor^{\LclIndexBuffer - 1} \times \VarInitCapacity$
+			\If{$\VarIndexBuffer > 0$}
+				\State $\LclIndexElement \gets \ParamIndex - \VarGrowthFactor^{\LclIndexBuffer - 1} \times \VarInitCapacity$
+			\Else
+				\State $\VarIndexElement \gets \ParamIndex$
+			\EndIf
 			\State \Return $(\LclIndexBuffer,\ \LclIndexElement)$
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
 
-Clearly, $\FuncDecompose$ runs in constant time. Despite that, it still appears to be quite expensive: normally, logarithms and exponentiation utilize costly floating-point instructions. However, in the special case where $\VarGrowthFactor = 2$ and $\VarInitCapacity = 2^\VarLogInitCapacity$ for some constant whole number $\VarLogInitCapacity$, I claim that $\VarIndexBuffer$ and $\VarIndexElement$ can be computed without use of floating-point instructions.
+Clearly, $\FuncDecompose$ runs in constant time. Despite that, it still appears to be quite expensive: normally, logarithms and exponentiation require use of costly floating-point instructions. However, in the special case where $\VarGrowthFactor = 2$ and $\VarInitCapacity = 2^\VarLogInitCapacity$ for some constant whole number $\VarLogInitCapacity$, I claim that $\VarIndexBuffer$ and $\VarIndexElement$ can be computed without use of floating-point instructions.
 
-To see this, first note that $\VarIndexBuffer$ becomes $\max(\left\lceil \log_2 (i + 1) \right\rceil - \VarLogInitCapacity, 0)$. There is a constant time algorithm for computing $\left\lceil \log_2 k \right\rceil$ for any $k \in \mathbb{N}$, which uses bitwise operations instead of floating-point instructions. (I will not discuss it in this paper due to the length its mathematical justification would require, but the algorithm may be found in [Implementations section].) Thus $\left\lceil \log_2 (i + 1) \right\rceil$ can be computed without floating-point instructions. It is easy to see that the rest of the expression for $\VarIndexBuffer$ can be computed without them, too, proving the claim for $\VarIndexBuffer$.
+To see this, first note that $\VarIndexBuffer$ becomes $\max(\left\lceil \log_2 (i + 1) \right\rceil - \VarLogInitCapacity, 0)$. There is a constant time algorithm to compute $\left\lceil \log_2 k \right\rceil$ without using floating-point for any $k \in \mathbb{N}$, which I will not discuss in this paper due to length concerns. (An implementation of the algorithm may be found in [Implementations section].) Equipped with such an algorithm, it is easy to see that the whole expression can be computed without use of floating-point.
 
-The expression for $\VarIndexElement$ becomes $i - 2^{\VarIndexBuffer + \VarLogInitCapacity - 1}$. Since $\VarIndexBuffer$ has already been found, it is trivial to compute $\VarIndexBuffer + \VarLogInitCapacity - 1$. $2$ raised to this power can be computed cheaply with a bit shift. Finally, subtracting from $i$ does not use floating-point instructions, proving the claim for $\VarIndexElement$.
+In calculating $\VarIndexElement$, the only potential use of floating-point instructions comes from $\VarGrowthFactor^{\VarIndexBuffer - 1}$. When $\VarGrowthFactor = 2$, however, this can be calculated with a simple bit shift. Thus, it is not necessary to use floating-point instructions to calculate either $\VarIndexBuffer$ or $\VarIndexElement$.
