@@ -1,13 +1,13 @@
-In subsequent sections, I will implement algorithms for both dynamic and growth arrays. In this section, I define fields and properties for these data structures which the algorithms will use. \textbf{Fields} are variables associated with an object that may be read from or written to. \textbf{Properties} are trivial, constant-time methods that do not change state.
+In later sections, I will implement algorithms for both dynamic and growth arrays. In this section, I will define fields and properties for those algorithms to use. \textbf{Fields} are variables associated with an object that may be read from or written to. \textbf{Properties} are trivial, constant time methods that do not change state.
 
-If $\VarList$ is a dynamic array, then it is assumed to have the following fields:
+Let $\VarList$ be a dynamic array. I will give $\VarList$ the following fields:
 
 \begin{itemize}
 	\item $\VarList.\FieldBuffer$ - The \textbf{buffer}, or raw array, that $\VarList$ stores its items in.
 	\item $\VarList.\FieldSize$ - The number of items in $\VarList$.
 \end{itemize}
 
-As a dynamic array, $\VarList$ is also given the following properties. {\HdrNote} For pseudocode, I will use $:=$ to denote a definition, and $=$ to denote an equivalence check. Functions that return boolean values are suffixed with ?.
+As a dynamic array, $\VarList$ is also given the following properties. ({\HdrNote} For pseudocode, I will use $:=$ to denote a definition, and $=$ to denote an equivalence check. Functions that return boolean values are suffixed with ?.)
 
 \begin{algorithm}
 	\begin{algorithmic}
@@ -19,7 +19,7 @@ As a dynamic array, $\VarList$ is also given the following properties. {\HdrNote
 	\end{algorithmic}
 \end{algorithm}
 
-When a dynamic array is instantiated, the following code should run:
+The following code should run when $\VarList$ is instantiated:
 
 \begin{algorithm}
 	\begin{algorithmic}
@@ -30,12 +30,12 @@ When a dynamic array is instantiated, the following code should run:
 	\end{algorithmic}
 \end{algorithm}
 
-If $\VarList$ is a growth array, then it is assumed to have the following fields:
+Now, let $\VarList$ be a growth array. I will give it the following fields:
 
 \begin{itemize}
-	\item $\VarList.\FieldHead$ - The \textbf{head} of $\VarList$. It returns the buffer we are currently adding items to.
-	\item $\VarList.\FieldTail$ - The \textbf{tail} of $\VarList$. \textbf{Important note: The tail is a dynamic array.} It returns a \textit{dynamic array} of references to buffers that are already filled with items. The tail can be thought of as a two-dimensional array.\\
-	{\HdrNote} It may seem strange for a growth array to use the very data structure it is replacing. As shown in Lemma \ref{lem:VarUsefulIsOLogN}, however, only $O(\log n)$ many references are appended to the tail. Thus, the extra copying and allocations the tail performs is minuscule compared to other work done by the growth array.
+	\item $\VarList.\FieldHead$ - The \textbf{head} of $\VarList$. It returns the buffer new items are appended to.
+	\item $\VarList.\FieldTail$ - The \textbf{tail} of $\VarList$. (\textbf{Important note: The tail is a dynamic array.}) It returns a dynamic array of pointers to buffers that are already filled with items. The tail can be thought of as a two-dimensional array.\\
+	({\HdrRemark} It may seem strange for a growth array to use the very data structure it is replacing. Lemma \ref{lem:VarUsefulIsOLogN} shows, however, that only $O(\log n)$ many pointers are appended to the tail. Thus, the extra copying and allocations the tail performs is minuscule compared to other work done by the growth array.)
 	\item $\VarList.\FieldSize$ - The number of items in $\VarList$.
 	\item $\VarList.\FieldCapacity$ - The \textbf{capacity} of $\VarList$. It returns the maximum number of items $\VarList$ can hold before it must grow.
 \end{itemize}
@@ -44,9 +44,6 @@ As a growth array, $\VarList$ is also given the following properties:
 
 \begin{algorithm}
 	\begin{algorithmic}
-		\LineComment{Returns whether $\VarList$ is empty}
-		\State $\VarList.\FieldEmpty := \VarList.\FieldSize = 0$
-		\State
 		\LineComment{Returns whether $\VarList$ is full}
 		\State $\VarList.\FieldFull := \VarList.\FieldSize = \VarList.\FieldCapacity$
 		\State
@@ -54,14 +51,13 @@ As a growth array, $\VarList$ is also given the following properties:
 		\State $\VarList.\FieldHeadCapacity := \VarList.\FieldHead.\FieldLength$
 		\State
 		\LineComment{Returns the size of $\FieldHead$}
-		\LineComment{\textbf{Rationale:} $\FieldCapacity - \FieldHeadCapacity$ is the total capacity of the buffers in $\FieldTail$.}
-		\LineComment{Then, $\FieldSize - \left( \FieldCapacity - \FieldHeadCapacity \right)$ is the number of items that were added}
-		\LineComment{after depleting the buffers in $\FieldTail$.}
+		\LineComment{\textbf{Explanation:} $\FieldCapacity - \FieldHeadCapacity$ is the number of items in $\FieldTail$.}
+		\LineComment{$\FieldSize - \left( \FieldCapacity - \FieldHeadCapacity \right)$ is the number of items not in $\FieldTail$ (meaning, in $\FieldHead$).}
 		\State $\VarList.\FieldHeadSize := \VarList.\FieldSize - \left(\VarList.\FieldCapacity - \VarList.\FieldHeadCapacity\right)$
 	\end{algorithmic}
 \end{algorithm}
 
-When a growth array is instantiated, the following code should run:
+The following code should run when $\VarList$ is instantiated:
 
 \begin{algorithm}
 	\begin{algorithmic}

@@ -13,6 +13,7 @@
 % Commands with parameters
 \algnewcommand{\LineComment}[1]{\Statex \(\triangleright\) #1}
 \newcommand{\Tweak}[1]{#1_0}
+\newcommand{\TweakSecond}[1]{#1_1}
 
 % Setup for fancyhdr
 % Taken from: https://tex.stackexchange.com/a/153176/78813, https://tex.stackexchange.com/a/13897/78813
@@ -35,6 +36,7 @@
 \newcommand{\HdrNote}{\textbf{Note:}}
 \newcommand{\HdrTimeComplex}{\textbf{Time complexity}}
 \newcommand{\HdrTimeComplexCmp}{\textbf{Time complexity comparison}}
+\newcommand{\HdrRemark}{\textbf{Remark:}}
 \newcommand{\HdrSpaceComplex}{\textbf{Space complexity}}
 \newcommand{\HdrSpaceComplexCmp}{\textbf{Space complexity comparison}}
 
@@ -66,8 +68,6 @@
 % Algorithm fields
 \newcommand{\FieldBuffer}{Buf}
 \newcommand{\FieldCapacity}{Cap}
-% Todo: Remove 'Empty?'
-\newcommand{\FieldEmpty}{Empty?}
 \newcommand{\FieldFull}{Full?}
 \newcommand{\FieldHead}{Head}
 \newcommand{\FieldHeadCapacity}{Hcap}
