@@ -35,9 +35,26 @@
 \subsection{$\sim$ Merges over $+$, $\times$, and $\div$}
 
 \begin{proof}[Proof (Theorem \ref{thm:MergesOverOps})]
-	% TODO: Prove statement for addition.
+	Let $\FuncQuotient = \dfrac{f + g}{\Tweak{f} + \Tweak{g}}$, and let $\FuncDenom = \Tweak{g} + \Tweak{g}^2 / \Tweak{f}$. $\FuncQuotient$ may be expressed as
+	\begin{align*}
+	\FuncQuotient &= \frac{(\Tweak{g} / \Tweak{f})(f + g)}{(\Tweak{g} / \Tweak{f})(\Tweak{f} + \Tweak{g})}\\
+	&= \frac{\Tweak{g}(f / \Tweak{f}) + \Tweak{g}g / \Tweak{f}}{\FuncDenom}\\
+	&= \frac{\Tweak{g}(f / \Tweak{f}) + (\Tweak{g}^2 / \Tweak{f})(g / \Tweak{g})}{\FuncDenom}\\
+	&= \frac{\Tweak{g}}{d} \cdot \frac{f}{\Tweak{f}} + \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom} \cdot \frac{g}{\Tweak{g}}
+	\end{align*}
+	Now, consider that
+	\begin{align*}
+	\FuncQuotient - 1 &= \FuncQuotient - \frac{\FuncDenom}{\FuncDenom} = \FuncQuotient - \frac{\Tweak{g}}{\FuncDenom} - \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom}\\
+	&= \frac{\Tweak{g}}{d} \cdot \frac{f}{\Tweak{f}} + \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom} \cdot \frac{g}{\Tweak{g}} - \frac{\Tweak{g}}{\FuncDenom} - \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom}\\
+	&= \frac{\Tweak{g}}{d} \cdot \left( \frac{f}{\Tweak{f}} - 1 \right) + \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom} \cdot \left( \frac{g}{\Tweak{g}} - 1 \right)\\
+	\ExprNToInfty \left( \FuncQuotient - 1 \right) &= \ExprNToInfty \left( \frac{\Tweak{g}}{d} \cdot \left( \frac{f}{\Tweak{f}} - 1 \right) + \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom} \cdot \left( \frac{g}{\Tweak{g}} - 1 \right) \right)\\
+	&= \ExprNToInfty \left( \frac{\Tweak{g}}{d} \cdot \left( \frac{f}{\Tweak{f}} - 1 \right) \right) + \ExprNToInfty \left( \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom} \cdot \left( \frac{g}{\Tweak{g}} - 1 \right) \right)
+	\end{align*}
+	Since $\Tweak{g}$ and $\Tweak{g}^2 / \Tweak{f}$ sum to $\FuncDenom$ and all functions are positive, $\dfrac{\Tweak{g}}{\FuncDenom}$ and $\dfrac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom}$ are bounded between $0$ and $1$ as $n \to \infty$. From the given, $\ExprNToInfty \left( \dfrac{f}{\Tweak{f}} - 1 \right)$ and $\ExprNToInfty \left( \dfrac{g}{\Tweak{g}} - 1 \right)$ both exist and equal $0$. The limit of a bounded expression times one approaching $0$ is $0$; thus, both limits on the right-hand side are $0$.
 	
-	The statement about multiplication is more easily proven. Since both $\ExprNToInfty \dfrac{f}{\Tweak{f}}$ and $\ExprNToInfty \dfrac{g}{\Tweak{g}}$ exist,
+	Substituting, I receive $\ExprNToInfty (\FuncQuotient - 1) = 0$, so $\ExprNToInfty \FuncQuotient = 1$. Since $\FuncQuotient$ is defined as $\dfrac{f + g}{\Tweak{f} + \Tweak{g}}$, this shows that $f + g \sim \Tweak{f} + \Tweak{g}$, proving the theorem statement for addition.
+	
+	The statement is much more easily proven for multiplication. Since both $\ExprNToInfty \dfrac{f}{\Tweak{f}}$ and $\ExprNToInfty \dfrac{g}{\Tweak{g}}$ exist,
 	\begin{align*}
 	\ExprNToInfty \frac{fg}{\Tweak{f}\Tweak{g}} = \left( \ExprNToInfty \frac{f}{\Tweak{f}} \right) \left( \ExprNToInfty \frac{g}{\Tweak{g}} \right) = 1 \cdot 1 = 1
 	\end{align*}
@@ -45,7 +62,7 @@
 	\begin{align*}
 	\ExprNToInfty \frac{f / g}{\Tweak{f} / \Tweak{g}} = 1
 	\end{align*}
-	This shows that $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
+	This implies that $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
 \end{proof}
 
 \subsubsection{$\sim$ Relations can be Algebraically Manipulated}
