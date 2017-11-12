@@ -25,11 +25,32 @@ When reading these symbols, one says ``$f$ is asymptotically less than $g$'' or 
 
 Here, I define various properties of the $\sim$ relation that later proofs will use. The properties themselves are proved in the appendix.
 
-The following theorem states that $\sim$ can ``merge,'' or un-distribute, over addition, multiplication, and division. This is a property shared with big-O.
+In the following theorems, variables with the letters $f$, $g$, or $h$ denote arbitrary, non-decreasing functions with positive outputs for sufficiently large $n$.
+
+The following theorem states that $\sim$ meets the requirements of an equivalence relation.
+
+\begin{theorem}
+\label{thm:EquivalenceRelation}
+	$\sim$ is reflexive, transitive, and symmetric.
+\end{theorem}
+
+The following theorem states that lower-order terms may be removed: for example, $(n + \log_2 n) \sim n$. This is a property shared with big-O.
+
+\begin{theorem}
+\label{thm:RemovesLowerOrderTerms}
+	If $\ExprNToInfty \dfrac{g}{f} = 0$, then $f + O(g) \sim f$.
+\end{theorem}
+
+\begin{corollary}
+\label{coro:PlusConstant}
+	If $f$ is unbounded, then $f + c \sim f$ for any constant $c$.
+\end{corollary}
+
+The following theorem states that $\sim$ can ``merge,'' or un-distribute, over addition, multiplication, and division. This is also a property shared with big-O.
 
 \begin{theorem}
 \label{thm:MergesOverOps}
-	Suppose $f$, $\Tweak{f}$, $g$, and $\Tweak{g}$ are functions. If $f \sim \Tweak{f}$ and $g \sim \Tweak{g}$, then
+	If $f \sim \Tweak{f}$ and $g \sim \Tweak{g}$, then
 	\begin{align*}
 	f + g &\sim \Tweak{f} + \Tweak{g}\\
 	fg &\sim \Tweak{f}\Tweak{g}\\
@@ -37,19 +58,9 @@ The following theorem states that $\sim$ can ``merge,'' or un-distribute, over a
 	\end{align*}
 \end{theorem}
 
-The following theorem states that lower-order terms may be removed: for example, $(n + \log_2 n) \sim n$. This is also a property shared with big-O.
-
-\begin{theorem}
-\label{thm:RemovesLowerOrderTerms}
-	If $\ExprNToInfty \dfrac{g}{f} = 0$, then $f + O(g) \sim f$.
-\end{theorem}
-
-The following theorem states that $\sim$ is a transitive relation. This property is used implicitly by proofs that chain multiple $\sim$ signs in the form $f \sim g \sim h$, and then conclude that $f \sim h$.
-
-\begin{theorem}
-\label{thm:SimIsTransitive}
-	If $f \sim g$ and $g \sim h$, then $f \sim h$.
-\end{theorem}
+\begin{corollary}
+	Both sides of a $\sim$ relation may be added, multiplied, or divided by the same function.
+\end{corollary}
 
 The following theorem states that if two functions are asymptotic, then they belong to the same big-O class.
 
@@ -64,3 +75,11 @@ The following theorem states that if two functions are asymptotic, then they can
 \label{thm:InterchangeableInInequality}
 	If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLess \TweakSecond{f}$, then $f \FluteLess \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLess \TweakSecond{g}$, then $\Tweak{g} \FluteLess g$.
 \end{theorem}
+
+\begin{corollary}
+	The same statements hold true for $\FluteLeq$: If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLeq \TweakSecond{f}$, then $f \FluteLeq \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLeq \TweakSecond{g}$, then $\Tweak{g} \FluteLeq g$.
+\end{corollary}
+
+\begin{corollary}
+	Both sides of a $\FluteLess$ or $\FluteLeq$ relation may be added, multiplied, or divided by the same function.
+\end{corollary}

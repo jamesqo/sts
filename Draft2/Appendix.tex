@@ -1,7 +1,30 @@
+% Todo: Name 'Appendix', not 'Appendices'
 \appendix
 \appendixpage
 
-\section{Proving $\sim$ Properties}
+\section{Proofs of $\sim$ Properties}
+
+\subsection{$\sim$ is an Equivalence Relation}
+
+\begin{proof}[Proof (Theorem \ref{thm:EquivalenceRelation})]
+	Clearly, $\ExprNToInfty \dfrac{f}{f} = 1$, so $f \sim f$. Thus, $\sim$ is reflexive.
+	
+	Suppose $f \sim g$. Then $\ExprNToInfty \dfrac{f}{g} = 1$. Since both $\ExprNToInfty 1$ and $\ExprNToInfty \dfrac{f}{g}$ exist and the latter is nonzero, $\dfrac{\ExprNToInfty 1}{\ExprNToInfty (f / g)}$ = $\ExprNToInfty \dfrac{g}{f}$. Since the left-hand side evaluates to $1$, $g \sim f$. Thus, $\sim$ is symmetric.
+	
+	Suppose $f \sim g$ and $g \sim h$. By definition, $\ExprNToInfty \dfrac{f}{g} = 1$ and $\ExprNToInfty \dfrac{g}{h} = 1$. Since both limits exist, their product is $\ExprNToInfty \left( \dfrac{f}{g} \cdot \dfrac{g}{h} \right) = \ExprNToInfty \dfrac{f}{h}$. Since this product is $1$, $f \sim h$. Thus, $\sim$ is transitive.
+\end{proof}
+
+\subsection{$\sim$ Removes Lower-Order Terms}
+
+\begin{proof}[Proof (Theorem \ref{thm:RemovesLowerOrderTerms})]
+	Since
+	\begin{align*}
+	\ExprNToInfty \frac{f + g}{f} &= \ExprNToInfty \frac{f}{f} + \ExprNToInfty \frac{g}{f}\\
+	&= 1 + 0\\
+	&= 1
+	\end{align*}
+	it follows that $f + g \sim f$.
+\end{proof}
 
 \subsection{$\sim$ Merges over $+$, $\times$, and $\div$}
 
@@ -20,22 +43,4 @@
 	\ExprNToInfty \frac{f / g}{\Tweak{f} / \Tweak{g}} = 1
 	\end{align*}
 	This shows $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
-\end{proof}
-
-\subsection{$\sim$ Removes Lower-Order Terms}
-
-\begin{proof}[Proof (Theorem \ref{thm:RemovesLowerOrderTerms})]
-	Since
-	\begin{align*}
-	\ExprNToInfty \frac{f + g}{f} &= \ExprNToInfty \frac{f}{f} + \ExprNToInfty \frac{g}{f}\\
-	&= 1 + 0\\
-	&= 1
-	\end{align*}
-	it follows that $f + g \sim f$.
-\end{proof}
-
-\subsection{$\sim$ is Transitive}
-
-\begin{proof}[Proof (Theorem \ref{thm:SimIsTransitive})]
-By definition, $\ExprNToInfty \dfrac f g = 1$ and $\ExprNToInfty \dfrac g h = 1$. Multiplying the two equations, $\ExprNToInfty \dfrac f h = 1$ which implies $f \sim h$.
 \end{proof}
