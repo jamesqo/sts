@@ -112,7 +112,7 @@ I can build on this inequality to receive asymptotic bounds for $\FuncWrites(n)$
 \end{align*}
 \HdrSpaceComplex
 
-I wish to find the space allocated when $n$ items are appended to a dynamic array. I call this quantity the \textbf{space cost}, denote it $\FuncSpace(n)$, and define it as the total length of buffers allocated by $n$ $\FuncAppend$ calls. Now, I derive a formula for $\FuncSpace(n)$.
+I wish to find the space allocated when $n$ items are appended to a collection. I call this quantity the \textbf{space cost}, denote it $\FuncSpace(n)$, and define it as the total length of buffers allocated by $n$ appends. Now, I derive a formula for $\FuncSpace(n)$.
 
 First, from the definition of $\VarList.\FieldCapacity$, note that a dynamic array's capacity is the length of the buffer it stores its items in. Then a buffer of length $c$ is allocated at some point if and only if $c \in \VarCapacitySeq$. Then the total length of those buffers is
 \begin{align*}
@@ -122,7 +122,8 @@ First, from the definition of $\VarList.\FieldCapacity$, note that a dynamic arr
 \end{align*}
 Using Lemma \ref{lem:ToVarUsefulPowerBounds} again, I asymptotically bound $\FuncSpace(n)$:
 \begin{align*}
-\left( \frac{\VarGrowthFactor{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \FluteLeq \FuncSpace(n) &\FluteLess \left( \frac{\VarGrowthFactor^2{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
-\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n - \left( \frac{\VarInitCapacity}{\VarGrowthFactor - 1} \right) \FluteLeq \FuncSpace(n) &\FluteLess \left( \frac{\VarGrowthFactor^2}{\VarGrowthFactor - 1} \right) n - \left( \frac{\VarInitCapacity}{\VarGrowthFactor - 1} \right)\\
-\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \FluteLeq \FuncSpace(n) &\FluteLess \left( \frac{\VarGrowthFactor^2}{\VarGrowthFactor - 1} \right) n
+\frac n \VarInitCapacity &\FluteLeq \VarGrowthFactor^\VarUseful \FluteLess \frac {\VarGrowthFactor{n}} \VarInitCapacity\\
+\frac {\VarGrowthFactor n} \VarInitCapacity &\FluteLeq \VarGrowthFactor^{\VarUseful + 1} \FluteLess \frac {\VarGrowthFactor^2 n} \VarInitCapacity\\
+\frac {\VarGrowthFactor n} \VarInitCapacity &\FluteLeq \VarGrowthFactor^{\VarUseful + 1} - 1 \FluteLess \frac {\VarGrowthFactor^2 n} \VarInitCapacity\\
+\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n &\FluteLeq \FuncSpace(n) \FluteLess \left( \frac{\VarGrowthFactor^2}{\VarGrowthFactor - 1} \right) n
 \end{align*}
