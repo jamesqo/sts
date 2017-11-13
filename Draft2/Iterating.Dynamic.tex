@@ -2,7 +2,7 @@
 
 The algorithm for iterating dynamic arrays is simple. It loops through all valid indices, and calls the $\FuncGetItem$ method (which is denoted $\VarList[i]$ instead of $\VarList.\FuncGetItem(i)$) for each index.
 
-\begin{algorithm}
+\begin{algorithm}[H]
 	\begin{algorithmic}
 		\LineComment{Algorithm for ``$\TextFor \LclItem \TextIn \VarList$'', where $\VarList$ is a dynamic array}
 		\For{$\LclIndex = 0,\ \LclIndex < \VarList.\FieldSize,\ \LclIndex \gets \LclIndex + 1$}

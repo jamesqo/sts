@@ -8,7 +8,7 @@ Despite growth arrays' relatively poor indexing performance, I include this sect
 
 The first algorithm I will demonstrate is a na\"{i}ve implementation that runs in logarithmic time:
 
-\begin{algorithm}
+\begin{algorithm}[H]
 	\begin{algorithmic}
 		\Function{$\FuncGetItem$}{$\VarList,\ \ParamIndex$}
 			\State $\LclIndex \gets \ParamIndex$
@@ -37,7 +37,7 @@ Now, consider that every buffer except the head is stored inside the tail. Thus,
 
 I define a helper function, $\FuncGetBuffer$, that gets the buffer associated with a given $\VarIndexBuffer$. $\VarIndexBuffer$ is assumed to be valid; that is, $0 \leq \VarIndexBuffer \leq \VarNumItemsTail$.
 
-\begin{algorithm}
+\begin{algorithm}[H]
 	\begin{algorithmic}
 		\Function{$\FuncGetBuffer$}{$\VarList,\ \LclIndexBuffer$}
 			\If{$\LclIndexBuffer < \VarList.\FieldTail.\FieldSize$}
@@ -53,7 +53,7 @@ I will call the index of the desired element within the buffer the \textbf{eleme
 
 If I define a helper function $\FuncDecompose$ that returns the $\VarIndexBuffer$ and $\VarIndexElement$ associated with $i$ in an ordered pair, then $\FuncGetItem$ may be written as follows:
 
-\begin{algorithm}
+\begin{algorithm}[H]
 	\begin{algorithmic}
 		\Function{$\FuncGetItem$}{$\VarList,\ \ParamIndex$}
 			\State $(\LclIndexBuffer,\ \LclIndexElement) \gets \FuncDecompose(\ParamIndex)$
@@ -96,7 +96,7 @@ Now, the task is to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ i
 
 Using the formulae for $\VarUseful$ and $\VarGrowSeq_i$, I now implement the $\FuncDecompose$ function:
 
-\begin{algorithm}
+\begin{algorithm}[H]
 	\begin{algorithmic}
 		\Function{$\FuncDecompose$}{$\ParamIndex$}
 			\State $\LclIndexBuffer \gets \max(\left\lceil \log_{\VarGrowthFactor} (\ParamIndex + 1) - \log_{\VarGrowthFactor} \VarInitCapacity \right\rceil, 0)$
