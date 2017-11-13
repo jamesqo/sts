@@ -47,10 +47,10 @@ As a growth array, $\VarList$ is also given the following properties:
 		\LineComment{Returns whether $\VarList$ is full}
 		\State $\VarList.\FieldFull := \VarList.\FieldSize = \VarList.\FieldCapacity$
 		\State
-		\LineComment{Returns the capacity of $\FieldHead$}
+		\LineComment{Returns the \textbf{head capacity}, or the capacity of $\FieldHead$}
 		\State $\VarList.\FieldHeadCapacity := \VarList.\FieldHead.\FieldLength$
 		\State
-		\LineComment{Returns the size of $\FieldHead$}
+		\LineComment{Returns the \textbf{head size}, or the size of $\FieldHead$}
 		\LineComment{\textbf{Explanation:} $\FieldCapacity - \FieldHeadCapacity$ is the number of items in $\FieldTail$.}
 		\LineComment{$\FieldSize - \left( \FieldCapacity - \FieldHeadCapacity \right)$ is the number of items not in $\FieldTail$ (meaning, in $\FieldHead$).}
 		\State $\VarList.\FieldHeadSize := \VarList.\FieldSize - \left(\VarList.\FieldCapacity - \VarList.\FieldHeadCapacity\right)$

@@ -108,7 +108,7 @@ I can build on this inequality to receive asymptotic bounds for $\FuncWrites(n)$
 \frac n \VarInitCapacity &\FluteLeq \VarGrowthFactor^\VarUseful \FluteLess \frac {\VarGrowthFactor{n}} \VarInitCapacity\\
 \frac n \VarInitCapacity &\FluteLeq \VarGrowthFactor^\VarUseful - 1 \FluteLess \frac {\VarGrowthFactor{n}} \VarInitCapacity &&\text{(Corollary \ref{coro:PlusConstant}, Theorem \ref{thm:InterchangeableInInequality}, Corollary \ref{coro:InterchangeableInNonStrictInequality})}\\
 \frac n {\VarGrowthFactor - 1} &\FluteLeq \left( \frac{\VarGrowthFactor^\VarUseful - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \FluteLess \frac {\VarGrowthFactor{n}} {\VarGrowthFactor - 1} &&\text{(Theorem \ref{thm:BothSidesInequality}, Corollary \ref{coro:BothSidesNonStrictInequality})}\\
-\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n &\FluteLeq \FuncWrites(n) \FluteLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n % Bookmark
+\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n &\FluteLeq \FuncWrites(n) \FluteLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n &&\text{(Theorem \ref{thm:BothSidesInequalityAdd}, Corollary \ref{coro:BothSidesNonStrictInequalityAdd})}
 \end{align*}
 \HdrSpaceComplex
 
@@ -123,7 +123,7 @@ First, from the definition of $\VarList.\FieldCapacity$, note that a dynamic arr
 Using Lemma \ref{lem:ToVarUsefulPowerBounds} again, I asymptotically bound $\FuncSpace(n)$:
 \begin{align*}
 \frac n \VarInitCapacity &\FluteLeq \VarGrowthFactor^\VarUseful \FluteLess \frac {\VarGrowthFactor{n}} \VarInitCapacity\\
-\frac {\VarGrowthFactor n} \VarInitCapacity &\FluteLeq \VarGrowthFactor^{\VarUseful + 1} \FluteLess \frac {\VarGrowthFactor^2 n} \VarInitCapacity\\
-\frac {\VarGrowthFactor n} \VarInitCapacity &\FluteLeq \VarGrowthFactor^{\VarUseful + 1} - 1 \FluteLess \frac {\VarGrowthFactor^2 n} \VarInitCapacity\\
-\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n &\FluteLeq \FuncSpace(n) \FluteLess \left( \frac{\VarGrowthFactor^2}{\VarGrowthFactor - 1} \right) n
+\frac {\VarGrowthFactor n} \VarInitCapacity &\FluteLeq \VarGrowthFactor^{\VarUseful + 1} \FluteLess \frac {\VarGrowthFactor^2 n} \VarInitCapacity &&\text{(Theorem \ref{thm:BothSidesInequality}, Corollary \ref{coro:BothSidesNonStrictInequality})}\\
+\frac {\VarGrowthFactor n} \VarInitCapacity &\FluteLeq \VarGrowthFactor^{\VarUseful + 1} - 1 \FluteLess \frac {\VarGrowthFactor^2 n} \VarInitCapacity &&\text{(Corollary \ref{coro:PlusConstant}, Theorem \ref{thm:InterchangeableInInequality}, Corollary \ref{coro:InterchangeableInNonStrictInequality})}\\
+\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n &\FluteLeq \FuncSpace(n) \FluteLess \left( \frac{\VarGrowthFactor^2}{\VarGrowthFactor - 1} \right) n &&\text{(Theorem \ref{thm:BothSidesInequality}, Corollary \ref{coro:BothSidesNonStrictInequality})}
 \end{align*}
