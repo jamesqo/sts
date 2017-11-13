@@ -1,28 +1,26 @@
 \HdrTimeComplexCmp
 
-Let $\FuncWritesDynamicArray(n)$ and $\FuncWritesGrowthArray(n)$ be the write costs for dynamic and growth arrays, respectively. I derived earlier that
+In this section, $\FuncWritesDynamicArray$ and $\FuncWritesGrowthArray$ will denote the write cost functions for dynamic and growth arrays, respectively. I derived earlier that
 \begin{align*}
 \left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \FluteLeq \FuncWritesDynamicArray(n) &\FluteLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n
 \end{align*}
-Dividing all sides of this inequality by $n$, I receive
+From Theorem \ref{thm:BothSidesInequality} and Corollary \ref{coro:BothSidesNonStrictInequality}, I may divide all sides of this inequality by $n$ to receive
 \begin{align*}
 \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \FluteLeq \frac {\FuncWritesDynamicArray(n)} n &\FluteLess \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1}
 \end{align*}
-Since $\FuncWritesGrowthArray(n) \sim n$, $\dfrac {\FuncWritesDynamicArray(n)} n \sim \dfrac{\FuncWritesDynamicArray(n)}{\FuncWritesGrowthArray(n)}$, thus
+It was shown earlier that $\FuncWritesGrowthArray(n) \sim n$. From Theorem \ref{thm:MergesOverOps}, $\dfrac {\FuncWritesDynamicArray(n)} n \sim \dfrac{\FuncWritesDynamicArray(n)}{\FuncWritesGrowthArray(n)}$. From Theorem \ref{thm:InterchangeableInInequality} and Corollary \ref{coro:InterchangeableInNonStrictInequality}, it follows that
 \begin{align*}
 \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \FluteLeq \frac {\FuncWritesDynamicArray(n)} {\FuncWritesGrowthArray(n)} &\FluteLess \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1}
 \end{align*}
-
 \HdrSpaceComplexCmp
 
-Let $\FuncSpaceDynamicArray(n)$ and $\FuncSpaceGrowthArray(n)$ be the space costs for dynamic and growth arrays, respectively. Recall that
+Let $\FuncSpaceDynamicArray(n)$ and $\FuncSpaceGrowthArray(n)$ be the space cost functions for dynamic and growth arrays, respectively. Recall that
 \begin{align*}
 \FuncSpaceDynamicArray(n) = \left( \frac{\VarGrowthFactor^{\VarUseful + 1} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 \end{align*}
-and $\FuncSpaceGrowthArray(n) \sim \VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$. Taking the ratio of $\FuncSpaceDynamicArray(n)$ to $\FuncSpaceGrowthArray(n)$, I receive
+and that $\FuncSpaceGrowthArray(n) \sim \VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$. Taking the ratio of $\FuncSpaceDynamicArray(n)$ to $\FuncSpaceGrowthArray(n)$, I receive
 \begin{align*}
-\frac{\FuncSpaceDynamicArray(n)}{\FuncSpaceGrowthArray(n)} &\sim \left( \frac{1}{\VarGrowthFactor^\VarUseful} \right) \left( \frac{\VarGrowthFactor^{\VarUseful + 1} - 1}{\VarGrowthFactor - 1} \right)\\
+\frac{\FuncSpaceDynamicArray(n)}{\FuncSpaceGrowthArray(n)} &\sim \frac{1}{\VarGrowthFactor^\VarUseful\VarInitCapacity} \cdot \left( \frac{\VarGrowthFactor^{\VarUseful + 1} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity &&\text{(Theorem \ref{thm:MergesOverOps})}\\
 &= \frac{\VarGrowthFactor - 1 / {\VarGrowthFactor^\VarUseful}}{\VarGrowthFactor - 1}\\
-&\sim \frac{\VarGrowthFactor}{\VarGrowthFactor - 1}
+&\sim \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} &&\text{(Theorem \ref{thm:RemovesLowerOrderTerms})}
 \end{align*}
-The last step comes from the fact that $\VarUseful = \max(\ExprMessy, 0) \to \infty$ as $n \to \infty$.

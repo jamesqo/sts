@@ -1,6 +1,6 @@
 \HdrGrowthArrayImpl
 
-Indexing a growth array is slower and more complex than indexing a dynamic array. However, this does not mean that accessing data of a growth array has to be slower than accessing that of a dynamic array. Refer to Sections [Iterating] and [Copying to an array] to learn how to quickly access growth arrays' data.
+Indexing a growth array is slower and more complex than indexing a dynamic array. However, this does not mean that accessing data of a growth array is necessarily slower than accessing that of a dynamic array. Refer to Sections \ref{sec:Iterating} and \ref{sec:CopyArray} for methods to quickly access growth arrays' data.
 
 Despite growth arrays' relatively poor indexing performance, I include this section for two reasons. 1) Dynamic arrays are indexed frequently. In order for growth arrays to be a viable replacement for them, it should be possible to index growth arrays too. 2) I wish to show that it is possible to index growth arrays in constant time.
 
@@ -23,7 +23,7 @@ The first algorithm I will demonstrate is a na\"{i}ve implementation that runs i
 	\end{algorithmic}
 \end{algorithm}
 
-I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumItemsTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time.
+I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumItemsTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time, so the time complexity is precisely $O(\log n)$.
 
 I present this algorithm alongside the constant time one because it is easier to understand, and the latter is often slower if special circumstances are not met.
 
@@ -33,11 +33,10 @@ In this section, I will present a constant time algorithm for indexing a growth 
 
 Suppose I want to get the $i$th element of a growth array, where $i$ is zero-based. I assume that $i$ is a valid index, or that $0 \leq i < \VarList.\FieldSize$. In order to locate the desired element, I must find two things: the buffer that holds the item, and the index of the item within that buffer.
 
-Now, consider that every buffer except the head is stored inside the tail. Thus, such buffers can be uniquely identified by their index in the tail. I will refer to this quantity as the \textbf{buffer index} and denote it $\VarIndexBuffer$. I wish to assign the head a buffer index as well, so that each buffer has a unique ID. Since the head succeeds the tail's last buffer, which has $\VarIndexBuffer = \VarNumItemsTail - 1$, I will let the head's $\VarIndexBuffer$ be $\VarNumItemsTail$.
+Now, consider that every buffer except the head is stored inside the tail. Thus, such buffers can be uniquely identified by their index in the tail. I will refer to this quantity as the \textbf{buffer index} and denote it $\VarIndexBuffer$. I wish to assign the head a buffer index as well, so that each buffer has a unique ID. Since the head follows the tail's last buffer, which has $\VarIndexBuffer = \VarNumItemsTail - 1$, I will let the head's $\VarIndexBuffer$ be $\VarNumItemsTail$.
 
 I define a helper function, $\FuncGetBuffer$, that gets the buffer associated with a given $\VarIndexBuffer$. $\VarIndexBuffer$ is assumed to be valid; that is, $0 \leq \VarIndexBuffer \leq \VarNumItemsTail$.
 
-% Todo: Make parameter names for other parts consistent.
 \begin{algorithm}
 	\begin{algorithmic}
 		\Function{$\FuncGetBuffer$}{$\VarList,\ \LclIndexBuffer$}
@@ -63,8 +62,7 @@ If I define a helper function $\FuncDecompose$ that returns the $\VarIndexBuffer
 	\end{algorithmic}
 \end{algorithm}
 
-% Todo: \VarLogicalIndex for i? Introduce "logical index" term above?
-The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in terms of $i$, in order to implement $\FuncDecompose$.
+Now, the task is to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in terms of $i$, in order to implement $\FuncDecompose$.
 
 % Todo: There's an awful lot of lemmas. Make some into theorems.
 \begin{lemma}
@@ -73,25 +71,24 @@ The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in
 	\VarIndexBuffer &= \VarUseful|_{n = i + 1}\\
 	\VarIndexElement &= i - \VarGrowSeq_{\VarIndexBuffer - 1}
 	\end{align*}
-	(By convention, $\VarGrowSeq_{-1} = 0$.)
+	(When $\VarIndexBuffer = 0$, $\VarGrowSeq_{-1} = 0$ by convention.)
 \end{lemma}
 
 % Todo: "As shown earlier"
-% Todo: Again, by convention \VarGrowSeq_{-1} = 0. Modify the algorithm accordingly.
 \begin{proof}
-	Appending new items does not change the index of an item that is already in the list. Thus, this problem can be reduced to finding the last element when $n = i + 1$.
+	Appending new items does not change the index of an item that is already in the list. Thus, finding the element at index $i$ is equivalent to finding the last element when $n = i + 1$.
 	
 	The last element always resides in the head, so $\VarIndexBuffer = \VarNumItemsTail|_{n = i + 1}$. As shown earlier, $\VarNumItemsTail = \VarUseful$, so $\VarIndexBuffer = \VarUseful|_{n = i + 1}$.
 	
-	To find $\VarIndexElement$, consider the identity:
+	To determine $\VarIndexElement$, consider the identity:
 	\begin{align*}
 	n = \text{\# of items in tail} + \text{\# of items in head}
 	\end{align*}
-	First, I will determine the number of items in the tail. In the case where $\VarIndexBuffer = 0$, then because $\VarNumItemsTail = \VarIndexBuffer$, the tail contains $0$ buffers and thus $0 = \VarGrowSeq_{-1}$ items. If $\VarIndexBuffer > 0$, the number of items in the tail is the last size at which $\FuncGrow$ was called, or the last term of $\VarGrowSeq$. This quantity is $\VarGrowSeq_{\VarUseful - 1} = \VarGrowSeq_{\VarIndexBuffer - 1}$.
+	First, I will determine the number of items in the tail. In the case where $\VarIndexBuffer = 0$, then because $\VarNumItemsTail = \VarIndexBuffer$, the tail contains $0$ buffers and thus $0$ items (which equals $\VarGrowSeq_{-1}$). If $\VarIndexBuffer > 0$, the number of items in the tail is the last size at which $\FuncGrow$ was called, or the last term of $\VarGrowSeq$. This quantity is $\VarGrowSeq_{\VarUseful - 1}$, or $\VarGrowSeq_{\VarIndexBuffer - 1}$.
 	
-	The desired item is the growth array's last element, which implies it is also the head's last element. Thus $\VarIndexElement$ is the head's last valid index, so the head size is $\VarIndexElement + 1$. Finally, from the premise, $n = i + 1$. Substituting all values into the above identity, I receive
+	The desired item is the growth array's last element, which implies it is also the head's last element. Thus $\VarIndexElement$ is the head's last valid index, so the head's size is $\VarIndexElement + 1$. Finally, from the premise, $n = i + 1$. Substituting all values into the above identity, I receive
 	\begin{align*}
-	i + 1 &= \VarGrowSeq_{\VarIndexBuffer - 1} + \VarIndexElement + 1\\
+	i + 1 &= \VarGrowSeq_{\VarIndexBuffer - 1} + (\VarIndexElement + 1)\\
 	\VarIndexElement &= i - \VarGrowSeq_{\VarIndexBuffer - 1}
 	\end{align*}
 	completing the proof.
@@ -99,8 +96,6 @@ The task is now to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in
 
 Using the formulae for $\VarUseful$ and $\VarGrowSeq_i$, I now implement the $\FuncDecompose$ function:
 
-% Todo: Continue to consider usage of mathematical vs. algorithm vars.
-% Todo: Can ceiling of \log_2 be implemented fast? Also, what if \VarInitCapacity is not a power of 2?
 \begin{algorithm}
 	\begin{algorithmic}
 		\Function{$\FuncDecompose$}{$\ParamIndex$}
@@ -115,8 +110,9 @@ Using the formulae for $\VarUseful$ and $\VarGrowSeq_i$, I now implement the $\F
 	\end{algorithmic}
 \end{algorithm}
 
-Clearly, $\FuncDecompose$ runs in constant time. Despite that, it still appears to be quite expensive: normally, logarithms and exponentiation require use of costly floating-point instructions. However, in the special case where $\VarGrowthFactor = 2$ and $\VarInitCapacity = 2^\VarLogInitCapacity$ for some constant whole number $\VarLogInitCapacity$, I claim that $\VarIndexBuffer$ and $\VarIndexElement$ can be computed without use of floating-point instructions.
+% Todo: CITE!
+Clearly, $\FuncDecompose$ runs in constant time. Despite that, it appears to be quite expensive: normally, logarithms and exponentiation require use of floating-point instructions, which are slower than integer-based instructions. However, in the special case where $\VarGrowthFactor = 2$ and $\VarInitCapacity = 2^\VarLogInitCapacity$ for some constant whole number $\VarLogInitCapacity$, I claim that $\VarIndexBuffer$ and $\VarIndexElement$ can be computed without use of floating-point instructions.
 
-To see this, first note that $\VarIndexBuffer$ becomes $\max(\left\lceil \log_2 (i + 1) \right\rceil - \VarLogInitCapacity, 0)$. There is a constant time algorithm to compute $\left\lceil \log_2 k \right\rceil$ without using floating-point for any $k \in \mathbb{N}$, which I will not discuss in this paper due to length concerns. (An implementation of the algorithm may be found in [Implementations section].) Equipped with such an algorithm, it is easy to see that the whole expression can be computed without use of floating-point.
+To see this, first note that $\VarIndexBuffer$ becomes $\max(\left\lceil \log_2 (i + 1) \right\rceil - \VarLogInitCapacity, 0)$. There is a constant time algorithm to compute $\left\lceil \log_2 k \right\rceil$ without using floating-point for any $k \in \mathbb{N}$, which I will not discuss because it involves concepts outside the scope of this paper. (An implementation of the algorithm, however, may be found in the links at Section \ref{sec:Implementations}.) Equipped with such an algorithm, it is easy to see that the whole expression can be computed without use of floating-point.
 
 In calculating $\VarIndexElement$, the only potential use of floating-point instructions comes from $\VarGrowthFactor^{\VarIndexBuffer - 1}$. When $\VarGrowthFactor = 2$, however, this can be calculated with a simple bit shift. Thus, it is not necessary to use floating-point instructions to calculate either $\VarIndexBuffer$ or $\VarIndexElement$.
