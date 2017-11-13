@@ -24,11 +24,11 @@ I will call these relations \textbf{asymptotic inequalities}. The above inequali
 \subsection{Properties}
 \label{subsec:AsymptoticProperties}
 
-I define various properties of the $\sim$ relation here, which later proofs will use. The properties themselves are proved in the appendix.
+I define various properties of the $\sim$ relation here, which proofs in later sections will use. The properties themselves are proved in the appendix.
 
-In the following theorems and their proofs, variables with the letters $f$, $g$, or $h$ denote arbitrary functions that are positive and non-decreasing for sufficiently large $n$.
+In the following theorems and their proofs, variables with the letters $f$, $g$, or $h$ denote functions that, for sufficiently large $n$, are positive and non-decreasing.
 
-The following theorem states that $\sim$ meets the requirements of an equivalence relation.
+The following theorem states that $\sim$ is a valid equivalence relation.
 
 \begin{theorem}
 \label{thm:EquivalenceRelation}
@@ -64,14 +64,14 @@ The following theorem states that $\sim$ can ``merge,'' or un-distribute, over a
 	A $\sim$ equation holds if both sides are added, multiplied, or divided by the same quantity.
 \end{corollary}
 
-The following theorem states that if two functions are asymptotic, then they belong to the same big-O class.
+The following theorem states that asymptotic functions belong to the same big-O class.
 
 \begin{theorem}
 \label{thm:SameBigOClass}
 	If $f \sim g$ and $g = O(\Tweak{g})$, then $f = O(\Tweak{g})$.
 \end{theorem}
 
-The following theorem states that if two functions are asymptotic, then they can be interchanged in an asymptotic inequality.
+The following theorem states that asymptotic functions can be interchanged in an asymptotic inequality.
 
 \begin{theorem}
 \label{thm:InterchangeableInInequality}
@@ -80,12 +80,29 @@ The following theorem states that if two functions are asymptotic, then they can
 
 \begin{corollary}
 \label{coro:InterchangeableInNonStrictInequality}
-	This theorem also holds for $\FluteLeq$: If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLeq \TweakSecond{f}$, then $f \FluteLeq \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLeq \TweakSecond{g}$, then $\Tweak{g} \FluteLeq g$.
+	This theorem also holds for $\FluteLeq$.
 \end{corollary}
 
-The following theorem states that asymptotic inequalities can be algebraically manipulated, in the same vein as Corollary \ref{coro:BothSides}. However, they do not always hold if the same quantity is added to both sides; for example, $1 \FluteLess 2$, but $n + 1 \sim n + 2$.
+The following theorem states that asymptotic inequalities can be algebraically manipulated, in the same vein as Corollary \ref{coro:BothSides}.
 
 \begin{theorem}
 \label{thm:BothSidesInequality}
-	A $\FluteLess$ or $\FluteLeq$ inequality holds if both sides are multiplied or divided by the same quantity.
+	A $\FluteLess$ inequality holds if both sides are multiplied or divided by the same quantity.
 \end{theorem}
+
+\begin{corollary}
+\label{coro:BothSidesNonStrictInequality}
+	This theorem also holds for $\FluteLeq$.
+\end{corollary}
+
+Notice that the above theorem does not include addition. Asymptotic inequalities do not always hold if the same quantity is added to both sides; for example, $1 \FluteLess 2$, but $n + 1 \sim n + 2$. In order for them to hold, certain conditions must be met.
+
+\begin{theorem}
+\label{thm:BothSidesInequalityAdd}
+	Suppose $f \FluteLess g$. If $f \sim c_1 h$ and $g \sim c_2 h$ for some $c_1, c_2 > 0$, then $f + h \FluteLess g + h$.
+\end{theorem}
+
+\begin{corollary}
+\label{coro:BothSidesNonStrictInequalityAdd}
+	This theorem also holds for $\FluteLeq$.
+\end{corollary}

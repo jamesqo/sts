@@ -106,9 +106,9 @@ Now, my goal is to approximate $\FuncWrites(n)$ with $\sim$. To make this easier
 I can build on this inequality to receive asymptotic bounds for $\FuncWrites(n)$:
 \begin{align*}
 \frac n \VarInitCapacity &\FluteLeq \VarGrowthFactor^\VarUseful \FluteLess \frac {\VarGrowthFactor{n}} \VarInitCapacity\\
-\frac n \VarInitCapacity &\FluteLeq \VarGrowthFactor^\VarUseful - 1 \FluteLess \frac {\VarGrowthFactor{n}} \VarInitCapacity\\
-\frac n {\VarGrowthFactor - 1} &\FluteLeq \left( \frac{\VarGrowthFactor^\VarUseful - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \FluteLess \frac {\VarGrowthFactor{n}} {\VarGrowthFactor - 1}\\
-\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n &\FluteLeq \FuncWrites(n) \FluteLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n
+\frac n \VarInitCapacity &\FluteLeq \VarGrowthFactor^\VarUseful - 1 \FluteLess \frac {\VarGrowthFactor{n}} \VarInitCapacity &&\text{(Corollary \ref{coro:PlusConstant}, Theorem \ref{thm:InterchangeableInInequality}, Corollary \ref{coro:InterchangeableInNonStrictInequality})}\\
+\frac n {\VarGrowthFactor - 1} &\FluteLeq \left( \frac{\VarGrowthFactor^\VarUseful - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \FluteLess \frac {\VarGrowthFactor{n}} {\VarGrowthFactor - 1} &&\text{(Theorem \ref{thm:BothSidesInequality}, Corollary \ref{coro:BothSidesNonStrictInequality})}\\
+\left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n &\FluteLeq \FuncWrites(n) \FluteLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n % Bookmark
 \end{align*}
 \HdrSpaceComplex
 

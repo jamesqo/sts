@@ -54,7 +54,7 @@
 	
 	Substituting, I receive $\ExprNToInfty (\FuncQuotient - 1) = 0$, so $\ExprNToInfty \FuncQuotient = 1$. Since $\FuncQuotient$ is defined as $\dfrac{f + g}{\Tweak{f} + \Tweak{g}}$, this shows that $f + g \sim \Tweak{f} + \Tweak{g}$, proving the theorem statement for addition.
 	
-	The statement is much more easily proven for multiplication. Since both $\ExprNToInfty \dfrac{f}{\Tweak{f}}$ and $\ExprNToInfty \dfrac{g}{\Tweak{g}}$ exist,
+	The statement is proven much more easily for multiplication. Since both $\ExprNToInfty \dfrac{f}{\Tweak{f}}$ and $\ExprNToInfty \dfrac{g}{\Tweak{g}}$ exist,
 	\begin{align*}
 	\ExprNToInfty \frac{fg}{\Tweak{f}\Tweak{g}} = \left( \ExprNToInfty \frac{f}{\Tweak{f}} \right) \left( \ExprNToInfty \frac{g}{\Tweak{g}} \right) = 1 \cdot 1 = 1
 	\end{align*}
@@ -65,7 +65,7 @@
 	This implies that $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
 \end{proof}
 
-\subsubsection{$\sim$ Relations can be Algebraically Manipulated}
+\subsubsection{$\sim$ Equations can be Algebraically Manipulated}
 
 \begin{proof}[Proof (Corollary \ref{coro:BothSides})]
 	Since $\sim$ is reflexive, $g \sim g$. Taking $\Tweak{g} = g$ for Theorem \ref{thm:MergesOverOps}, the corollary statement follows.
@@ -77,7 +77,7 @@
 	This will be a proof by contradiction. Assume $f = O(\Tweak{f})$ where $O(\Tweak{f}) \neq O(\Tweak{g})$. Then $\dfrac {O(\Tweak{f})} {O(\Tweak{g})} \neq 1$. However, $\ExprNToInfty \dfrac{f}{g} = \dfrac {O(\Tweak{f})} {O(\Tweak{g})}$, so $\ExprNToInfty \dfrac{f}{g} \neq 1$. It follows that $f \not\sim g$, which contradicts the given. Thus, it must be true that $f = O(\Tweak{g})$.
 \end{proof}
 
-\subsection{Asymptotic Functions may be Swapped in Strict Asymptotic Inequalities}
+\subsection{Asymptotic Functions may be Interchanged in $\FluteLess$ Inequalities}
 
 \begin{proof}[Proof (Theorem \ref{thm:InterchangeableInInequality})]
 	By definition, $\ExprNToInfty \dfrac{f}{\Tweak{f}} = 1$ and $\ExprNToInfty \dfrac{\Tweak{f}}{\TweakSecond{f}} < 1$. Since both limits exist,
@@ -93,18 +93,42 @@
 	Thus, $\Tweak{g} \FluteLess g$.
 \end{proof}
 
-\subsubsection{Asymptotic Functions may be Swapped in Non-Strict Asymptotic Inequalities}
+\subsubsection{Asymptotic Functions may be Interchanged in $\FluteLeq$ Inequalities}
 
 \begin{proof}[Proof (Corollary \ref{coro:InterchangeableInNonStrictInequality})]
-	Suppose $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLeq \TweakSecond{f}$. By definition, $\Tweak{f} \FluteLess \TweakSecond{f}$ or $\Tweak{f} \sim \TweakSecond{f}$. In the first case, from Theorem \ref{thm:InterchangeableInInequality} $f \FluteLess \TweakSecond{f}$. In the second case, since $\sim$ is transitive $f \sim \TweakSecond{f}$. In both cases, it is true that $f \FluteLeq \TweakSecond{f}$.
+	Suppose $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLeq \TweakSecond{f}$. By definition, $\Tweak{f} \FluteLess \TweakSecond{f}$ or $\Tweak{f} \sim \TweakSecond{f}$. In the first case, from Theorem \ref{thm:InterchangeableInInequality}, $f \FluteLess \TweakSecond{f}$. In the second case, since $\sim$ is transitive, $f \sim \TweakSecond{f}$. In both cases, it is true that $f \FluteLeq \TweakSecond{f}$.
 	
-	The second statement is, again, proved in a similar manner. If $\Tweak{g} \FluteLeq \TweakSecond{g}$, then $\Tweak{g} \FluteLess \TweakSecond{g}$ or $\Tweak{g} \sim \TweakSecond{g}$. In the first case, $\Tweak{g} \FluteLess g$; in the second, $\Tweak{g} \sim g$. In both cases, $\Tweak{g} \FluteLeq g$.
+	The second statement is proved similarly. It is given that $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLeq \TweakSecond{g}$; the latter implies that either $\Tweak{g} \FluteLess \TweakSecond{g}$ or $\Tweak{g} \sim \TweakSecond{g}$. In the first case, $\Tweak{g} \FluteLess g$; in the second, $\Tweak{g} \sim g$. In both cases, $\Tweak{g} \FluteLeq g$.
 \end{proof}
 
-\subsubsection{$\FluteLess$ and $\FluteLeq$ Relations can be Algebraically Manipulated}
+\subsection{$\FluteLess$ Inequalities can be Algebraically Manipulated}
 
 \begin{proof}[Proof (Theorem \ref{thm:BothSidesInequality})]
 	Suppose that $f \FluteLess g$. By definition, $\ExprNToInfty \dfrac{f}{g} < 1$. For any function $h$, $\ExprNToInfty \dfrac{fh}{gh} < 1$ and $\ExprNToInfty \dfrac{f / h}{g / h} < 1$, so respectively $fh \FluteLess gh$ and $\dfrac{f}{h} \FluteLess \dfrac{g}{h}$.
+\end{proof}
+
+\subsubsection{$\FluteLeq$ Inequalities can be Algebraically Manipulated}
+
+\begin{proof}[Proof (Corollary \ref{coro:BothSidesNonStrictInequality})]
+	If I suppose $f \FluteLeq g$, then $f \FluteLess g$ or $f \sim g$. The first case implies $fh \FluteLess gh$ from Theorem \ref{thm:BothSidesInequality}, and the second implies $fh \sim gh$ from Corollary \ref{coro:BothSides}. In either case, $fh \FluteLeq gh$. Using the same logic, it is true that $\dfrac{f}{h} \FluteLeq \dfrac{g}{h}$.
+\end{proof}
+
+\subsection{Same-Order Terms may be Added to Both Sides of $\FluteLess$ Inequalities}
+
+\begin{proof}[Proof (Theorem \ref{thm:BothSidesInequalityAdd})]
+	From Theorem \ref{thm:InterchangeableInInequality}, we may substitute $f$ and $g$ in the inequality with $c_1 h$ and $c_2 h$ to receive $c_1 h \FluteLess c_2 h$. Then $\ExprNToInfty \dfrac{c_1 h}{c_2 h} = \dfrac{c_1}{c_2} < 1$, so $c_1 < c_2$.
 	
-	If I suppose $f \FluteLeq g$, then $f \FluteLess g$ or $f \sim g$. The first statement implies $fh \FluteLess gh$, and the second implies $fh \sim gh$ (from Corollary \ref{coro:BothSides}). In either case, $fh \FluteLeq gh$. Using the same logic, it is true that $\dfrac{f}{h} \FluteLeq \dfrac{g}{h}$.
+	Now, consider that $c_1 h + h \sim f + h$ and $g + h \sim c_2 h + h$ from Corollary \ref{coro:BothSides}. By definition, the limits $\ExprNToInfty \dfrac{(c_1 + 1) h}{f + h}$ and $\ExprNToInfty \dfrac{g + h}{(c_2 + 1) h}$ exist and are equal to $1$. Then,
+	\begin{align*}
+	\ExprNToInfty \frac{f + h}{g + h} &= \left( \ExprNToInfty \frac{f + h}{g + h} \right) \left( \ExprNToInfty \dfrac{(c_1 + 1) h}{f + h} \right) \left( \ExprNToInfty \dfrac{g + h}{(c_2 + 1) h} \right)\\
+	&= \ExprNToInfty \frac{(c_1 + 1) h}{(c_2 + 1) h}\\
+	&= \frac{c_1 + 1}{c_2 + 1}
+	\end{align*}
+	Since $c_1 < c_2$, $c_1 + 1 < c_2 + 1$ so $\dfrac{c_1 + 1}{c_2 + 1} < 1$. Thus, $f + h \FluteLess g + h$.
+\end{proof}
+
+\subsubsection{Same-Order Terms may be Added to Both Sides of $\FluteLeq$ Inequalities}
+
+\begin{proof}[Proof (Corollary \ref{coro:BothSidesNonStrictInequalityAdd})]
+	Given $f \FluteLeq g$, it is true that either $f \FluteLess g$ or $f \sim g$. In the first case, from Theorem \ref{thm:BothSidesInequalityAdd} it follows that $f + h \FluteLess g + h$. In the second case, from Theorem \ref{coro:BothSides} it follows that $f + h \sim g + h$. In both cases, $f + h \FluteLeq g + h$.
 \end{proof}
