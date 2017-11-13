@@ -14,16 +14,17 @@ This is read as ``$f$ is asymptotic to $g$'' or ``$f$ and $g$ are asymptotic.'' 
 
 Notice that while $O(2n) = O(n)$, $2n \not\sim n$. Thus, $\sim$ makes it possible to distinguish between a function that uses $n$ space and one that uses $2n$ space. {\HdrNote} A consequence of this is that bases for logarithms cannot be omitted, like in big-O notation.
 
-I will also introduce two cousins of $\sim$, $\FluteLess$ and $\FluteLeq$. $f \FluteLeq g$ if and only if $f \FluteLess g$ or $f \sim g$. $\FluteLess$ is defined as follows:
+I will also introduce two cousins of $\sim$, $\FluteLess$ and $\FluteLeq$. They are defined as follows:
 \begin{align*}
-f \FluteLess g \Biconditional \ExprNToInfty \frac f g < 1
+f \FluteLess g &\Biconditional \ExprNToInfty \frac f g < 1\\
+f \FluteLeq g &\Biconditional f \FluteLess g \lor f \sim g
 \end{align*}
-When reading these symbols, one says ``$f$ is asymptotically less than $g$'' or ``$f$ is asymptotically less than or equal to $g$''.
+I will call these relations \textbf{asymptotic inequalities}. The above inequalities are read ``$f$ is asymptotically less than $g$'' and ``$f$ is asymptotically less than or equal to $g$,'' respectively.
 
 \subsection{Properties}
 \label{subsec:AsymptoticProperties}
 
-Here, I define various properties of the $\sim$ relation that later proofs will use. The properties themselves are proved in the appendix.
+I define various properties of the $\sim$ relation here, which later proofs will use. The properties themselves are proved in the appendix.
 
 In the following theorems and their proofs, variables with the letters $f$, $g$, or $h$ denote arbitrary functions that are positive and non-decreasing for sufficiently large $n$.
 
@@ -60,7 +61,7 @@ The following theorem states that $\sim$ can ``merge,'' or un-distribute, over a
 
 \begin{corollary}
 \label{coro:BothSides}
-	Both sides of a $\sim$ relation may be added, multiplied, or divided by the same function.
+	A $\sim$ equation holds if both sides are added, multiplied, or divided by the same quantity.
 \end{corollary}
 
 The following theorem states that if two functions are asymptotic, then they belong to the same big-O class.
@@ -70,7 +71,7 @@ The following theorem states that if two functions are asymptotic, then they bel
 	If $f \sim g$ and $g = O(\Tweak{g})$, then $f = O(\Tweak{g})$.
 \end{theorem}
 
-The following theorem states that if two functions are asymptotic, then they can be used interchangeably in an asymptotic inequality.
+The following theorem states that if two functions are asymptotic, then they can be interchanged in an asymptotic inequality.
 
 \begin{theorem}
 \label{thm:InterchangeableInInequality}
@@ -79,13 +80,12 @@ The following theorem states that if two functions are asymptotic, then they can
 
 \begin{corollary}
 \label{coro:InterchangeableInNonStrictInequality}
-	The same statements hold true for $\FluteLeq$: If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLeq \TweakSecond{f}$, then $f \FluteLeq \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLeq \TweakSecond{g}$, then $\Tweak{g} \FluteLeq g$.
+	This theorem also holds for $\FluteLeq$: If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLeq \TweakSecond{f}$, then $f \FluteLeq \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLeq \TweakSecond{g}$, then $\Tweak{g} \FluteLeq g$.
 \end{corollary}
 
-% Todo: Add note, adding doesn't always work.
-In the same vein as Corollary \ref{coro:BothSides}, the following theorem states that asymptotic inequalities can be algebraically manipulated.
+The following theorem states that asymptotic inequalities can be algebraically manipulated, in the same vein as Corollary \ref{coro:BothSides}. However, they do not always hold if the same quantity is added to both sides; for example, $1 \FluteLess 2$, but $n + 1 \sim n + 2$.
 
 \begin{theorem}
 \label{thm:BothSidesInequality}
-	Both sides of a $\FluteLess$ or $\FluteLeq$ relation may be multiplied or divided by the same function.
+	A $\FluteLess$ or $\FluteLeq$ inequality holds if both sides are multiplied or divided by the same quantity.
 \end{theorem}

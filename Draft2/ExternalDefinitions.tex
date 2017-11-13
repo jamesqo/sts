@@ -1,0 +1,24 @@
+I assume that the following functions are defined by the runtime. Thus, I will use them in my algorithms without providing definitions for them.
+
+\begin{algorithm}
+	\begin{algorithmic}
+		\LineComment{Copies $len$ items from $source$ to $dest$}
+		\State $\FuncArrayCopy(source,\ dest,\ len)$
+		\State
+		\LineComment{Returns a new array with length $len$}
+		\State $\FuncNewArray(len)$
+		\State
+		\LineComment{Returns a new, empty dynamic array}
+		\State $\FuncNewDynamicArray()$
+	\end{algorithmic}
+\end{algorithm}
+
+I will also use the following constants in my algorithms. Specific values for these constants must be supplied by the person using the algorithms.
+
+\begin{description}
+	\item[initial capacity] Denoted by $\VarInitCapacity$. The capacity of an empty dynamic array.\\
+	{\HdrAssumptions} $\VarInitCapacity$ is a natural number
+	\item[growth factor] Denoted by $\VarGrowthFactor$. The constant ratio of the new capacity to the old one when $\VarList$ grows.\\
+	% Todo
+	{\HdrAssumptions} $\VarGrowthFactor\VarInitCapacity \geq \VarInitCapacity + 1$
+\end{description}

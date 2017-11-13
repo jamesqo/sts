@@ -3,8 +3,8 @@ In later sections, I will implement algorithms for both dynamic and growth array
 Let $\VarList$ be a dynamic array. I will give $\VarList$ the following fields:
 
 \begin{itemize}
-	\item $\VarList.\FieldBuffer$ - The \textbf{buffer}, or raw array, that $\VarList$ stores its items in.
-	\item $\VarList.\FieldSize$ - The number of items in $\VarList$.
+	\item $\VarList.\FieldBuffer$ -- The \textbf{buffer}, or raw array, that $\VarList$ stores its items in.
+	\item $\VarList.\FieldSize$ -- The number of items in $\VarList$.
 \end{itemize}
 
 As a dynamic array, $\VarList$ is also given the following properties. ({\HdrNote} For pseudocode, I will use $:=$ to denote a definition, and $=$ to denote an equivalence check. Functions that return boolean values are suffixed with ?.)
@@ -33,11 +33,11 @@ The following code should run when $\VarList$ is instantiated:
 Now, let $\VarList$ be a growth array. I will give it the following fields:
 
 \begin{itemize}
-	\item $\VarList.\FieldHead$ - The \textbf{head} of $\VarList$. It returns the buffer new items are appended to.
-	\item $\VarList.\FieldTail$ - The \textbf{tail} of $\VarList$. (\textbf{Important note: The tail is a dynamic array.}) It returns a dynamic array of pointers to buffers that are already filled with items. The tail can be thought of as a two-dimensional array.\\
-	({\HdrRemark} It may seem strange for a growth array to use the very data structure it is replacing. Lemma \ref{lem:VarUsefulIsOLogN} shows, however, that only $O(\log n)$ many pointers are appended to the tail. Thus, the extra copying and allocations the tail performs is minuscule compared to other work done by the growth array.)
-	\item $\VarList.\FieldSize$ - The number of items in $\VarList$.
-	\item $\VarList.\FieldCapacity$ - The \textbf{capacity} of $\VarList$. It returns the maximum number of items $\VarList$ can hold before it must grow.
+	\item $\VarList.\FieldHead$ -- The \textbf{head} of $\VarList$. It returns the buffer new items are appended to.
+	\item $\VarList.\FieldTail$ -- The \textbf{tail} of $\VarList$. (\textbf{Important note: The tail is a dynamic array.}) It returns a dynamic array of pointers to buffers that are already filled with items. The tail can be thought of as a two-dimensional array.\\
+	({\HdrRemark} It may seem strange for a growth array to use the very data structure it is replacing. Lemma \ref{lem:VarUsefulIsOLogN} will show, however, that only $O(\log n)$ many pointers are appended to the tail. Thus, the extra copying and allocations the tail performs is minuscule compared to other work done by the growth array.)
+	\item $\VarList.\FieldSize$ -- The number of items in $\VarList$.
+	\item $\VarList.\FieldCapacity$ -- The \textbf{capacity} of $\VarList$. It returns the maximum number of items $\VarList$ can hold before it must grow.
 \end{itemize}
 
 As a growth array, $\VarList$ is also given the following properties:

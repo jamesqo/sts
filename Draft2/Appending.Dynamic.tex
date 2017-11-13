@@ -1,13 +1,6 @@
 \HdrDynArrayImpl
 
-I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic array. The following definitions are used in the code:
-
-\begin{description}
-	\item[initial capacity] Denoted by $\VarInitCapacity$. The capacity of an empty dynamic array.\\
-	{\HdrAssumptions} $\VarInitCapacity$ is an integer, $\VarInitCapacity > 0$
-	\item[growth factor] Denoted by $\VarGrowthFactor$. The factor by which the current capacity is multiplied to get the new capacity when $\VarList$ is non-empty and grows.\\
-	{\HdrAssumptions} $\VarGrowthFactor\VarInitCapacity \geq \VarInitCapacity + 1$
-\end{description}
+I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic array. The following constants are used by the algorithm:
 
 \begin{algorithm}
 	\begin{algorithmic}[1]
@@ -30,7 +23,12 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 
 \HdrTimeComplex
 
-Before I analyze the time complexity of $\FuncAppend$, I consider a different method for measuring its cost. Suppose I start with an empty collection and $n$ elements are appended. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $n$ appends, and denote it $\FuncWrites(n)$.
+% Todo: CITE
+It is well-known that appending one item to a dynamic array takes amortized $O(1)$ time. Thus, appending $n$ items takes $O(n)$ time. However, this fact is not very useful for the purpose of comparison--- later, it will be shown that growth arrays also take $O(n)$ time to append $n$ items.
+
+It would be helpful if the ratio $\dfrac{\FuncTimeDynamicArray(n)}{\FuncTimeGrowthArray(n)}$ could be determined, where $\FuncTimeDynamicArray(n)$ and $\FuncTimeGrowthArray(n)$ denote the average time needed to append $n$ items for dynamic and growth arrays, respectively. However, there is no way to quantify these functions without empirical measurements. Thus, I will approximate this ratio through a different technique: Suppose $n$ elements are appended to an empty collection. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $n$ appends, and denote it $\FuncWrites(n)$.
+
+I will na\"{i}vely assume that $\FuncTime(n) \propto \FuncWrites(n)$, or that the average time for $n$ appends is proportional to their write cost. Then $\dfrac{\FuncTimeDynamicArray(n)}{\FuncTimeGrowthArray(n)} = \dfrac{\FuncWritesDynamicArray(n)}{\FuncWritesGrowthArray(n)}$, where $\FuncWritesDynamicArray$ and $\FuncWritesGrowthArray$ are respectively the write cost functions for dynamic and growth arrays. In this section, I will derive the formula for $\FuncWritesDynamicArray(n)$. Because this section concerns dynamic arrays only, I will write it as $\FuncWrites(n)$.
 
 In the code for $\FuncAppend$, one array store is performed unconditionally, so it is apparent that $\FuncWrites(n) \geq n$ after $n$ appends. However, $\FuncGrow$ also does some writing, so in order to find a precise formula for $\FuncWrites(n)$, I need to analyze when $\FuncGrow$ is called. To do this, I use the following lemma:
 
@@ -51,7 +49,7 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 	\end{enumerate}
 	Assumption (1) immediately shows $\VarCapacitySeq_0 = \VarInitCapacity$. Assumption (2) shows that if $\VarGrowthFactor^i\VarInitCapacity$ is the current capacity, then $\VarGrowthFactor^{i + 1}\VarInitCapacity$ must be the next capacity. By induction, $\VarCapacitySeq = \left( \VarGrowthFactor^i\VarInitCapacity \right)_{i = 0}^\VarUseful$ for some whole number $\VarUseful$.
 	
-	The final value of the sequence, $\VarCapacitySeq_\VarUseful$, is the capacity needed for $n$ items. By assumption (3), $\VarCapacitySeq_\VarUseful \geq n > \VarCapacitySeq_{\VarUseful - 1}$. Consider the case when $n > \VarInitCapacity$: it must be true that $\VarCapacitySeq_\VarUseful > \VarInitCapacity$, so $\VarUseful \geq 1$. Since $\VarUseful - 1 \neq 0$, $\VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$ and $\VarCapacitySeq_{\VarUseful - 1} = \VarGrowthFactor^{\VarUseful - 1}\VarInitCapacity$. Then
+	The final value of the sequence, $\VarCapacitySeq_\VarUseful$, is the capacity needed to store $n$ items. By assumption (3), $\VarCapacitySeq_\VarUseful \geq n > \VarCapacitySeq_{\VarUseful - 1}$. Consider the case when $n > \VarInitCapacity$: it must be true that $\VarCapacitySeq_\VarUseful > \VarInitCapacity$, so $\VarUseful \geq 1$. Since $\VarUseful - 1 \geq 0$, $\VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$ and $\VarCapacitySeq_{\VarUseful - 1} = \VarGrowthFactor^{\VarUseful - 1}\VarInitCapacity$. Then
 	\begin{align*}
 	\VarGrowthFactor^\VarUseful\VarInitCapacity &\geq n > \VarGrowthFactor^{\VarUseful - 1}\VarInitCapacity\\
 	\VarGrowthFactor^\VarUseful &\geq \frac{n}{\VarInitCapacity} > \VarGrowthFactor^{\VarUseful - 1}\\
@@ -61,9 +59,9 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 	\begin{align*}
 	\VarUseful &= \ExprMessy
 	\end{align*}
-	Now consider the case when $n \leq \VarInitCapacity$. By assumption (3), $n > \VarCapacitySeq_{\VarUseful - 1}$. $\VarUseful - 1$ must then equal $-1$, since any other value would imply $n > \VarCapacitySeq_{\VarUseful - 1} \geq \VarInitCapacity$. Thus $\VarUseful = 0$.
+	Now, consider the case when $n \leq \VarInitCapacity$. By assumption (3), $n > \VarCapacitySeq_{\VarUseful - 1}$. $\VarUseful - 1$ must then equal $-1$, since any other value would imply $n > \VarCapacitySeq_{\VarUseful - 1} \geq \VarInitCapacity$. Thus $\VarUseful = 0$.
 	
-	It was shown $\VarUseful \geq 1 \geq 0$ for the first case, and it can be shown $\ExprMessy \leq 0$ for the second case. Then, a general formula for $\VarUseful$ is as follows:
+	It was shown that $\VarUseful \geq 1 \geq 0$ for the first case, and it can be shown that $\ExprMessy \leq 0$ for the second case. Therefore, a general formula for $\VarUseful$ is as follows:
 	\begin{align*}
 	\VarUseful &= \max(\ExprMessy, 0)
 	\end{align*}
@@ -72,10 +70,11 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 
 \begin{corollary}
 \label{coro:GrowthSeq}
-	Let the \textbf{growth sequence}, $\VarGrowSeq$, of $\VarList$ be the sizes for which $\FuncGrow$ is called when $n$ items are appended. Then $\VarGrowSeq = \VarCapacitySeq \setminus \left\{ \VarCapacitySeq_\VarUseful \right\}$.
+	Let the \textbf{growth sequence}, $\VarGrowSeq$, of $\VarList$ be the sizes at which $\FuncGrow$ is called when $n$ items are appended to $\VarList$. Then $\VarGrowSeq = \VarCapacitySeq \setminus \left\{ \VarCapacitySeq_\VarUseful \right\}$.
 \end{corollary}
 
 \begin{proof}
+	% Todo: Better language here? 'exists' is confusing
 	If $\VarCapacitySeq_i$ exists and $i \geq 1$, then clearly $\FuncGrow$ must have been called when the size was $\VarCapacitySeq_{i - 1}$, so $\VarCapacitySeq_{i - 1} \in \VarGrowSeq$. Then $\VarGrowSeq$ contains every term in $\VarCapacitySeq$ except for the last, $\VarCapacitySeq_\VarUseful$, as the corollary states.
 \end{proof}
 
@@ -84,19 +83,19 @@ When $\FuncGrow$ is called and the current size is $\VarGrowSeq_i$, the algorith
 \sum_i {\VarGrowSeq_i} &= \VarInitCapacity + \VarGrowthFactor\VarInitCapacity + \ldots + \VarGrowthFactor^{\VarUseful - 1}\VarInitCapacity\\
 &= \left( \frac{\VarGrowthFactor^{\VarUseful} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 \end{align*}
-Counting the writes made for each item by $\FuncAppend$, an explicit formula for $\FuncWrites(n)$ is as follows:
+Counting the writes made per item by $\FuncAppend$, an explicit formula for $\FuncWrites(n)$ is as follows:
 \begin{align*}
 \FuncWrites(n) = n + \left( \frac{\VarGrowthFactor^\VarUseful - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 \end{align*}
-Now, my goal is to approximate $\FuncWrites(n)$ with $\sim$. To make is easier to do so, I will asymptotically bound $\VarGrowthFactor^\VarUseful$ which depends on $n$.
+Now, my goal is to approximate $\FuncWrites(n)$ with $\sim$. To make this easier to do, I will asymptotically bound $\VarGrowthFactor^\VarUseful$ with respect to $n$.
 
 \begin{lemma}
 \label{lem:ToVarUsefulPowerBounds}
-	For $n > \VarInitCapacity$, $\dfrac n \VarInitCapacity \leq \VarGrowthFactor^\VarUseful < \dfrac {\VarGrowthFactor{n}} \VarInitCapacity$.
+	$\dfrac n \VarInitCapacity \FluteLeq \VarGrowthFactor^\VarUseful \FluteLess \dfrac {\VarGrowthFactor{n}} \VarInitCapacity$. That is, $\dfrac n \VarInitCapacity \leq \VarGrowthFactor^\VarUseful < \dfrac {\VarGrowthFactor{n}} \VarInitCapacity$ for sufficiently large $n$.
 \end{lemma}
 
 \begin{proof}
-	It was shown in Lemma \ref{lem:CapacitySeq} that if $n > \VarInitCapacity$, $\VarUseful = \ExprMessy \geq 1$.  Now note that $\VarUseful$ may also be written as $\ExprMessyAlt$. Then
+	It was shown in Lemma \ref{lem:CapacitySeq} that if $n > \VarInitCapacity$, $\VarUseful = \ExprMessy \geq 1$.  Now, note that $\VarUseful$ may be written as $\ExprMessyAlt$ for such $n$. Then,
 	\begin{align*}
 	\ExprMessyAltInner \leq \VarUseful &< \ExprMessyAltInner + 1\\
 	\frac{n}{\VarInitCapacity} \leq \VarUseful &< \frac{\VarGrowthFactor{n}}{\VarInitCapacity}
@@ -104,7 +103,7 @@ Now, my goal is to approximate $\FuncWrites(n)$ with $\sim$. To make is easier t
 	as desired.
 \end{proof}
 
-Now, I proceed to asymptotically bound $\FuncWrites(n)$.
+I now proceed to asymptotically bound $\FuncWrites(n)$:
 \begin{align*}
 \FuncWrites(n) &= n + \left( \frac{\VarGrowthFactor^\VarUseful - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
 n + \left( \frac{n / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity \FluteLeq \FuncWrites(n) &\FluteLess n + \left( \frac{\VarGrowthFactor{n} / \VarInitCapacity - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity\\
