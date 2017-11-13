@@ -71,10 +71,9 @@ Now, the task is to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ i
 	\VarIndexBuffer &= \VarUseful|_{n = i + 1}\\
 	\VarIndexElement &= i - \VarGrowSeq_{\VarIndexBuffer - 1}
 	\end{align*}
-	(When $\VarIndexBuffer = 0$, $\VarGrowSeq_{-1} = 0$ by convention.)
+	(By convention, $\VarGrowSeq_{-1} = 0$.)
 \end{lemma}
 
-% Todo: "As shown earlier"
 \begin{proof}
 	Appending new items does not change the index of an item that is already in the list. Thus, finding the element at index $i$ is equivalent to finding the last element when $n = i + 1$.
 	

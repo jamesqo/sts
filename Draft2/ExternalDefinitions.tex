@@ -16,9 +16,6 @@ I assume that the following functions are defined by the runtime. Thus, I will u
 I will also use the following constants in my algorithms. Specific values for these constants must be supplied by the person using the algorithms.
 
 \begin{description}
-	\item[initial capacity] Denoted by $\VarInitCapacity$. The capacity of an empty dynamic array.\\
-	{\HdrAssumptions} $\VarInitCapacity$ is a natural number
-	\item[growth factor] Denoted by $\VarGrowthFactor$. The constant ratio of the new capacity to the old one when $\VarList$ grows.\\
-	% Todo
-	{\HdrAssumptions} $\VarGrowthFactor\VarInitCapacity \geq \VarInitCapacity + 1$
+	\item[initial capacity] Denoted by $\VarInitCapacity$; the capacity of an empty dynamic array. $\VarInitCapacity$ must be a natural number.
+	\item[growth factor] Denoted by $\VarGrowthFactor$; the constant ratio of the new capacity to the old one when $\VarList$ grows. $\VarGrowthFactor$ must be greater than $1$.
 \end{description}
