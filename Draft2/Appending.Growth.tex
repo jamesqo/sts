@@ -5,28 +5,32 @@ In this section, $\VarList$ is a growth array. The following algorithm implement
 \begin{algorithm}
 	\begin{algorithmic}[1]
 		\Procedure{$\FuncAppend$}{$\VarList,\ \ParamItem$}
-		\If{$\VarList.\FieldFull$}
-		\State $\VarList.\FuncGrow()$
-		\EndIf
+			\If{$\VarList.\FieldFull$}
+				\State $\VarList.\FuncGrow()$
+			\EndIf
 		
-		\State $\VarList.\FieldHead[\VarList.\FieldHeadSize] \gets \ParamItem$
-		\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
+			\State $\VarList.\FieldHead[\VarList.\FieldHeadSize] \gets \ParamItem$
+			\State $\VarList.\FieldSize \gets \VarList.\FieldSize + 1$
 		\EndProcedure
 		\Statex
 		\Procedure{$\FuncGrow$}{$\VarList$}
-		\State $\VarList.\FieldTail.Append(\VarList.\FieldHead)$
-		\If{$\VarList.\FieldCapacity = \VarInitCapacity$}
-			\State $\LclNewHeadCapacity \gets (\VarGrowthFactor - 1) \times \VarInitCapacity$
-		\Else
-			\State $\LclNewHeadCapacity \gets \VarGrowthFactor \times \VarList.\FieldHeadCapacity$
-		\EndIf
-		\State $\VarList.\FieldHead \gets \FuncNewArray(\LclNewHeadCapacity)$
-		\State $\VarList.\FieldCapacity \gets \VarList.\FieldCapacity + \LclNewHeadCapacity$
+			\State $\VarList.\FieldTail.Append(\VarList.\FieldHead)$
+			\If{$\VarList.\FieldCapacity = \VarInitCapacity$}
+				\State $\LclNewHeadCapacity \gets (\VarGrowthFactor - 1) \times \VarInitCapacity$
+			\Else
+				\State $\LclNewHeadCapacity \gets \VarGrowthFactor \times \VarList.\FieldHeadCapacity$
+			\EndIf
+			\State $\VarList.\FieldHead \gets \FuncNewArray(\LclNewHeadCapacity)$
+			\State $\VarList.\FieldCapacity \gets \VarList.\FieldCapacity + \LclNewHeadCapacity$
 		\EndProcedure
 	\end{algorithmic}
 \end{algorithm}
 
 \HdrTimeComplex
+
+It takes $O(n)$ time to append $n$ items to a growth array. To see this, ...
+
+% For the reasons given in the dynamic array section, I wish to find $\FuncWritesGrowthArray(n)$ (denoted by $\FuncWrites(n)$ in this section) in order to compare the speeds of dynamic and growth arrays.
 
 I start off again by finding the write cost for $n$ items. Lemma \ref{lem:CapacitySeq} still holds, since growth arrays satisfy the properties used by that proof. In particular, although growth arrays use a different growth algorithm than dynamic arrays, the following claim is still true:
 
