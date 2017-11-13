@@ -116,13 +116,13 @@
 \subsection{Same-Order Terms may be Added to Both Sides of $\FluteLess$ Inequalities}
 
 \begin{proof}[Proof (Theorem \ref{thm:BothSidesInequalityAdd})]
-	From Theorem \ref{thm:InterchangeableInInequality}, we may substitute $f$ and $g$ in the inequality with $c_1 h$ and $c_2 h$ to receive $c_1 h \FluteLess c_2 h$. Then $\ExprNToInfty \dfrac{c_1 h}{c_2 h} = \dfrac{c_1}{c_2} < 1$, so $c_1 < c_2$.
-	
-	Now, consider that $c_1 h + h \sim f + h$ and $g + h \sim c_2 h + h$ from Corollary \ref{coro:BothSides}. By definition, the limits $\ExprNToInfty \dfrac{(c_1 + 1) h}{f + h}$ and $\ExprNToInfty \dfrac{g + h}{(c_2 + 1) h}$ exist and are equal to $1$. Then,
+	If $\dfrac{f}{h}$ does not approach $0$ as $n \to \infty$, then it is bounded below by some positive constant $c_1$, and $\ExprNToInfty \dfrac{c_1 h}{f} \leq 1$. From $f \FluteLess g$, it follows that $\ExprNToInfty \dfrac{f}{g} < 1$. Since $g = O(h)$, $\exists c_2 : \ExprNToInfty \dfrac{g}{c_2 h} \leq 1$. Multiplying these limits, I receive
 	\begin{align*}
-	\ExprNToInfty \frac{f + h}{g + h} &= \left( \ExprNToInfty \frac{f + h}{g + h} \right) \left( \ExprNToInfty \dfrac{(c_1 + 1) h}{f + h} \right) \left( \ExprNToInfty \dfrac{g + h}{(c_2 + 1) h} \right)\\
-	&= \ExprNToInfty \frac{(c_1 + 1) h}{(c_2 + 1) h}\\
-	&= \frac{c_1 + 1}{c_2 + 1}
+	\left( \ExprNToInfty \frac{c_1 h}{f} \right) \left( \ExprNToInfty \dfrac{f}{g} \right) \left( \ExprNToInfty \dfrac{g}{c_2 h} \right) = \ExprNToInfty \frac{c_1 h}{c_2 h} = \frac{c_1}{c_2}
+	\end{align*}
+	Since at least one limit is less than $1$, and no limit exceeds $1$, the product $\dfrac{c_1}{c_2}$ is less than one. Now, consider that
+	\begin{align*}
+	\ExprNToInfty \frac{f + h}{g + h} \leq \ExprNToInfty \frac{c_1 h + h}{c_2 h + h} = \frac{c_1 + 1}{c_2 + 1}
 	\end{align*}
 	Since $c_1 < c_2$, $c_1 + 1 < c_2 + 1$ so $\dfrac{c_1 + 1}{c_2 + 1} < 1$. Thus, $f + h \FluteLess g + h$.
 \end{proof}
