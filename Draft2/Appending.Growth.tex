@@ -55,9 +55,9 @@ Now, I focus on finding a formula for the write cost function, $\FuncWritesGrowt
 
 Since Lemma \ref{lem:GrowthArraysGrowthFactor} has been proven, Lemma \ref{lem:CapacitySeq} and all results based on it must also hold true for growth arrays. Now, I am ready to find the write cost of $\FuncGrow$. Unlike dynamic arrays, $\FuncGrow$ does not make $\VarGrowSeq_i$ writes when the current size is $\VarGrowSeq_i$. In fact, $\FuncGrow$ does not copy \textit{any} items supplied by the user. Writes are only made when a buffer pointer is appended to the tail, since the tail is a dynamic array.
 
-Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$, and let $\VarNumItemsTail$ be the size of the tail. Since Corollary \ref{coro:GrowthSeq} also holds true for growth arrays, $\FuncGrow$ is called $|\VarGrowSeq|$ times. A buffer is appended to the tail each time $\FuncGrow$ is called. Thus, the tail's size is
+Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$, and let $\VarNumPointersTail$ be the size of the tail. Since Corollary \ref{coro:GrowthSeq} also holds true for growth arrays, $\FuncGrow$ is called $|\VarGrowSeq|$ times. A buffer is appended to the tail each time $\FuncGrow$ is called. Thus, the tail's size is
 \begin{align*}
-\VarNumItemsTail &= |\VarGrowSeq| = |\VarCapacitySeq| - 1 = \VarUseful
+\VarNumPointersTail &= |\VarGrowSeq| = |\VarCapacitySeq| - 1 = \VarUseful
 \end{align*}
 Then the formula for $\FuncWritesByGrow(n)$ is simply $\FuncWritesTail(\VarUseful)$, since $\VarUseful$ pointers are appended to the tail, which is a dynamic array. Finally, adding the writes made by $\FuncAppend$, the formula for $\FuncWrites(n)$ is
 \begin{align*}
@@ -90,7 +90,7 @@ The last step is justified by Theorem \ref{thm:RemovesLowerOrderTerms}.
 
 Unlike dynamic arrays, growth arrays do not throw away buffers. This means that if the current capacity is $c$, then the total length of buffers allocated to store items is also $c$. Typically, however, $\FuncSpace(n) > c$. This is because the tail of growth arrays (which is a dynamic array) also allocates buffers to store buffer pointers. The space the tail allocates must be considered in the formula for $\FuncSpace(n)$.
 
-In the previous section, I established that $\VarNumItemsTail = \VarUseful$. Since $\VarCapacitySeq_\VarUseful$ is the capacity needed to hold $n$ items, and $\FuncSpaceTail(\VarUseful)$ is the space the tail needs to store $\VarUseful$ pointers, I conclude that the formula for $\FuncSpace(n)$ is
+In the previous section, I established that $\VarNumPointersTail = \VarUseful$. Since $\VarCapacitySeq_\VarUseful$ is the capacity needed to hold $n$ items, and $\FuncSpaceTail(\VarUseful)$ is the space the tail needs to store $\VarUseful$ pointers, I conclude that the formula for $\FuncSpace(n)$ is
 \begin{align*}
 \FuncSpace(n) = \VarCapacitySeq_\VarUseful + \FuncSpaceTail(\VarUseful)
 \end{align*}

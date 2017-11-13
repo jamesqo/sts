@@ -23,7 +23,7 @@ The first algorithm I will demonstrate is a na\"{i}ve implementation that runs i
 	\end{algorithmic}
 \end{algorithm}
 
-I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumItemsTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time, so the time complexity is precisely $O(\log n)$.
+I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumPointersTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time, so the time complexity is precisely $O(\log n)$.
 
 I present this algorithm alongside the constant time one because it is easier to understand, and the latter is often slower if special circumstances are not met.
 
@@ -33,9 +33,9 @@ In this section, I will present a constant time algorithm for indexing a growth 
 
 Suppose I want to get the $i$th element of a growth array, where $i$ is zero-based. I assume that $i$ is a valid index, or that $0 \leq i < \VarList.\FieldSize$. In order to locate the desired element, I must find two things: the buffer that holds the item, and the index of the item within that buffer.
 
-Now, consider that every buffer except the head is stored inside the tail. Thus, such buffers can be uniquely identified by their index in the tail. I will refer to this quantity as the \textbf{buffer index} and denote it $\VarIndexBuffer$. I wish to assign the head a buffer index as well, so that each buffer has a unique ID. Since the head follows the tail's last buffer, which has $\VarIndexBuffer = \VarNumItemsTail - 1$, I will let the head's $\VarIndexBuffer$ be $\VarNumItemsTail$.
+Now, consider that every buffer except the head is stored inside the tail. Thus, such buffers can be uniquely identified by their index in the tail. I will refer to this quantity as the \textbf{buffer index} and denote it $\VarIndexBuffer$. I wish to assign the head a buffer index as well, so that each buffer has a unique ID. Since the head follows the tail's last buffer, which has $\VarIndexBuffer = \VarNumPointersTail - 1$, I will let the head's $\VarIndexBuffer$ be $\VarNumPointersTail$.
 
-I define a helper function, $\FuncGetBuffer$, that gets the buffer associated with a given $\VarIndexBuffer$. $\VarIndexBuffer$ is assumed to be valid; that is, $0 \leq \VarIndexBuffer \leq \VarNumItemsTail$.
+I define a helper function, $\FuncGetBuffer$, that gets the buffer associated with a given $\VarIndexBuffer$. $\VarIndexBuffer$ is assumed to be valid; that is, $0 \leq \VarIndexBuffer \leq \VarNumPointersTail$.
 
 \begin{algorithm}[H]
 	\begin{algorithmic}
@@ -78,13 +78,13 @@ Now, the task is to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ i
 \begin{proof}
 	Appending new items does not change the index of an item that is already in the list. Thus, finding the element at index $i$ is equivalent to finding the last element when $n = i + 1$.
 	
-	The last element always resides in the head, so $\VarIndexBuffer = \VarNumItemsTail|_{n = i + 1}$. As shown earlier, $\VarNumItemsTail = \VarUseful$, so $\VarIndexBuffer = \VarUseful|_{n = i + 1}$.
+	The last element always resides in the head, so $\VarIndexBuffer = \VarNumPointersTail|_{n = i + 1}$. As shown earlier, $\VarNumPointersTail = \VarUseful$, so $\VarIndexBuffer = \VarUseful|_{n = i + 1}$.
 	
 	To determine $\VarIndexElement$, consider the identity:
 	\begin{align*}
 	n = \text{\# of items in tail} + \text{\# of items in head}
 	\end{align*}
-	First, I will determine the number of items in the tail. In the case where $\VarIndexBuffer = 0$, then because $\VarNumItemsTail = \VarIndexBuffer$, the tail contains $0$ buffers and thus $0$ items (which equals $\VarGrowSeq_{-1}$). If $\VarIndexBuffer > 0$, the number of items in the tail is the last size at which $\FuncGrow$ was called, or the last term of $\VarGrowSeq$. This quantity is $\VarGrowSeq_{\VarUseful - 1}$, or $\VarGrowSeq_{\VarIndexBuffer - 1}$.
+	First, I will determine the number of items in the tail. In the case where $\VarIndexBuffer = 0$, then because $\VarNumPointersTail = \VarIndexBuffer$, the tail contains $0$ buffers and thus $0$ items (which equals $\VarGrowSeq_{-1}$). If $\VarIndexBuffer > 0$, the number of items in the tail is the last size at which $\FuncGrow$ was called, or the last term of $\VarGrowSeq$. This quantity is $\VarGrowSeq_{\VarUseful - 1}$, or $\VarGrowSeq_{\VarIndexBuffer - 1}$.
 	
 	The desired item is the growth array's last element, which implies it is also the head's last element. Thus $\VarIndexElement$ is the head's last valid index, so the head's size is $\VarIndexElement + 1$. Finally, from the premise, $n = i + 1$. Substituting all values into the above identity, I receive
 	\begin{align*}
