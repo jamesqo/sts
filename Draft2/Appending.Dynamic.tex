@@ -23,7 +23,6 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 
 \HdrTimeComplex
 
-% Todo: CITE
 It is well-known that appending one item to a dynamic array takes amortized $O(1)$ time. Thus, appending $n$ items takes $O(n)$ time. However, this fact is not very useful for the purpose of comparison--- later, it will be shown that growth arrays also take $O(n)$ time to append $n$ items.
 
 It would be helpful if the ratio $\dfrac{\FuncTimeDynamicArray(n)}{\FuncTimeGrowthArray(n)}$ could be determined, where $\FuncTimeDynamicArray(n)$ and $\FuncTimeGrowthArray(n)$ denote the average time needed to append $n$ items for dynamic and growth arrays, respectively. This represents how much faster growth arrays are than dynamic ones. However, there is no way to quantify these functions without empirical measurements. Thus, I will approximate this ratio through a different technique: Suppose $n$ elements are appended to an empty collection. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $n$ appends, and denote it $\FuncWrites(n)$.
@@ -74,7 +73,6 @@ In the code for $\FuncAppend$, one array store is performed unconditionally, so 
 \end{corollary}
 
 \begin{proof}
-	% Todo: Better language here? 'exists' is confusing
 	If $\VarCapacitySeq_i$ exists and $i \geq 1$, then clearly $\FuncGrow$ must have been called when the size was $\VarCapacitySeq_{i - 1}$, so $\VarCapacitySeq_{i - 1} \in \VarGrowSeq$. Then $\VarGrowSeq$ contains every term in $\VarCapacitySeq$ except for the last, $\VarCapacitySeq_\VarUseful$, as the corollary states.
 \end{proof}
 
