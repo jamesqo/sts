@@ -59,7 +59,7 @@ Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$
 \begin{align*}
 \VarNumItemsTail &= |\VarGrowSeq| = |\VarCapacitySeq| - 1 = \VarUseful
 \end{align*}
-Then the formula for $\FuncWritesByGrow(n)$ is simply $\FuncWritesTail(\VarUseful)$, where $\FuncWritesTail$ denotes the tail's write cost function (that is, the write cost function for dynamic arrays). Finally, adding the writes made by $\FuncAppend$, the formula for $\FuncWrites(n)$ is
+Then the formula for $\FuncWritesByGrow(n)$ is simply $\FuncWritesTail(\VarUseful)$, since $\VarUseful$ pointers are appended to the tail, which is a dynamic array. Finally, adding the writes made by $\FuncAppend$, the formula for $\FuncWrites(n)$ is
 \begin{align*}
 \FuncWrites(n) = n + \FuncWritesTail(\VarUseful)
 \end{align*}
@@ -71,28 +71,35 @@ Now, I approximate $\FuncWrites(n)$ using $\sim$. To do this, I will derive the 
 \end{lemma}
 
 \begin{proof}
-	From Lemma \ref{lem:CapacitySeq}, $\VarUseful = \max(\ExprMessy, 0)$. As mentioned in Lemma \ref{lem:ToVarUsefulPowerBounds}, for sufficiently large $n$, $\VarUseful = \ExprMessy$. Then
+	From Lemma \ref{lem:CapacitySeq}, $\VarUseful = \max(\ExprMessy, 0)$. For sufficiently large $n$, $\VarUseful = \ExprMessy$. Using $\sim$ to analyze $\VarUseful$, I receive
 	\begin{align*}
 	\VarUseful \sim \ExprMessy \sim \left( \ExprMessyInner \right) \sim \log_{\VarGrowthFactor} n
 	\end{align*}
-	By [lemma], $O(\VarUseful) = O(\log_{\VarGrowthFactor} n) = O(\log n)$ as desired.
+	(It is trivial to show that $\left\lceil f(n) \right\rceil \sim f(n)$ if $f$ is unbounded, since $\left\lceil f(n) \right\rceil - f(n)$ is bounded by $1$.)
+	
+	By Theorem \ref{thm:SameBigOClass}, $O(\VarUseful) = O(\log_{\VarGrowthFactor} n) = O(\log n)$ as desired.
 \end{proof}
 
-Now when $\FuncWrites(n)$ is approximated with $\sim$, the $\FuncWritesTail(\VarUseful)$ term disappears:
+Now when $\FuncWrites(n)$ is approximated with $\sim$, $\FuncWritesTail(\VarUseful)$ disappears:
 \begin{align*}
 \FuncWrites(n) &= n + \FuncWritesTail(\VarUseful) = n + O(\VarUseful) = n + O(\log n) \sim n
 \end{align*}
-The last step is true because of Theorem \ref{thm:RemovesLowerOrderTerms}.
+The last step is justified by Theorem \ref{thm:RemovesLowerOrderTerms}.
 
 \HdrSpaceComplex
 
-Unlike dynamic arrays, growth arrays never throw away buffers. This means that if the current capacity is $c$, then the total length of buffers allocated to store items is also $c$. Typically, however, $\FuncSpace(n) > c$. This is because growth arrays not only store items in buffers, they also store \textbf{references} (or \textbf{pointers}) to the buffers holding the items, in the tail. Thus, the space the tail allocates must also be considered.
+Unlike dynamic arrays, growth arrays do not throw away buffers. This means that if the current capacity is $c$, then the total length of buffers allocated to store items is also $c$. Typically, however, $\FuncSpace(n) > c$. This is because the tail of growth arrays (which is a dynamic array) also allocates buffers to store buffer pointers. The space the tail allocates must be considered in the formula for $\FuncSpace(n)$.
 
-We established in [lemma] that $\VarNumItemsTail = \VarUseful$. Then since $\VarCapacitySeq_\VarUseful$ is the space needed to hold items, and $\FuncSpaceTail(\VarUseful)$ is the space the tail needs to hold references, the formula for $\FuncSpace(n)$ is
+In the previous section, I established that $\VarNumItemsTail = \VarUseful$. Since $\VarCapacitySeq_\VarUseful$ is the capacity needed to hold $n$ items, and $\FuncSpaceTail(\VarUseful)$ is the space the tail needs to store $\VarUseful$ pointers, I conclude that the formula for $\FuncSpace(n)$ is
 \begin{align*}
 \FuncSpace(n) = \VarCapacitySeq_\VarUseful + \FuncSpaceTail(\VarUseful)
 \end{align*}
-I now wish to approximate this using $\sim$. First, note that since $\VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$, it follows from Lemma \ref{lem:ToVarUsefulPowerBounds} that $n \FluteLeq \VarCapacitySeq_\VarUseful \FluteLess \VarGrowthFactor{n}$. Since $n$ and $\VarGrowthFactor{n}$ are both $O(n)$, [the squeeze theorem] implies that $\VarCapacitySeq_\VarUseful = O(n)$.
+($\FuncSpaceTail$ denotes the space cost function for dynamic arrays.)
+
+% Bookmark
+% The following following paragraph doesn't work.
+
+Now, I wish to approximate this using $\sim$. Since $\VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$, it follows from Lemma \ref{lem:ToVarUsefulPowerBounds} that $n \FluteLeq \VarCapacitySeq_\VarUseful \FluteLess \VarGrowthFactor{n}$. Since $n$ and $\VarGrowthFactor{n}$ are both $O(n)$, [the squeeze theorem] implies that $\VarCapacitySeq_\VarUseful = O(n)$.
 
 Now, consider the ratio $\ExprNToInfty \dfrac {\FuncSpaceTail(\VarUseful)} {\VarCapacitySeq_\VarUseful} = \dfrac {O(\log n)} {O(n)} = O \left( \dfrac{\log n}{n} \right) = 0$. Because it is $0$, from Theorem \ref{thm:RemovesLowerOrderTerms} one can conclude
 \begin{align*}
