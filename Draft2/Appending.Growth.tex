@@ -1,8 +1,19 @@
 \HdrGrowthArrayImpl
 
+\begin{figure}[H]
+	\centering{\includegraphics[width=5in]{GrowthArrayDiagram}}
+	\caption{Appending $30$ items to a growth array with $\VarInitCapacity = 4$, $\VarGrowthFactor = 2$}
+\end{figure}
+
+\begin{figure}[H]
+	\centering{\includegraphics[width=5in]{GrowthArrayDiagram2}}
+	\caption{Appending $16$ items to a growth array with $\VarInitCapacity = 2$, $\VarGrowthFactor = 3$}
+\end{figure}
+
 In this section, $\VarList$ is a growth array. The following algorithm implements appending for growth arrays.
 
 \begin{algorithm}[H]
+	\caption{Appending \TextGrowthArray}
 	\begin{algorithmic}[1]
 		\Procedure{$\FuncAppend$}{$\VarList,\ \ParamItem$}
 			\If{$\VarList.\FieldFull$}

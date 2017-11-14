@@ -5,6 +5,7 @@ The following algorithm implements $\FuncGetItem$ for dynamic arrays. (A $\FuncS
 {\HdrNote} My algorithms do not validate any arguments; all arguments passed to them are assumed to be valid.
 
 \begin{algorithm}[H]
+	\caption{Random access \TextDynamicArray}
 	\begin{algorithmic}[1]
 		\Function{$\FuncGetItem$}{$\VarList,\ \ParamIndex$}
 			\State \Return $\VarList.\FieldBuffer[\ParamIndex]$
