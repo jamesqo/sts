@@ -1,8 +1,9 @@
 \HdrDynArrayImpl
 
-The algorithm for converting a dynamic array to a raw array is straightforward:
+It is straightforward to convert a dynamic array to a raw array:
 
 \begin{algorithm}[H]
+	\caption{Converting to raw array \TextDynamicArray}
 	\begin{algorithmic}
 		\Function{$\FuncToArray$}{$\VarList$}
 			\State $\LclRawArray \gets \FuncNewArray(\VarList.\FieldSize)$
@@ -11,3 +12,5 @@ The algorithm for converting a dynamic array to a raw array is straightforward:
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
+
+Since $n$ elements must be copied, the time complexity of this function is $O(n)$.

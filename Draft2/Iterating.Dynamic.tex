@@ -1,13 +1,13 @@
 \HdrDynArrayImpl
 
-The algorithm for iterating dynamic arrays is simple. It loops through all valid indices, and calls the $\FuncGetItem$ method (which is denoted $\VarList[i]$ instead of $\VarList.\FuncGetItem(i)$) for each index.
+The algorithm for iterating dynamic arrays is simple and familiar.
 
 \begin{algorithm}[H]
+	\caption{``$\TextFor \LclItem \TextIn \VarList$'' algorithm \TextDynamicArray}
 	\begin{algorithmic}
-		\LineComment{Algorithm for ``$\TextFor \LclItem \TextIn \VarList$'', where $\VarList$ is a dynamic array}
 		\For{$\LclIndex = 0,\ \LclIndex < \VarList.\FieldSize,\ \LclIndex \gets \LclIndex + 1$}
 			\State $\LclItem \gets \VarList[\LclIndex]$
-			\State $\ParamAction(\LclItem)$
+			\State $\TextDoSomethingWith \LclItem$
 		\EndFor
 	\end{algorithmic}
 \end{algorithm}

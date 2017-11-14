@@ -1,6 +1,6 @@
 \HdrGrowthArrayImpl
 
-The growth array implementation must call $\FuncArrayCopy$ multiple times, since not all elements are contiguous.
+The growth array algorithm is slightly slower than the dynamic array one. It needs to loop over the tail and call $\FuncArrayCopy$ multiple times, since not all elements are contiguous. However, $n$ elements are still copied in total, so the time complexity is still $O(n)$.
 
 \begin{algorithm}[H]
 	\begin{algorithmic}

@@ -1,20 +1,18 @@
 \HdrGrowthArrayImpl
 
-The algorithm for growth arrays is not as simple, however, if the user wants optimal performance. As shown in the previous section, the algorithm for indexing growth arrays is very costly compared to its dynamic array counterpart. Thus, I wish to avoid using it in my iteration algorithm.
-
-Fortunately, it turns out that it is possible to avoid its use:
+The iteration algorithm for growth arrays is not quite as simple. As shown in the previous section, growth arrays' random access algorithm is expensive; thus, it is best avoided. The following algorithm implements iteration without using the random access algorithm.
 
 \begin{algorithm}[H]
+	\caption{``$\TextFor \LclItem \TextIn \VarList$'' algorithm \TextGrowthArray}
 	\begin{algorithmic}
-		\LineComment{Algorithm for ``$\TextFor \LclItem \TextIn \VarList$'', where $\VarList$ is a growth array}
 		\For{$\LclBuffer \TextIn \VarList.\FieldTail$}
 			\For{$\LclItem \TextIn \LclBuffer$}
-				\State $\ParamAction(\LclItem)$
+				\State $\TextDoSomethingWith \LclItem$
 			\EndFor
 		\EndFor
 		\For{$\LclIndex = 0,\ \LclIndex < \VarList.\FieldHeadSize,\ \LclIndex \gets \LclIndex + 1$}
-		\State $\LclItem \gets \VarList.\FieldHead[\LclIndex]$
-		\State $\ParamAction(\LclItem)$
+			\State $\LclItem \gets \VarList.\FieldHead[\LclIndex]$
+			\State $\TextDoSomethingWith \LclItem$
 		\EndFor
 	\end{algorithmic}
 \end{algorithm}

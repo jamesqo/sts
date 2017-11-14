@@ -1,3 +1,5 @@
-After they are done appending to them, users often want to take dynamic arrays and convert them into raw arrays. There are multiple possible reasons for this: 1) Raw arrays hold on to exactly $n$ memory to store $n$ elements. However, dynamic and growth arrays typically use $> n$ memory so they need not grow every time $\FuncAppend$ is called. 2) A function in third-party code might only accept a raw array as an argument.
+Users often want to convert dynamic arrays to raw arrays. There are multiple reasons for this: 1) Raw arrays hold on to exactly $n$ memory to store $n$ elements. However, dynamic and growth arrays typically use more than $n$ memory, so they need not grow every time an item is appended. 2) Sometimes, functions in third-party code only accept raw arrays.
 
-The case is even more compelling for growth arrays: 3) Since they are not entirely contiguous, they have worse data locality (even if the number of discontinuities is $O(\log n)$). 4) Raw arrays can be indexed much faster than growth arrays.
+For growth arrays, the case is even more compelling: 3) Since they are not contiguous as a whole, they have worse data locality (even if the number of discontinuities is $O(\log n)$). 4) Raw arrays can be indexed much faster than growth arrays.
+
+In this section, I will show that growth arrays can be converted to raw arrays not much slower than dynamic arrays.

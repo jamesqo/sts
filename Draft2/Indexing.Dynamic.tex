@@ -2,7 +2,9 @@
 
 The following algorithm implements $\FuncGetItem$ for dynamic arrays. (A $\FuncSetItem$ function can be implemented in a similar fashion.)
 
-{\HdrNote} My algorithms do not validate any arguments; all arguments passed to them are assumed to be valid.
+{\HdrNote} My algorithms assume all arguments passed to them are valid. Thus, arguments are never checked.
+
+{\HdrNote} Although the function is called $\FuncGetItem$, the syntax other algorithms use to call it is $\VarList[\ParamIndex]$.
 
 \begin{algorithm}[H]
 	\caption{Random access \TextDynamicArray}
