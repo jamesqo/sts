@@ -1,5 +1,7 @@
 \HdrGrowthArrayImpl
 
+The following diagrams should provide intuition on how growth arrays work.
+
 \begin{figure}[H]
 	\centering{\includegraphics[width=5in]{GrowthArrayDiagram}}
 	\caption{Appending $30$ items to a growth array with $\VarInitCapacity = 4$, $\VarGrowthFactor = 2$}
@@ -10,7 +12,12 @@
 	\caption{Appending $16$ items to a growth array with $\VarInitCapacity = 2$, $\VarGrowthFactor = 3$}
 \end{figure}
 
-In this section, $\VarList$ is a growth array. The following algorithm implements appending for growth arrays.
+\begin{figure}[H]
+	\centering{\includegraphics[width=5in]{GrowthArrayDiagram3}}
+	\caption{Appending $1$ item to a growth array with $\VarInitCapacity = 4, \VarGrowthFactor = 2$. Initial size: $8$}
+\end{figure}
+
+In this section, $\VarList$ denotes a growth array. The following algorithm implements appending for growth arrays.
 
 \begin{algorithm}[H]
 	\caption{Appending \TextGrowthArray}
@@ -41,7 +48,7 @@ In this section, $\VarList$ is a growth array. The following algorithm implement
 
 It takes $O(n)$ time to append $n$ items to a growth array. This can be easily seen by noting that every statement in the algorithm has amortized $O(1)$ time complexity (ignoring the call to $\FuncNewArray$, since memory allocation is non-deterministic).
 
-Now, I focus on finding a formula for the write cost function, $\FuncWritesGrowthArray(n)$, which will be written as $\FuncWrites(n)$ in this section. I claim that Lemma \ref{lem:CapacitySeq} still holds, since growth arrays satisfy all properties used by that proof. In particular, although growth arrays use a different growth algorithm than dynamic arrays, the following statement still holds:
+Now, I focus on finding a formula for growth arrays' write cost function, $\FuncWritesGrowthArray(n)$, which will be written as $\FuncWrites(n)$ in this section. I claim that Lemma \ref{lem:CapacitySeq} also holds for growth arrays, since they satisfy all properties used by that proof. In particular, although growth arrays use a different growth algorithm than dynamic arrays, they still have the following property:
 
 \begin{lemma}
 \label{lem:GrowthArraysGrowthFactor}
@@ -66,7 +73,7 @@ Now, I focus on finding a formula for the write cost function, $\FuncWritesGrowt
 
 Since Lemma \ref{lem:GrowthArraysGrowthFactor} has been proven, Lemma \ref{lem:CapacitySeq} and all results based on it must also hold true for growth arrays. Now, I am ready to find the write cost of $\FuncGrow$. Unlike dynamic arrays, $\FuncGrow$ does not make $\VarGrowSeq_i$ writes when the current size is $\VarGrowSeq_i$. In fact, $\FuncGrow$ does not copy \textit{any} items supplied by the user. Writes are only made when a buffer pointer is appended to the tail, since the tail is a dynamic array.
 
-Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$, and let $\VarNumPointersTail$ be the size of the tail. Since Corollary \ref{coro:GrowthSeq} also holds true for growth arrays, $\FuncGrow$ is called $|\VarGrowSeq|$ times. A buffer is appended to the tail each time $\FuncGrow$ is called. Thus, the tail's size is
+Let $\FuncWritesByGrow(n)$ denote the total number of writes made by $\FuncGrow$, and let $\VarNumPointersTail$ be the size of the tail. Since Corollary \ref{coro:GrowthSeq} also holds for growth arrays, $\FuncGrow$ is called $|\VarGrowSeq|$ times. A buffer is appended to the tail each time $\FuncGrow$ is called. Thus, the tail's size is
 \begin{align*}
 \VarNumPointersTail &= |\VarGrowSeq| = |\VarCapacitySeq| - 1 = \VarUseful
 \end{align*}
@@ -95,7 +102,9 @@ Now when $\FuncWrites(n)$ is approximated with $\sim$, $\FuncWritesTail(\VarUsef
 \begin{align*}
 \FuncWrites(n) &= n + \FuncWritesTail(\VarUseful) = n + O(\VarUseful) = n + O(\log n) \sim n
 \end{align*}
-The last step is justified by Theorem \ref{thm:RemovesLowerOrderTerms}.
+(The last step is justified by Theorem \ref{thm:RemovesLowerOrderTerms}.)
+
+This says that when $n$ items are added, the number of items written is approximately $n$. This is a significant improvement over the asymptotic bounds for $\FuncWritesDynamicArray(n)$.
 
 \HdrSpaceComplex
 
