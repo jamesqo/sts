@@ -1,6 +1,6 @@
 \HdrGrowthArrayImpl
 
-The iteration algorithm for growth arrays is not quite as simple. As shown in the previous section, growth arrays' random access algorithm is expensive; thus, it is best avoided. The following algorithm implements iteration without using the random access algorithm.
+The iteration algorithm for growth arrays is not quite as simple. As shown in Section \ref{subsec:Indexing}, growth arrays' random access algorithm can be expensive; thus, it is best avoided. The following algorithm implements iteration without using the random access algorithm.
 
 \begin{algorithm}[H]
 	\caption{``$\TextFor \LclItem \TextIn \VarList$'' algorithm \TextGrowthArray}
@@ -11,8 +11,9 @@ The iteration algorithm for growth arrays is not quite as simple. As shown in th
 			\EndFor
 		\EndFor
 		\For{$\LclIndex = 0,\ \LclIndex < \VarList.\FieldHeadSize,\ \LclIndex \gets \LclIndex + 1$}
-			\State $\LclItem \gets \VarList.\FieldHead[\LclIndex]$
-			\State $\TextDoSomethingWith \LclItem$
+			\State $\TextDoSomethingWith \VarList.\FieldHead[\LclIndex]$
 		\EndFor
 	\end{algorithmic}
 \end{algorithm}
+
+Since this algorithm loops over $n$ items, its time complexity is $O(n)$. There is nothing to suggest that this algorithm should be substantially slower than dynamic arrays' algorithm. Even though the inner loop is occasionally `interrupted' by having to switch buffers, the number of such interruptions is $O(\log n)$, so their cost is minuscule. Thus, the only substantial work done by this algorithm is iterating the buffers, which is roughly the same as the work done by dynamic arrays' algorithm.
