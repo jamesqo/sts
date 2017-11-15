@@ -12,21 +12,25 @@ f \sim g \Biconditional \ExprNToInfty \frac f g = 1
 \end{align*}
 This is read as ``$f$ is asymptotic to $g$'' or ``$f$ and $g$ are asymptotic.'' {\HdrNote} $f$ and $g$ are used as shorthand to denote $f(n)$ and $g(n)$, respectively.
 
-Notice that while $O(2n) = O(n)$, $2n \not\sim n$. Thus, $\sim$ makes it possible to distinguish between a function that uses $n$ space and one that uses $2n$ space. {\HdrNote} A consequence of this is that bases for logarithms cannot be omitted, like in big-O notation.
+Notice that while $2n = O(n)$, $2n \not\sim n$. Thus, $\sim$ makes it possible to distinguish between a function that uses $n$ space and one that uses $2n$ space. {\HdrNote} A consequence of this is that bases for logarithms cannot be omitted, like in big-O notation.
 
-I will also introduce two cousins of $\sim$, $\FluteLess$ and $\FluteLeq$. They are defined as follows:
+I will also introduce two cousins of $\sim$, the relations $\FluteLess$ and $\FluteLeq$. The former is normally defined as $f \prec g \Biconditional \ExprNToInfty \dfrac{f}{g} = 0$. However, for the purpose of this paper their definitions will be:
 \begin{align*}
 f \FluteLess g &\Biconditional \ExprNToInfty \frac f g < 1\\
 f \FluteLeq g &\Biconditional f \FluteLess g \lor f \sim g
 \end{align*}
 I will call these relations \textbf{asymptotic inequalities}. The above inequalities are read ``$f$ is asymptotically less than $g$'' and ``$f$ is asymptotically less than or equal to $g$,'' respectively.
 
+I will also use little-o notation in this paper, which is defined as follows:
+\begin{align*}
+f = o(g) \Biconditional \ExprNToInfty \frac{f}{g} = 0
+\end{align*}
 \subsection{Properties}
 \label{subsec:AsymptoticProperties}
 
 I define various properties of the $\sim$ relation here, which proofs in later sections will use. The properties themselves are proved in the appendix.
 
-In the following theorems and their proofs, variables with the letters $f$, $g$, or $h$ denote functions that, for sufficiently large $n$, are positive and non-decreasing.
+{\HdrNote} In the following theorems and their proofs, variables with the letters $f$, $g$, or $h$ denote functions that, for sufficiently large $n$, are positive and non-decreasing.
 
 The following theorem states that $\sim$ is a valid equivalence relation.
 
@@ -39,7 +43,7 @@ The following theorem states that lower-order terms may be removed: for example,
 
 \begin{theorem}
 \label{thm:RemovesLowerOrderTerms}
-	If $\ExprNToInfty \dfrac{g}{f} = 0$, then $f + O(g) \sim f$.
+	$f + o(f) \sim f$.
 \end{theorem}
 
 \begin{corollary}
@@ -47,7 +51,7 @@ The following theorem states that lower-order terms may be removed: for example,
 	If $f$ is unbounded, then $f + c \sim f$ for any constant $c$.
 \end{corollary}
 
-The following theorem states that $\sim$ can ``merge,'' or un-distribute, over addition, multiplication, and division. This is also a property shared with big-O.
+The following theorem states that $\sim$ respects addition, multiplication, and division. This is also a property shared with big-O.
 
 \begin{theorem}
 \label{thm:MergesOverOps}
@@ -61,48 +65,36 @@ The following theorem states that $\sim$ can ``merge,'' or un-distribute, over a
 
 \begin{corollary}
 \label{coro:BothSides}
-	A $\sim$ equation holds if both sides are added, multiplied, or divided by the same quantity.
+	A $\sim$ relation is preserved when both sides are added, multiplied, or divided by the same positive quantity.
 \end{corollary}
 
 The following theorem states that asymptotic functions belong to the same big-O class.
 
 \begin{theorem}
 \label{thm:SameBigOClass}
-	If $f \sim g$ and $g = O(\Tweak{g})$, then $f = O(\Tweak{g})$.
+	If $f \sim g$ and $g = O(h)$, then $f = O(h)$.
 \end{theorem}
 
 The following theorem states that asymptotic functions can be interchanged in an asymptotic inequality.
 
 \begin{theorem}
 \label{thm:InterchangeableInInequality}
-	If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLess \TweakSecond{f}$, then $f \FluteLess \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLess \TweakSecond{g}$, then $\Tweak{g} \FluteLess g$.
+	If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLess \TweakSecond{f}$, then $f \FluteLess \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLess \TweakSecond{g}$, then $\Tweak{g} \FluteLess g$.\\
+	These statements also hold for $\FluteLeq$.
 \end{theorem}
-
-\begin{corollary}
-\label{coro:InterchangeableInNonStrictInequality}
-	This theorem also holds for $\FluteLeq$.
-\end{corollary}
 
 The following theorem states that asymptotic inequalities can be algebraically manipulated, in the same vein as Corollary \ref{coro:BothSides}.
 
 \begin{theorem}
 \label{thm:BothSidesInequality}
-	A $\FluteLess$ inequality holds if both sides are multiplied or divided by the same quantity.
+	A $\FluteLess$ inequality is preserved when both sides are multiplied or divided by the same positive quantity.\\
+	This statement also holds for $\FluteLeq$.
 \end{theorem}
-
-\begin{corollary}
-\label{coro:BothSidesNonStrictInequality}
-	This theorem also holds for $\FluteLeq$.
-\end{corollary}
 
 Notice that the above theorem does not include addition. Asymptotic inequalities do not always hold if the same quantity is added to both sides; for example, $1 \FluteLess 2$, but $n + 1 \sim n + 2$. In order for them to hold, certain conditions must be met.
 
 \begin{theorem}
 \label{thm:BothSidesInequalityAdd}
-	Suppose $f \FluteLess g$. If $\ExprNToInfty \dfrac{f}{h} > 0$ and $g = O(h)$, then $f + h \FluteLess g + h$.
+	Suppose $f \FluteLess g$. If $\ExprNToInfty \dfrac{f}{h} > 0$ and $g = O(h)$, then $f + h \FluteLess g + h$.\\
+	This statement also holds for $\FluteLeq$.
 \end{theorem}
-
-\begin{corollary}
-\label{coro:BothSidesNonStrictInequalityAdd}
-	This theorem also holds for $\FluteLeq$.
-\end{corollary}
