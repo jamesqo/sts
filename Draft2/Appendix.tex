@@ -7,7 +7,11 @@
 
 \subsection{$\sim$ is an Equivalence Relation}
 
-\begin{proof}[Proof (Theorem \ref{thm:EquivalenceRelation})]
+\begin{reptheorem}{thm:EquivalenceRelation}
+	$\sim$ is reflexive, transitive, and symmetric.
+\end{reptheorem}
+
+\begin{proof}
 	Clearly, $\ExprNToInfty \dfrac{f}{f} = 1$, so $f \sim f$. Thus, $\sim$ is reflexive.
 	
 	Suppose $f \sim g$. Then $\ExprNToInfty \dfrac{f}{g} = 1$. Since both $\ExprNToInfty 1$ and $\ExprNToInfty \dfrac{f}{g}$ exist and the latter is nonzero, $\dfrac{\ExprNToInfty 1}{\ExprNToInfty (f / g)}$ = $\ExprNToInfty \dfrac{g}{f}$. Since the left-hand side evaluates to $1$, $g \sim f$. Thus, $\sim$ is symmetric.
@@ -17,7 +21,11 @@
 
 \subsection{$\sim$ Removes Lower-Order Terms}
 
-\begin{proof}[Proof (Theorem \ref{thm:RemovesLowerOrderTerms})]
+\begin{reptheorem}{thm:RemovesLowerOrderTerms}
+	$f + o(f) \sim f$.
+\end{reptheorem}
+
+\begin{proof}
 	Let $g = o(f)$. By definition, $\ExprNToInfty \dfrac{g}{f} = 0$. Since $\ExprNToInfty \dfrac{f}{f}$ and $\ExprNToInfty \dfrac{g}{f}$ both exist,
 	\begin{align*}
 	\ExprNToInfty \dfrac{f + g}{f} = \ExprNToInfty \dfrac{f}{f} + \ExprNToInfty \dfrac{g}{f} = 1 + 0 = 1
@@ -27,13 +35,26 @@
 
 \subsubsection{$f + c \sim f$ for Unbounded $f$}
 
-\begin{proof}[Proof (Corollary \ref{coro:PlusConstant})]
+\begin{repcorollary}{coro:PlusConstant}
+	If $f$ is unbounded, then $f + c \sim f$ for any constant $c$.
+\end{repcorollary}
+
+\begin{proof}
 	If $f$ is unbounded, then $c = o(f)$. Applying Theorem \ref{thm:RemovesLowerOrderTerms}, $f + c \sim f$.
 \end{proof}
 
 \subsection{$\sim$ Respects $+$, $\times$, and $\div$}
 
-\begin{proof}[Proof (Theorem \ref{thm:MergesOverOps})]
+\begin{reptheorem}{thm:MergesOverOps}
+	If $f \sim \Tweak{f}$ and $g \sim \Tweak{g}$, then
+	\begin{align*}
+	f + g &\sim \Tweak{f} + \Tweak{g}\\
+	fg &\sim \Tweak{f}\Tweak{g}\\
+	\frac{f}{g} &\sim \frac {\Tweak{f}} {\Tweak{g}}
+	\end{align*}
+\end{reptheorem}
+
+\begin{proof}
 	Let $\FuncQuotient = \dfrac{f + g}{\Tweak{f} + \Tweak{g}}$, and let $\FuncDenom = \Tweak{g} + \Tweak{g}^2 / \Tweak{f}$. $\FuncQuotient$ may be expressed as
 	\begin{align*}
 	\FuncQuotient &= \frac{(\Tweak{g} / \Tweak{f})(f + g)}{(\Tweak{g} / \Tweak{f})(\Tweak{f} + \Tweak{g})}\\
@@ -66,19 +87,32 @@
 
 \subsubsection{$\sim$ Equations can be Algebraically Manipulated}
 
-\begin{proof}[Proof (Corollary \ref{coro:BothSides})]
+\begin{repcorollary}{coro:BothSides}
+	A $\sim$ relation is preserved when both sides are added, multiplied, or divided by the same positive quantity.
+\end{repcorollary}
+
+\begin{proof}
 	This immediately follows from Theorem \ref{thm:MergesOverOps} by taking $\Tweak{g} = g$.
 \end{proof}
 
 \subsection{Asymptotic Functions Have the Same Big-O Class}
 
-\begin{proof}[Proof (Theorem \ref{thm:SameBigOClass})]
+\begin{reptheorem}{thm:SameBigOClass}
+	If $f \sim g$ and $g = O(h)$, then $f = O(h)$.
+\end{reptheorem}
+
+\begin{proof}
 	Let $r = \dfrac{f}{g}$. Since $\ExprNToInfty r = 1$, $r \leq 2$ for sufficiently large $n$. By definition, $\exists c : g \leq c h$ for sufficiently large $n$, where $c$ is a positive constant. Then, $f = rg \leq rc h \leq 2c h$ for sufficiently large $n$. Thus, $f = O(h)$.
 \end{proof}
 
 \subsection{Asymptotic Functions may be Interchanged in $\FluteLess$ and $\FluteLeq$ Inequalities}
 
-\begin{proof}[Proof (Theorem \ref{thm:InterchangeableInInequality})]
+\begin{reptheorem}{thm:InterchangeableInInequality}
+	If $f \sim \Tweak{f}$ and $\Tweak{f} \FluteLess \TweakSecond{f}$, then $f \FluteLess \TweakSecond{f}$. If $g \sim \TweakSecond{g}$ and $\Tweak{g} \FluteLess \TweakSecond{g}$, then $\Tweak{g} \FluteLess g$.\\
+	These statements also hold for $\FluteLeq$.
+\end{reptheorem}
+
+\begin{proof}
 	By definition, $\ExprNToInfty \dfrac{f}{\Tweak{f}} = 1$ and $\ExprNToInfty \dfrac{\Tweak{f}}{\TweakSecond{f}} < 1$. Since both limits exist,
 	\begin{align*}
 	\ExprNToInfty \frac{f}{\TweakSecond{f}} = \left( \ExprNToInfty \frac{f}{\Tweak{f}} \right) \left( \ExprNToInfty \frac{\Tweak{f}}{\TweakSecond{f}} \right) < 1 \cdot 1 = 1
@@ -96,7 +130,12 @@
 
 \subsection{$\FluteLess$ and $\FluteLeq$ Inequalities can be Algebraically Manipulated}
 
-\begin{proof}[Proof (Theorem \ref{thm:BothSidesInequality})]
+\begin{reptheorem}{thm:BothSidesInequality}
+	A $\FluteLess$ inequality is preserved when both sides are multiplied or divided by the same positive quantity.\\
+	This statement also holds for $\FluteLeq$.
+\end{reptheorem}
+
+\begin{proof}
 	Suppose that $f \FluteLess g$. By definition, $\ExprNToInfty \dfrac{f}{g} < 1$. For any positive function $h$, $\ExprNToInfty \dfrac{fh}{gh} < 1$ and $\ExprNToInfty \dfrac{f / h}{g / h} < 1$, so respectively $fh \FluteLess gh$ and $\dfrac{f}{h} \FluteLess \dfrac{g}{h}$.
 	
 	From these results and Corollary \ref{coro:BothSides}, it can trivially be shown that the same statement is true when $\FluteLess$ is replaced with $\FluteLeq$.
@@ -104,7 +143,12 @@
 
 \subsection{Same-Order Terms may be Added to Both Sides of $\FluteLess$ and $\FluteLeq$ Inequalities}
 
-\begin{proof}[Proof (Theorem \ref{thm:BothSidesInequalityAdd})]
+\begin{reptheorem}{thm:BothSidesInequalityAdd}
+	Suppose $f \FluteLess g$. If $\ExprNToInfty \dfrac{f}{h} > 0$ and $g = O(h)$, then $f + h \FluteLess g + h$.\\
+	This statement also holds for $\FluteLeq$.
+\end{reptheorem}
+
+\begin{proof}
 	Assume that $n$ is arbitrarily large. Since $\dfrac{f}{h}$ has a positive limit, it is bounded below by some positive constant $c_1$. Rearranging, $c_1 h \leq f$. From $f \FluteLess g$, it follows that $f < g$ for sufficiently large $n$. Since $g = O(h)$, $\exists c_2 : g \leq c_2 h$. Combining these inequalities, I receive $c_1 h \leq f < g \leq c_2 h$. From this, it is clear that $c_1 < c_2$.
 	
 	Now, consider that
