@@ -1,6 +1,6 @@
 \HdrTimeComplexCmp
 
-In this section, $\FuncWritesDynamicArray$ and $\FuncWritesGrowthArray$ will denote the write cost functions for dynamic and growth arrays, respectively. I derived earlier that
+In this section, $\FuncWritesDynamicArray$ and $\FuncWritesGrowthArray$ will denote the write cost functions for dynamic and growth arrays, respectively. My goal is to approximate the ratio $\dfrac{\FuncTimeDynamicArray(n)}{\FuncTimeGrowthArray(n)}$ for large $n$. From my assumption near the beginning of Section \ref{subsec:Appending}, this is equal to $\dfrac{\FuncWritesDynamicArray(n)}{\FuncWritesGrowthArray(n)}$. I derived earlier that
 \begin{align*}
 \left( \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \right) n \FluteLeq \FuncWritesDynamicArray(n) &\FluteLess \left( \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1} \right) n
 \end{align*}
@@ -12,15 +12,18 @@ It was shown earlier that $\FuncWritesGrowthArray(n) \sim n$. From Theorem \ref{
 \begin{align*}
 \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} \FluteLeq \frac {\FuncWritesDynamicArray(n)} {\FuncWritesGrowthArray(n)} &\FluteLess \frac{2\VarGrowthFactor - 1}{\VarGrowthFactor - 1}
 \end{align*}
+For $\VarGrowthFactor = 2$, this can be interpreted as ``For large $n$, dynamic arrays make approximately $2$ to $3$ times as many writes as growth arrays. \underline{Thus, for large $n$, they are about $2$ to $3$ times slower than growth arrays.}''
+
 \HdrSpaceComplexCmp
 
-Let $\FuncSpaceDynamicArray(n)$ and $\FuncSpaceGrowthArray(n)$ be the space cost functions for dynamic and growth arrays, respectively. Recall that
+Let $\FuncSpaceDynamicArray(n)$ and $\FuncSpaceGrowthArray(n)$ be the space cost functions for dynamic and growth arrays, respectively. I wish to approximate the ratio $\dfrac{\FuncSpaceDynamicArray(n)}{\FuncSpaceGrowthArray(n)}$ for large $n$. Recall that
 \begin{align*}
 \FuncSpaceDynamicArray(n) = \left( \frac{\VarGrowthFactor^{\VarUseful + 1} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity
 \end{align*}
-and that $\FuncSpaceGrowthArray(n) \sim \VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$. Taking the ratio of $\FuncSpaceDynamicArray(n)$ to $\FuncSpaceGrowthArray(n)$, I receive
+and that $\FuncSpaceGrowthArray(n) \sim \VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$. Dividing $\FuncSpaceDynamicArray(n)$ by $\FuncSpaceGrowthArray(n)$, I receive
 \begin{align*}
 \frac{\FuncSpaceDynamicArray(n)}{\FuncSpaceGrowthArray(n)} &\sim \frac{1}{\VarGrowthFactor^\VarUseful\VarInitCapacity} \cdot \left( \frac{\VarGrowthFactor^{\VarUseful + 1} - 1}{\VarGrowthFactor - 1} \right) \VarInitCapacity &&\text{(Theorem \ref{thm:MergesOverOps})}\\
 &= \frac{\VarGrowthFactor - 1 / {\VarGrowthFactor^\VarUseful}}{\VarGrowthFactor - 1}\\
 &\sim \frac{\VarGrowthFactor}{\VarGrowthFactor - 1} &&\text{(Theorem \ref{thm:RemovesLowerOrderTerms})}
 \end{align*}
+For $\VarGrowthFactor = 2$, this can be interpreted as ``\underline{For large $n$, dynamic arrays use approximately twice as much space as growth arrays.}''

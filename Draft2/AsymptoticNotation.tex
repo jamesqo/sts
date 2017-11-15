@@ -30,7 +30,7 @@ f = o(g) \Biconditional \ExprNToInfty \frac{f}{g} = 0
 
 I define various properties of the $\sim$ relation here, which proofs in later sections will use. The properties themselves are proved in the appendix.
 
-{\HdrNote} In the following theorems, variables with the letters $f$, $g$, or $h$ denote functions that, for sufficiently large $n$, are positive and non-decreasing.
+{\HdrNote} In the following theorems, variables with the letters $f$, $g$, or $h$ denote functions that are positive for sufficiently large $n$.
 
 The following theorem states that $\sim$ is a valid equivalence relation.
 
@@ -90,6 +90,12 @@ The following theorem states that asymptotic inequalities can be algebraically m
 	A $\FluteLess$ inequality is preserved when both sides are multiplied or divided by the same positive quantity.\\
 	This statement also holds for $\FluteLeq$.
 \end{theorem}
+
+\begin{corollary}
+\label{coro:BothSidesInequalityInvert}
+	If $f \FluteLess g$, then $\dfrac{1}{g} \FluteLess \dfrac{1}{f}$.\\
+	This statement also holds for $\FluteLeq$.
+\end{corollary}
 
 Notice that the above theorem does not include addition. Asymptotic inequalities do not always hold if the same quantity is added to both sides; for example, $1 \FluteLess 2$, but $n + 1 \sim n + 2$. In order for them to hold, certain conditions must be met.
 

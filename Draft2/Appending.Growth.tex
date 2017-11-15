@@ -116,16 +116,14 @@ In the previous section, I established that $\VarNumPointersTail = \VarUseful$. 
 \end{align*}
 ($\FuncSpaceTail$ denotes the space cost function for dynamic arrays.)
 
-% Bookmark
-% The following following paragraph doesn't work.
+Now, I wish to approximate this using $\sim$. Since $\VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$, it follows from Lemma \ref{lem:ToVarUsefulPowerBounds} that $n \FluteLeq \VarCapacitySeq_\VarUseful \FluteLess \VarGrowthFactor{n}$. From Corollary \ref{coro:BothSidesInequalityInvert}, $\dfrac{1}{\VarGrowthFactor n} \FluteLess \dfrac{1}{\VarCapacitySeq_\VarUseful} \FluteLeq \dfrac{1}{n}$. From Theorem \ref{thm:BothSidesInequality}, $\dfrac{\FuncSpaceTail(\VarUseful)}{\VarGrowthFactor n} \FluteLess \dfrac{\FuncSpaceTail(\VarUseful)}{\VarCapacitySeq_\VarUseful} \FluteLeq \dfrac{\FuncSpaceTail(\VarUseful)}{n}$.
 
-Now, I wish to approximate this using $\sim$. Since $\VarCapacitySeq_\VarUseful = \VarGrowthFactor^\VarUseful\VarInitCapacity$, it follows from Lemma \ref{lem:ToVarUsefulPowerBounds} that $n \FluteLeq \VarCapacitySeq_\VarUseful \FluteLess \VarGrowthFactor{n}$. Since $n$ and $\VarGrowthFactor{n}$ are both $O(n)$, [the squeeze theorem] implies that $\VarCapacitySeq_\VarUseful = O(n)$.
-
-Now, consider the ratio $\ExprNToInfty \dfrac {\FuncSpaceTail(\VarUseful)} {\VarCapacitySeq_\VarUseful} = \dfrac {O(\log n)} {O(n)} = O \left( \dfrac{\log n}{n} \right) = 0$. Because it is $0$, from Theorem \ref{thm:RemovesLowerOrderTerms} one can conclude
+Since $\FuncSpaceTail(\VarUseful) = O(\VarUseful) = O(\log n)$, the limits of the lower and upper bounds are both $0$. From the squeeze theorem, it follows that $\ExprNToInfty \dfrac{\FuncSpaceTail(\VarUseful)}{\VarCapacitySeq_\VarUseful} = 0$. Thus, $\FuncSpaceTail(\VarUseful) = o(\VarCapacitySeq_\VarUseful)$. From Theorem \ref{thm:RemovesLowerOrderTerms}, one can conclude
 \begin{align*}
 \FuncSpace(n) = \VarCapacitySeq_\VarUseful + \FuncSpaceTail(\VarUseful) \sim \VarCapacitySeq_\VarUseful
 \end{align*}
-Substituting $\FuncSpace(n)$ for $\VarCapacitySeq_\VarUseful$ in the previous inequality,
+Using Theorem \ref{thm:InterchangeableInInequality}, I may substitute $\FuncSpace(n)$ for $\VarCapacitySeq_\VarUseful$ in the first inequality to receive
 \begin{align*}
 n \FluteLeq \FuncSpace(n) \FluteLess \VarGrowthFactor{n}
 \end{align*}
+This result is significant since it has smaller lower and upper bounds than $\FuncSpaceDynamicArray(n)$. Since the same values of $n$ as for $\FuncSpaceDynamicArray(n)$ correspond to when it is close to the bounds for $\FuncSpace(n)$ (namely, when $n$ is approximately $\VarGrowSeq_i$), $\FuncSpace(n)$ is asymptotically less than $\FuncSpaceDynamicArray(n)$ even though their intervals overlap. This will be proven rigorously in the space complexity comparison section.
