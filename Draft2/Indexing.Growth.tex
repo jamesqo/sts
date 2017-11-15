@@ -2,11 +2,13 @@
 
 Indexing a growth array is slower and more complex than indexing a dynamic array. However, this does not mean that accessing data of a growth array is necessarily slower than accessing that of a dynamic array. Refer to Sections \ref{sec:Iterating} and \ref{sec:CopyArray} for methods to quickly access growth arrays' data.
 
-Despite growth arrays' relatively poor indexing performance, I include this section for two reasons. 1) Dynamic arrays are indexed frequently. In order for growth arrays to be a viable replacement for them, it should be possible to index growth arrays too. 2) I wish to show that it is possible to index growth arrays in constant time.
+Although growth arrays have poor random access performance, I include this section for two reasons. 1) Dynamic arrays are indexed frequently. In order for growth arrays to be a viable replacement for them, it should be possible to index growth arrays too. 2) I wish to show that it is possible to index growth arrays in constant time.
 
 \HdrLogarithmicImpl
 
-The first algorithm I will demonstrate is a na\"{i}ve implementation that runs in logarithmic time:
+The first algorithm I will demonstrate is a na\"{i}ve implementation that runs in logarithmic time.
+
+{\HdrNote} My algorithms assume all arguments passed to them are valid. Thus, arguments are never checked.
 
 \begin{algorithm}[H]
 	\caption{Random access \TextGrowthArray, logarithmic time}
@@ -24,15 +26,15 @@ The first algorithm I will demonstrate is a na\"{i}ve implementation that runs i
 	\end{algorithmic}
 \end{algorithm}
 
-I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumPointersTail$, equals $\VarUseful$, and (from Lemma \ref{lem:VarUsefulIsOLogN}) that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time, so the time complexity is precisely $O(\log n)$.
+I know that this algorithm runs in $O(\log n)$ time since it was shown earlier that the size of the tail, $\VarNumPointersTail$, equals $\VarUseful$, and Lemma \ref{lem:VarUsefulIsOLogN} states that $\VarUseful = O(\log n)$. Aside from iteration over the tail, all statements run in constant time, so the time complexity is precisely $O(\log n)$.
 
-I present this algorithm alongside the constant time one because it is easier to understand, and the latter is often slower if special circumstances are not met.
+I present this algorithm alongside the constant time one since it is easier to understand, and the latter is often slower if special circumstances are not met.
 
 \HdrConstantImpl
 
 In this section, I will present a constant time algorithm for indexing a growth array. Before I do so, however, I must establish a mathematical justification for it.
 
-Suppose I want to get the $i$th element of a growth array, where $i$ is zero-based. I assume that $i$ is a valid index, or that $0 \leq i < \VarList.\FieldSize$. In order to locate the desired element, I must find two things: the buffer that holds the item, and the index of the item within that buffer.
+Suppose I want to get the $i$th element of a growth array, where $i$ is zero-based. I assume that $i$ is a valid index, or that $0 \leq i < \VarList.\FieldSize$. In order to locate the desired element, I must find two things: the buffer that holds the item, and the index of the item within that buffer. For example, referring to Figure \ref{fig:1}: if $i$ was $10$, I would want the item at index $2$ of the tail's third buffer. If $i$ was $20$, I would want the item at index $4$ of the head.
 
 Now, consider that every buffer except the head is stored inside the tail. Thus, such buffers can be uniquely identified by their index in the tail. I will refer to this quantity as the \textbf{buffer index} and denote it $\VarIndexBuffer$. I wish to assign the head a buffer index as well, so that each buffer has a unique ID. Since the head follows the tail's last buffer, which has $\VarIndexBuffer = \VarNumPointersTail - 1$, I will let the head's $\VarIndexBuffer$ be $\VarNumPointersTail$.
 
@@ -53,7 +55,7 @@ I define a helper function, $\FuncGetBuffer$, that gets the buffer associated wi
 
 I will call the index of the desired element within the buffer the \textbf{element index}, and denote it $\VarIndexElement$.
 
-If I define a helper function $\FuncDecompose$ that returns the $\VarIndexBuffer$ and $\VarIndexElement$ associated with $i$ in an ordered pair, then $\FuncGetItem$ may be written as follows:
+If I define a helper function $\FuncDecompose$ that splits $i$ into the ordered pair $(\VarIndexBuffer,\ \VarIndexElement)$, then $\FuncGetItem$ may be written as follows:
 
 \begin{algorithm}[H]
 	\caption{Random access \TextGrowthArray, constant time}
@@ -65,7 +67,7 @@ If I define a helper function $\FuncDecompose$ that returns the $\VarIndexBuffer
 	\end{algorithmic}
 \end{algorithm}
 
-Now, the task is to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in terms of $i$, in order to implement $\FuncDecompose$.
+Now, the task is to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ in terms of $i$, in order to implement $\FuncDecompose$. Referring to Figure \ref{fig:1}: $\FuncDecompose(10)$ should return $(2,\ 2)$. $\FuncDecompose(20)$ should return $(3,\ 4)$.
 
 \begin{lemma}
 	The formulae for $\VarIndexBuffer$ and $\VarIndexElement$ are
@@ -85,7 +87,9 @@ Now, the task is to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ i
 	\begin{align*}
 	n = \text{\# of items in tail} + \text{\# of items in head}
 	\end{align*}
-	First, I will determine the number of items in the tail. In the case where $\VarIndexBuffer = 0$, then because $\VarNumPointersTail = \VarIndexBuffer$, the tail contains $0$ buffers and thus $0$ items (which equals $\VarGrowSeq_{-1}$). If $\VarIndexBuffer > 0$, the number of items in the tail is the last size at which $\FuncGrow$ was called, or the last term of $\VarGrowSeq$. This quantity is $\VarGrowSeq_{\VarUseful - 1}$, or $\VarGrowSeq_{\VarIndexBuffer - 1}$.
+	({\HdrNote} The first quantity on the right-hand side is not $\VarNumPointersTail$. $\VarNumPointersTail$ is the number of buffer pointers in the tail.)
+	
+	First, I will determine how many items the tail holds. In the case where $\VarIndexBuffer = 0$, then because $\VarNumPointersTail = \VarIndexBuffer$, the tail contains $0$ buffer pointers and thus $0$ items (which equals $\VarGrowSeq_{-1}$). If $\VarIndexBuffer > 0$, the number of items in the tail is the last size at which $\FuncGrow$ was called, or the last term of $\VarGrowSeq$. This quantity is $\VarGrowSeq_{\VarUseful - 1}$, or $\VarGrowSeq_{\VarIndexBuffer - 1}$.
 	
 	The desired item is the growth array's last element, which implies it is also the head's last element. Thus $\VarIndexElement$ is the head's last valid index, so the head's size is $\VarIndexElement + 1$. Finally, from the premise, $n = i + 1$. Substituting all values into the above identity, I receive
 	\begin{align*}
@@ -95,7 +99,7 @@ Now, the task is to find formulae for $\VarIndexBuffer$ and $\VarIndexElement$ i
 	completing the proof.
 \end{proof}
 
-Using the formulae for $\VarUseful$ and $\VarGrowSeq_i$, I now implement the $\FuncDecompose$ function:
+Using the formulae $\VarUseful = \max(\ExprMessy, 0)$ and $\VarGrowSeq_k = \VarGrowthFactor^k \VarInitCapacity$ for $k \geq 0$, I now implement the $\FuncDecompose$ function:
 
 \begin{algorithm}[H]
 	\caption{\TextHelperFunction}

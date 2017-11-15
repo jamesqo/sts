@@ -1,18 +1,3 @@
 \HdrDynArrayImpl
 
-The following algorithm implements $\FuncGetItem$ for dynamic arrays. (A $\FuncSetItem$ function can be implemented in a similar fashion.)
-
-{\HdrNote} My algorithms assume all arguments passed to them are valid. Thus, arguments are never checked.
-
-{\HdrNote} Although the function is called $\FuncGetItem$, the syntax other algorithms use to call it is $\VarList[\ParamIndex]$.
-
-\begin{algorithm}[H]
-	\caption{Random access \TextDynamicArray}
-	\begin{algorithmic}[1]
-		\Function{$\FuncGetItem$}{$\VarList,\ \ParamIndex$}
-			\State \Return $\VarList.\FieldBuffer[\ParamIndex]$
-		\EndFunction
-	\end{algorithmic}
-\end{algorithm}
-
-This algorithm runs in $O(1)$ time. It also has the benefit of using very few instructions, which is a benefit that will not be shared with growth arrays.
+The algorithm for indexing a dynamic array is trivial, and will not be shown here. It simply reads or writes to the $i$th element of $\VarList.\FieldBuffer$ (where $i$ is zero-based). It is well-known that this algorithm runs in $O(1)$ time. It also has the benefit of using very few instructions, which will not be the case for growth arrays' algorithm.
