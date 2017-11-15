@@ -1,13 +1,3 @@
 \HdrDynArrayImpl
 
-The algorithm for iterating dynamic arrays is simple and familiar.
-
-\begin{algorithm}[H]
-	\caption{``$\TextFor \LclItem \TextIn \VarList$'' algorithm \TextDynamicArray}
-	\begin{algorithmic}
-		\For{$\LclIndex = 0,\ \LclIndex < \VarList.\FieldSize,\ \LclIndex \gets \LclIndex + 1$}
-			\State $\LclItem \gets \VarList[\LclIndex]$
-			\State $\TextDoSomethingWith \LclItem$
-		\EndFor
-	\end{algorithmic}
-\end{algorithm}
+The algorithm for iterating dynamic arrays is well-known: let $i$ range from $0$ to $n - 1$ and, for each $i$, do something with $\VarList[i]$. Ignoring what is done with each item, the time complexity of this operation is $O(n)$.
