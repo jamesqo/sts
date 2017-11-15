@@ -2,4 +2,4 @@ Users often want to convert dynamic arrays to raw arrays. There are multiple rea
 
 For growth arrays, the case is even more compelling: 3) Since they are not contiguous as a whole, they have worse data locality (although the number of discontinuities is only $O(\log n)$). 4) Raw arrays can be indexed much faster than growth arrays.
 
-In this section, I will show that growth arrays can be converted to raw arrays not much slower than dynamic arrays.
+In this section, I will show that dynamic arrays and growth arrays have similar performance for this operation.

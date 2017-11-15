@@ -1,6 +1,6 @@
 \HdrGrowthArrayImpl
 
-The growth array algorithm is slightly slower than the dynamic array one. It needs to loop over the tail and call $\FuncArrayCopy$ multiple times, since not all elements are contiguous. However, $n$ elements are still copied in total, so the time complexity is still $O(n)$.
+The following algorithm converts a growth array to a raw array:
 
 \begin{algorithm}[H]
 	\caption{Converting to a raw array \TextGrowthArray}
@@ -15,3 +15,5 @@ The growth array algorithm is slightly slower than the dynamic array one. It nee
 		\EndFunction
 	\end{algorithmic}
 \end{algorithm}
+
+This algorithm copies $n$ items, so its time complexity is $O(n)$. Using the same argument as in Section \ref{subsec:Iterating}, the cost of `interruptions' from switching buffers is minuscule. Ignoring $\FuncNewArray$ since it is non-deterministic, the only substantial work done by this function is the multiple $\FuncArrayCopy$ calls. They constitute roughly the same work done by dynamic arrays' single $\FuncArrayCopy$ call. Thus, $\FuncToArray$ should take roughly as long for growth arrays as it does for dynamic arrays.
