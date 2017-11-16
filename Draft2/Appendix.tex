@@ -12,11 +12,11 @@
 \end{reptheorem}
 
 \begin{proof}
-	Clearly, $\ExprNToInfty \dfrac{f}{f} = 1$, so $f \sim f$. Thus, $\sim$ is reflexive.
+	Clearly, $\ExprNToInfty \frac{f}{f} = 1$, so $f \sim f$. Thus, $\sim$ is reflexive.
 	
-	Suppose $f \sim g$. Then $\ExprNToInfty \dfrac{f}{g} = 1$. Since both $\ExprNToInfty 1$ and $\ExprNToInfty \dfrac{f}{g}$ exist and the latter is nonzero, $\dfrac{\ExprNToInfty 1}{\ExprNToInfty (f / g)}$ = $\ExprNToInfty \dfrac{g}{f}$. Since the left-hand side evaluates to $1$, $g \sim f$. Thus, $\sim$ is symmetric.
+	Suppose $f \sim g$. Then $\ExprNToInfty \frac{f}{g} = 1$. Since both $\ExprNToInfty 1$ and $\ExprNToInfty \frac{f}{g}$ exist and the latter is nonzero, $\frac{\ExprNToInfty 1}{\ExprNToInfty (f / g)}$ = $\ExprNToInfty \frac{g}{f}$. Since the left-hand side evaluates to $1$, $g \sim f$. Thus, $\sim$ is symmetric.
 	
-	Suppose $f \sim g$ and $g \sim h$. By definition, $\ExprNToInfty \dfrac{f}{g} = 1$ and $\ExprNToInfty \dfrac{g}{h} = 1$. Since both limits exist, their product is $\ExprNToInfty \left( \dfrac{f}{g} \cdot \dfrac{g}{h} \right) = \ExprNToInfty \dfrac{f}{h}$. Since this product is $1$, $f \sim h$. Thus, $\sim$ is transitive.
+	Suppose $f \sim g$ and $g \sim h$. By definition, $\ExprNToInfty \frac{f}{g} = 1$ and $\ExprNToInfty \frac{g}{h} = 1$. Since both limits exist, their product is $\ExprNToInfty \left( \frac{f}{g} \cdot \frac{g}{h} \right) = \ExprNToInfty \frac{f}{h}$. Since this product is $1$, $f \sim h$. Thus, $\sim$ is transitive.
 \end{proof}
 
 \subsection{$\sim$ Removes Lower-Order Terms}
@@ -26,9 +26,9 @@
 \end{reptheorem}
 
 \begin{proof}
-	Let $g = o(f)$. By definition, $\ExprNToInfty \dfrac{g}{f} = 0$. Since $\ExprNToInfty \dfrac{f}{f}$ and $\ExprNToInfty \dfrac{g}{f}$ both exist,
+	Let $g = o(f)$. By definition, $\ExprNToInfty \frac{g}{f} = 0$. Since $\ExprNToInfty \frac{f}{f}$ and $\ExprNToInfty \frac{g}{f}$ both exist,
 	\begin{align*}
-	\ExprNToInfty \dfrac{f + g}{f} = \ExprNToInfty \dfrac{f}{f} + \ExprNToInfty \dfrac{g}{f} = 1 + 0 = 1
+	\ExprNToInfty \frac{f + g}{f} = \ExprNToInfty \frac{f}{f} + \ExprNToInfty \frac{g}{f} = 1 + 0 = 1
 	\end{align*}
 	It follows that $f + g = f + o(f) \sim f$.
 \end{proof}
@@ -55,7 +55,7 @@
 \end{reptheorem}
 
 \begin{proof}
-	Let $\FuncQuotient = \dfrac{f + g}{\Tweak{f} + \Tweak{g}}$, and let $\FuncDenom = \Tweak{g} + \Tweak{g}^2 / \Tweak{f}$. $\FuncQuotient$ may be expressed as
+	Let $\FuncQuotient = \frac{f + g}{\Tweak{f} + \Tweak{g}}$, and let $\FuncDenom = \Tweak{g} + \Tweak{g}^2 / \Tweak{f}$. $\FuncQuotient$ may be expressed as
 	\begin{align*}
 	\FuncQuotient &= \frac{(\Tweak{g} / \Tweak{f})(f + g)}{(\Tweak{g} / \Tweak{f})(\Tweak{f} + \Tweak{g})}\\
 	&= \frac{\Tweak{g}(f / \Tweak{f}) + \Tweak{g}g / \Tweak{f}}{\FuncDenom}\\
@@ -70,11 +70,11 @@
 	\ExprNToInfty \left( \FuncQuotient - 1 \right) &= \ExprNToInfty \left( \frac{\Tweak{g}}{d} \cdot \left( \frac{f}{\Tweak{f}} - 1 \right) + \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom} \cdot \left( \frac{g}{\Tweak{g}} - 1 \right) \right)\\
 	&= \ExprNToInfty \left( \frac{\Tweak{g}}{d} \cdot \left( \frac{f}{\Tweak{f}} - 1 \right) \right) + \ExprNToInfty \left( \frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom} \cdot \left( \frac{g}{\Tweak{g}} - 1 \right) \right)
 	\end{align*}
-	Since $\Tweak{g}$ and $\Tweak{g}^2 / \Tweak{f}$ sum to $\FuncDenom$ and all functions are positive, $\dfrac{\Tweak{g}}{\FuncDenom}$ and $\dfrac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom}$ are bounded between $0$ and $1$ as $n \to \infty$. From the given, $\ExprNToInfty \left( \dfrac{f}{\Tweak{f}} - 1 \right)$ and $\ExprNToInfty \left( \dfrac{g}{\Tweak{g}} - 1 \right)$ both exist and equal $0$. The limit of a bounded expression times one approaching $0$ is $0$; thus, both limits on the right-hand side are $0$.
+	Since $\Tweak{g}$ and $\Tweak{g}^2 / \Tweak{f}$ sum to $\FuncDenom$ and all functions are positive, $\frac{\Tweak{g}}{\FuncDenom}$ and $\frac{\Tweak{g}^2 / \Tweak{f}}{\FuncDenom}$ are bounded between $0$ and $1$ as $n \to \infty$. From the given, $\ExprNToInfty \left( \frac{f}{\Tweak{f}} - 1 \right)$ and $\ExprNToInfty \left( \frac{g}{\Tweak{g}} - 1 \right)$ both exist and equal $0$. The limit of a bounded expression times one approaching $0$ is $0$; thus, both limits on the right-hand side are $0$.
 	
-	Substituting, I receive $\ExprNToInfty (\FuncQuotient - 1) = 0$, so $\ExprNToInfty \FuncQuotient = 1$. Since $\FuncQuotient$ is defined as $\dfrac{f + g}{\Tweak{f} + \Tweak{g}}$, this shows that $f + g \sim \Tweak{f} + \Tweak{g}$, proving the theorem statement for addition.
+	Substituting, I receive $\ExprNToInfty (\FuncQuotient - 1) = 0$, so $\ExprNToInfty \FuncQuotient = 1$. Since $\FuncQuotient$ is defined as $\frac{f + g}{\Tweak{f} + \Tweak{g}}$, this shows that $f + g \sim \Tweak{f} + \Tweak{g}$, proving the theorem statement for addition.
 	
-	The statement is proven much more easily for multiplication. Since both $\ExprNToInfty \dfrac{f}{\Tweak{f}}$ and $\ExprNToInfty \dfrac{g}{\Tweak{g}}$ exist,
+	The statement is proven much more easily for multiplication. Since both $\ExprNToInfty \frac{f}{\Tweak{f}}$ and $\ExprNToInfty \frac{g}{\Tweak{g}}$ exist,
 	\begin{align*}
 	\ExprNToInfty \frac{fg}{\Tweak{f}\Tweak{g}} = \left( \ExprNToInfty \frac{f}{\Tweak{f}} \right) \left( \ExprNToInfty \frac{g}{\Tweak{g}} \right) = 1 \cdot 1 = 1
 	\end{align*}
@@ -82,7 +82,7 @@
 	\begin{align*}
 	\ExprNToInfty \frac{f / g}{\Tweak{f} / \Tweak{g}} = 1
 	\end{align*}
-	This implies that $\dfrac f g \sim \dfrac {\Tweak{f}} {\Tweak{g}}$.
+	This implies that $\frac f g \sim \frac {\Tweak{f}} {\Tweak{g}}$.
 \end{proof}
 
 \subsubsection{$\sim$ Equations can be Algebraically Manipulated}
@@ -102,7 +102,7 @@
 \end{reptheorem}
 
 \begin{proof}
-	Let $r = \dfrac{f}{g}$. Since $\ExprNToInfty r = 1$, $r \leq 2$ for sufficiently large $n$. By definition, $\exists c : g \leq c h$ for sufficiently large $n$, where $c$ is a positive constant. Then, $f = rg \leq rc h \leq 2c h$ for sufficiently large $n$. Thus, $f = O(h)$.
+	Let $r = \frac{f}{g}$. Since $\ExprNToInfty r = 1$, $r \leq 2$ for sufficiently large $n$. By definition, $\exists c : g \leq c h$ for sufficiently large $n$, where $c$ is a positive constant. Then, $f = rg \leq rc h \leq 2c h$ for sufficiently large $n$. Thus, $f = O(h)$.
 \end{proof}
 
 \subsection{Asymptotic Functions may be Interchanged in $\FluteLess$ and $\FluteLeq$ Inequalities}
@@ -113,7 +113,7 @@
 \end{reptheorem}
 
 \begin{proof}
-	By definition, $\ExprNToInfty \dfrac{f}{\Tweak{f}} = 1$ and $\ExprNToInfty \dfrac{\Tweak{f}}{\TweakSecond{f}} < 1$. Since both limits exist,
+	By definition, $\ExprNToInfty \frac{f}{\Tweak{f}} = 1$ and $\ExprNToInfty \frac{\Tweak{f}}{\TweakSecond{f}} < 1$. Since both limits exist,
 	\begin{align*}
 	\ExprNToInfty \frac{f}{\TweakSecond{f}} = \left( \ExprNToInfty \frac{f}{\Tweak{f}} \right) \left( \ExprNToInfty \frac{\Tweak{f}}{\TweakSecond{f}} \right) < 1 \cdot 1 = 1
 	\end{align*}
@@ -136,7 +136,7 @@
 \end{reptheorem}
 
 \begin{proof}
-	Suppose that $f \FluteLess g$. By definition, $\ExprNToInfty \dfrac{f}{g} < 1$. For any positive function $h$, $\ExprNToInfty \dfrac{fh}{gh} < 1$ and $\ExprNToInfty \dfrac{f / h}{g / h} < 1$, so respectively $fh \FluteLess gh$ and $\dfrac{f}{h} \FluteLess \dfrac{g}{h}$.
+	Suppose that $f \FluteLess g$. By definition, $\ExprNToInfty \frac{f}{g} < 1$. For any positive function $h$, $\ExprNToInfty \frac{fh}{gh} < 1$ and $\ExprNToInfty \frac{f / h}{g / h} < 1$, so respectively $fh \FluteLess gh$ and $\frac{f}{h} \FluteLess \frac{g}{h}$.
 	
 	From these results and Corollary \ref{coro:BothSides}, it can trivially be shown that the same statement is true when $\FluteLess$ is replaced with $\FluteLeq$.
 \end{proof}
@@ -144,7 +144,7 @@
 \subsubsection{$\FluteLess$ and $\FluteLeq$ Inequalities are Flipped when Both Sides are Inverted}
 
 \begin{repcorollary}{coro:BothSidesInequalityInvert}
-	If $f \FluteLess g$, then $\dfrac{1}{g} \FluteLess \dfrac{1}{f}$.\\
+	If $f \FluteLess g$, then $\frac{1}{g} \FluteLess \frac{1}{f}$.\\
 	This statement also holds for $\FluteLeq$.
 \end{repcorollary}
 
@@ -155,18 +155,18 @@
 \subsection{Same-Order Terms may be Added to Both Sides of $\FluteLess$ and $\FluteLeq$ Inequalities}
 
 \begin{reptheorem}{thm:BothSidesInequalityAdd}
-	Suppose $f \FluteLess g$. If $\ExprNToInfty \dfrac{f}{h} > 0$ and $g = O(h)$, then $f + h \FluteLess g + h$.\\
+	Suppose $f \FluteLess g$. If $\ExprNToInfty \frac{f}{h} > 0$ and $g = O(h)$, then $f + h \FluteLess g + h$.\\
 	This statement also holds for $\FluteLeq$.
 \end{reptheorem}
 
 \begin{proof}
-	Assume that $n$ is arbitrarily large. Since $\dfrac{f}{h}$ has a positive limit, it is bounded below by some positive constant $c_1$. Rearranging, $c_1 h \leq f$. From $f \FluteLess g$, it follows that $f < g$ for sufficiently large $n$. Since $g = O(h)$, $\exists c_2 : g \leq c_2 h$. Combining these inequalities, I receive $c_1 h \leq f < g \leq c_2 h$. From this, it is clear that $c_1 < c_2$.
+	Assume that $n$ is arbitrarily large. Since $\frac{f}{h}$ has a positive limit, it is bounded below by some positive constant $c_1$. Rearranging, $c_1 h \leq f$. From $f \FluteLess g$, it follows that $f < g$ for sufficiently large $n$. Since $g = O(h)$, $\exists c_2 : g \leq c_2 h$. Combining these inequalities, I receive $c_1 h \leq f < g \leq c_2 h$. From this, it is clear that $c_1 < c_2$.
 	
 	Now, consider that
 	\begin{align*}
 	\ExprNToInfty \frac{f + h}{g + h} \leq \ExprNToInfty \frac{c_1 h + h}{c_2 h + h} = \frac{c_1 + 1}{c_2 + 1}
 	\end{align*}
-	Since $c_1 < c_2$, $c_1 + 1 < c_2 + 1$ so $\dfrac{c_1 + 1}{c_2 + 1} < 1$. Thus, $f + h \FluteLess g + h$.
+	Since $c_1 < c_2$, $c_1 + 1 < c_2 + 1$ so $\frac{c_1 + 1}{c_2 + 1} < 1$. Thus, $f + h \FluteLess g + h$.
 	
 	From these results and Corollary \ref{coro:BothSides}, it can trivially be shown that the same statement is true when $\FluteLess$ is replaced with $\FluteLeq$.
 \end{proof}
