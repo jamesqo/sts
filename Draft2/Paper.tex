@@ -8,7 +8,7 @@
 \usepackage{fancyhdr}
 \usepackage{float}
 \usepackage[T1]{fontenc}
-\usepackage[margin=.800in]{geometry}
+\usepackage[margin=.500in,includefoot]{geometry}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
 \usepackage{lmodern}
@@ -157,12 +157,26 @@
 	\pagenumbering{gobble}
 	\begin{titlepage}
 		\maketitle
+		\vfill
+		\begin{flushright}
+			Stuyvesant High School\\
+			345 Chambers Street\\
+			New York, NY 10282
+		\end{flushright}
 	\end{titlepage}
 	
-	\begin{abstract}
-		\input{Abstract}
-	\end{abstract}
-
+	%\begin{abstract}
+	%	\input{Abstract}
+	%\end{abstract}
+	
+	\section*{Acknowledgments}
+	
+	\input{Acknowledgments}
+	
+	\newpage
+	
+	\tableofcontents
+	
 	\newpage
 	\pagenumbering{arabic}
 
