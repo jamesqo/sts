@@ -24,7 +24,7 @@ I will implement appending for dynamic arrays first. Let $\VarList$ be a dynamic
 
 \HdrTimeComplex
 
-It is well-known that appending one item to a dynamic array takes amortized $O(1)$ time. Thus, appending $n$ items takes $O(n)$ time. It will be shown later, however, that growth arrays also take $O(n)$ time for this task, so this does not let us compare time complexities.
+It is well-known that appending one item to a dynamic array takes amortized $O(1)$ time \cite{amortized}. Thus, appending $n$ items takes $O(n)$ time. It will be shown later, however, that growth arrays also take $O(n)$ time for this task, so this does not let us compare time complexities.
 
 I wish to find the ratio $\frac{\FuncTimeDynamicArray(n)}{\FuncTimeGrowthArray(n)}$, where $\FuncTimeDynamicArray(n)$ and $\FuncTimeGrowthArray(n)$ denote the average time needed to append $n$ items for dynamic and growth arrays, respectively. This represents how much faster growth arrays are at appending than dynamic ones. I will approximate this ratio using the following question: Suppose $n$ elements are appended to an empty collection. How many times is an element stored in an array? I will term the answer to this question the \textbf{write cost} of $n$ appends, and denote it $\FuncWrites(n)$.
 
