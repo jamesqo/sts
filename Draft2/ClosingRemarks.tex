@@ -1,12 +1,12 @@
-In this paper, I developed the concept of growth arrays and showed that they are a viable replacement for dynamic arrays. I implemented several common dynamic array operations for growth arrays, and showed that for appending, growth arrays outperform dynamic ones both time- and memory-wise. I demonstrated that although growth arrays are slower at random access than dynamic arrays, it is still possible to index them in constant time. Finally, I showed that they perform comparably to dynamic arrays for iteration and conversion to raw arrays.
+In this paper, I formally developed the concept of growth arrays. By implementing several common dynamic array operations for them, I showed that they are a viable replacement for dynamic arrays. I proved that growth arrays outperform dynamic ones both time- and memory-wise when a large number of elements are appended. I exhibited logarithmic and constant time random access algorithms for growth arrays. Finally, I showed that they perform comparably to dynamic arrays for iteration and conversion to raw arrays.
 
-Today, dynamic arrays are commonly used because they are reasonably efficient at appending. Since growth arrays are even faster at appending, it is possible that they could begin to supplant dynamic arrays if programming languages start adopting them in their standard libraries. It is also possible that the trade-offs growth arrays make to achieve faster appending could hinder their adoption, or have languages offer them as an alternative to dynamic arrays.
+Dynamic arrays are used frequently today because they are efficient at appending. Since growth arrays are even more efficient at it, they should be used in place of dynamic arrays when appending is performance-critical. Programming languages and frameworks should strongly consider adding support for growth arrays to improve program performance.
 
-I will end this paper with the following open-ended questions, which may serve as inspiration for further research:
+I will conclude this paper with several open-ended questions, which may serve as inspiration for further research.
 
 \begin{itemize}
-	\item Can growth arrays' growth algorithm bring performance improvements to other array-based structures, such as circular queues or array-based stacks?
-	\item Is there an efficient, constant time random access algorithm for growth arrays that works for all values of $\VarGrowthFactor$ and $\VarInitCapacity$?
-	\item To what extent does growth arrays' fragmented structure result in performance losses due to poorer data locality? Can memory allocators offset these losses by allocating buffers close to each other?
-	\item How can algorithms such as binary search and sorting be best implemented for growth arrays? Since growth arrays with $\VarGrowthFactor = 2$ have an evenly-divided structure, is there a better binary search algorithm for them?
+	\item Can other array-based data structures, such as stacks or circular queues, also benefit from using growth arrays' algorithm for growth?
+	\item Is there a constant time random access algorithm for growth arrays that does not use floating-point and works for all values of $\VarGrowthFactor$ and $\VarInitCapacity$?
+	\item To what extent does growth arrays' poorer data locality result in performance losses? (Can tuning memory allocators offset these losses?)
+	\item How can binary search and sorting algorithms be best implemented for growth arrays? (In particular, growth arrays with $\VarGrowthFactor = 2$ have an evenly-divided structure: if $2^k$ items are appended, $2^{k - 1}$ will be in the head and $2^{k - 1}$ in the tail. Does this lend itself to a better binary search algorithm?)
 \end{itemize}
